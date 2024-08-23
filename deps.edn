@@ -1,0 +1,7 @@
+{:paths ["src"]
+ :deps {org.scicloj/cmdstan-clj {:mvn/version "1-alpha2"}
+        org.scicloj/clay {:mvn/version "2-beta15"}
+        org.scicloj/hanamicloth {:mvn/version "1-alpha6-SNAPSHOT"}
+        io.github.nextjournal/clerk {:mvn/version "0.15.957"}
+        scicloj/clojisr {:mvn/version "1.0.0"}
+        org.scicloj/noj {:mvn/version "2-alpha3-SNAPSHOT"}}}

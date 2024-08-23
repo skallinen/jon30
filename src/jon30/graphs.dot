@@ -1,0 +1,32 @@
+digraph G {
+  "Wind Angle" -> "Vessel Speed"
+  "Wind Strength" -> "Vessel Speed"
+  "Sail Plan" -> "Vessel Speed"
+  "Total Sail Area" -> "Vessel Speed"
+  "Sail Plan" -> "Total Sail Area"
+  "Hull Speed" -> "Vessel Speed"
+  "Length at the Waterline" -> "Hull Speed"
+  "Healing angle" -> "Hull Speed"
+  "Healing angle" -> "Vessel Speed"
+  "Captain Competence" -> "Captain Performance"
+  "Captain Fatigue" -> "Captain Performance"
+  "Captain Performance" -> "Vessel Speed"
+  "Captain Performance" -> "Crew Performance"
+  "Crew Competence" -> "Crew Performance"
+  "Crew Fatigue" -> "Crew Performance"
+  "Crew Performance" -> "Vessel Speed"
+}
+
+digraph G {
+  "Wind Angle" -> "Vessel Speed"
+  "Wind Strength" -> "Vessel Speed"
+}
+
+digraph G {
+  "Wind Angle" -> "Vessel Speed"
+  "Unobserved" -> "Vessel Speed"
+}
+
+digraph G {
+  "Wind Angle" -> "Vessel Speed"
+}
