@@ -1,5 +1,3 @@
-
-
 (ns jon30.graphviz
   (:require [dorothy.core :as dot]
             [dorothy.jvm]
@@ -12,5 +10,6 @@
       (dorothy.jvm/render {:format :svg})
       kind/html))
 
-(digraph [[:b0 :> :b1 :> :b2 :> :b3]
-          [:b2 :> :b0]])
+(comment
+ (digraph [[:b0 :> :b1 :> :b2 :> :b3]
+           [:b2 :> :b0]]))
