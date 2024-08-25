@@ -23,9 +23,9 @@
 ;; Predicting boat velocity based on wind
 
 ;; # 2. Causal models
-;;  Optimizing the velocity of a sailing vessel involves carefully managing a range of interconnected factors. Central to this is the sail plan, which directly influences the total sail area and, in turn, the vessel's speed. The wind angle and strength also play crucial roles, as they determine how effectively the sails can harness wind power. A well-optimized sail plan will maximize the total sail area appropriate for the conditions, ensuring that the sails are configured to capture the wind most efficiently. Additionally, the hull speed, influenced by the boat's length at the waterline and the healing angle, is a critical determinant of overall velocity. Reducing friction and maintaining a favorable healing angle can significantly enhance the hull speed, contributing to a faster vessel.  
+;;  Optimizing the velocity of a sailing vessel involves carefully managing a range of interconnected factors. Central to this is the sail plan, which directly influences the total sail area and, in turn, the vessel's speed. The wind angle and strength also play crucial roles, as they determine how effectively the sails can harness wind power. A well-optimized sail plan will maximize the total sail area appropriate for the conditions, ensuring that the sails are configured to capture the wind most efficiently. Additionally, the hull speed, influenced by the boat's length at the waterline and the heeling angle, is a critical determinant of overall velocity. Reducing friction and maintaining a favorable heeling angle can significantly enhance the hull speed, contributing to a faster vessel.  
 
-;; The human factor is equally vital in optimizing sailing speed. The captain's competence directly impacts both their performance and the performance of the crew, both of which are essential for maintaining high vessel velocity. Managing fatigue for both the captain and crew is crucial, as fatigue can diminish performance, thereby reducing the vessel's velocity. A well-coordinated and skilled crew, led by an experienced and alert captain, can make the necessary adjustments to the sail plan, respond to changing wind conditions, and maintain an optimal healing angle, all of which contribute to maximizing the vessel's velocity on the water.
+;; The human factor is equally vital in optimizing sailing speed. The captain's competence directly impacts both their performance and the performance of the crew, both of which are essential for maintaining high vessel velocity. Managing fatigue for both the captain and crew is crucial, as fatigue can diminish performance, thereby reducing the vessel's velocity. A well-coordinated and skilled crew, led by an experienced and alert captain, can make the necessary adjustments to the sail plan, respond to changing wind conditions, and maintain an optimal heeling angle, all of which contribute to maximizing the vessel's velocity on the water.
 ;; ## Reasoning about the model
 ;; Here is a rough sketch of how these factors are interrelated based on first principles.The velocity of the boat is a result of the interaction between aerodynamic and hydrodynamic forces.
 
@@ -106,7 +106,7 @@
 
      [:hull-speed {:label "Hull (Max) Speed"}]
      [:boat-length-waterline {:label "Boat's Length at the Waterline"}]
-     [:healing-angle {:label "Healing Angle"}]
+     [:heeling-angle {:label "Heeling Angle"}]
      [:friction {:label "Hull Friction"}]
 
      [:current {:label "Current"
@@ -121,18 +121,18 @@
 
      [:sail-plan :> :total-sail-area]
      [:sail-trim :> :total-sail-area]
-     [:healing-angle :> :total-sail-area]
+     [:heeling-angle :> :total-sail-area]
      [:total-sail-area :> :aerodynamic-forces]
      [:wind-angle-strength :> :aerodynamic-forces]
-     [:aerodynamic-forces :> :healing-angle]
+     [:aerodynamic-forces :> :heeling-angle]
 
      [:hull-speed :> :hydrodynamic-forces]
      [:boat-length-waterline :> :friction]
      [:boat-length-waterline :> :hull-speed]
-     [:healing-angle :> :boat-length-waterline]
-     [:healing-angle :> :friction]
-     [:healing-angle :> :hull-speed]
-     [:healing-angle :> :hydrodynamic-forces]
+     [:heeling-angle :> :boat-length-waterline]
+     [:heeling-angle :> :friction]
+     [:heeling-angle :> :hull-speed]
+     [:heeling-angle :> :hydrodynamic-forces]
      [:friction :> :hydrodynamic-forces]
 
 
@@ -160,7 +160,7 @@
 
      [:hull-speed {:label "Hull (Max) Speed"}]
      [:boat-length-waterline {:label "Boat's Length at the Waterline"}]
-     [:healing-angle {:label "Healing Angle"}]
+     [:heeling-angle {:label "Heeling Angle"}]
      [:friction {:label "Hull Friction"}]
      [:hydrodynamic-forces {:label "Hydrodynamic Forces"
                             :shape :box}]
@@ -174,18 +174,18 @@
 
      [:sail-plan :> :total-sail-area]
      [:sail-trim :> :total-sail-area]
-     [:healing-angle :> :total-sail-area]
+     [:heeling-angle :> :total-sail-area]
      [:total-sail-area :> :aerodynamic-forces]
      [:wind-angle-strength :> :aerodynamic-forces]
-     [:aerodynamic-forces :> :healing-angle]
+     [:aerodynamic-forces :> :heeling-angle]
 
      [:hull-speed :> :hydrodynamic-forces]
      [:boat-length-waterline :> :friction]
      [:boat-length-waterline :> :hull-speed]
-     [:healing-angle :> :boat-length-waterline]
-     [:healing-angle :> :friction]
-     [:healing-angle :> :hull-speed]
-     [:healing-angle :> :hydrodynamic-forces]
+     [:heeling-angle :> :boat-length-waterline]
+     [:heeling-angle :> :friction]
+     [:heeling-angle :> :hull-speed]
+     [:heeling-angle :> :hydrodynamic-forces]
      [:friction :> :hydrodynamic-forces]
 
      [:captain-crew-competence :> :crew-performance]
