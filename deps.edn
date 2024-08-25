@@ -4,5 +4,5 @@
         org.scicloj/hanamicloth {:mvn/version "1-alpha6-SNAPSHOT"}
         io.github.nextjournal/clerk {:mvn/version "0.15.957"}
         scicloj/clojisr {:mvn/version "1.0.0"}
-        org.scicloj/noj {:mvn/version "2-alpha3-SNAPSHOT"}
+        org.scicloj/noj {:mvn/version "2-alpha5-SNAPSHOT"}
         dorothy/dorothy {:mvn/version "0.0.7"}}}
