@@ -19,14 +19,16 @@
 ;; # Workbook, notes and explorations
 ;; Please note that this document is not intended for the conference presentation, but is a working document.
 ;; # 1.  Question/goal/estimand
-;; Predicting boat speed based on wind
+;; Predicting boat velocity based on wind
 
 ;; # 2. Causal models
-;;  Optimizing the speed of a sailing vessel involves carefully managing a range of interconnected factors. Central to this is the sail plan, which directly influences the total sail area and, in turn, the vessel's speed. The wind angle and strength also play crucial roles, as they determine how effectively the sails can harness wind power. A well-optimized sail plan will maximize the total sail area appropriate for the conditions, ensuring that the sails are configured to capture the wind most efficiently. Additionally, the hull speed, influenced by the boat's length at the waterline and the healing angle, is a critical determinant of overall speed. Reducing friction and maintaining a favorable healing angle can significantly enhance the hull speed, contributing to a faster vessel.
+;;  Optimizing the velocity of a sailing vessel involves carefully managing a range of interconnected factors. Central to this is the sail plan, which directly influences the total sail area and, in turn, the vessel's speed. The wind angle and strength also play crucial roles, as they determine how effectively the sails can harness wind power. A well-optimized sail plan will maximize the total sail area appropriate for the conditions, ensuring that the sails are configured to capture the wind most efficiently. Additionally, the hull speed, influenced by the boat's length at the waterline and the healing angle, is a critical determinant of overall velocity. Reducing friction and maintaining a favorable healing angle can significantly enhance the hull speed, contributing to a faster vessel.
 
-;; The human factor is equally vital in optimizing sailing speed. The captain's competence directly impacts both their performance and the performance of the crew, both of which are essential for maintaining high vessel speed. Managing fatigue for both the captain and crew is crucial, as fatigue can diminish performance, thereby reducing the vessel's speed. A well-coordinated and skilled crew, led by an experienced and alert captain, can make the necessary adjustments to the sail plan, respond to changing wind conditions, and maintain an optimal healing angle, all of which contribute to maximizing the vessel's speed on the water.
+;; The human factor is equally vital in optimizing sailing speed. The captain's competence directly impacts both their performance and the performance of the crew, both of which are essential for maintaining high vessel velocity. Managing fatigue for both the captain and crew is crucial, as fatigue can diminish performance, thereby reducing the vessel's velocity. A well-coordinated and skilled crew, led by an experienced and alert captain, can make the necessary adjustments to the sail plan, respond to changing wind conditions, and maintain an optimal healing angle, all of which contribute to maximizing the vessel's velocity on the water.
 
-(-> [:svg {:width "1295pt", :height "260pt", :viewbox "0.00 0.00 1295.00 260.00", :xmlns "http://www.w3.org/2000/svg", :xmlns:xlink "http://www.w3.org/1999/xlink"}
+(-> [[:aaa :> :bbb]]
+    digraph)
+#_(-> [:svg {:width "1295pt", :height "260pt", :viewbox "0.00 0.00 1295.00 260.00", :xmlns "http://www.w3.org/2000/svg", :xmlns:xlink "http://www.w3.org/1999/xlink"}
      [:g {:id "graph1", :class "graph", :transform "scale(1 1) rotate(0) translate(4 256)"}
       [:title "G"]
       [:polygon {:fill "white", :stroke "white", :points "-4,5 -4,-256 1292,-256 1292,5 -4,5"}] "<!-- Wind Angle -->"
@@ -152,7 +154,7 @@
        [:polygon {:fill "black", :stroke "black", :points "897.363,-111.464 887.485,-107.633 892.818,-116.788 897.363,-111.464"}]]]]
     kind/hiccup)
 ;;But we will not start by modeling all of this right now. To understand the problem and showcase some of the tools today, we need to simplify the problem a lot. So today, the goal is to be able to model the vessel's speed based on wind angle and wind strength.
-(->  [:svg {:width "277pt", :height "116pt", :viewbox "0.00 0.00 277.00 116.00", :xmlns "http://www.w3.org/2000/svg", :xmlns:xlink "http://www.w3.org/1999/xlink"}
+#_(->  [:svg {:width "277pt", :height "116pt", :viewbox "0.00 0.00 277.00 116.00", :xmlns "http://www.w3.org/2000/svg", :xmlns:xlink "http://www.w3.org/1999/xlink"}
       [:g {:id "graph1", :class "graph", :transform "scale(1 1) rotate(0) translate(4 112)"}
        [:title "G"]
        [:polygon {:fill "white", :stroke "white", :points "-4,5 -4,-112 274,-112 274,5 -4,5"}] "<!-- Wind Angle -->"
@@ -180,7 +182,7 @@
      kind/hiccup)
 
 ;; And even earlier than that. Let's further simplify the issue by only considering the wind angle and assuming that the wind always blows at 10 knots.
-(-> [:svg {:width "132pt", :height "116pt", :viewbox "0.00 0.00 132.00 116.00", :xmlns "http://www.w3.org/2000/svg", :xmlns:xlink "http://www.w3.org/1999/xlink"}
+#_(-> [:svg {:width "132pt", :height "116pt", :viewbox "0.00 0.00 132.00 116.00", :xmlns "http://www.w3.org/2000/svg", :xmlns:xlink "http://www.w3.org/1999/xlink"}
      [:g {:id "graph1", :class "graph", :transform "scale(1 1) rotate(0) translate(4 112)"}
       [:title "G"]
       [:polygon {:fill "white", :stroke "white", :points "-4,5 -4,-112 129,-112 129,5 -4,5"}] "<!-- Wind Angle -->"
@@ -199,7 +201,7 @@
     kind/hiccup)
 
 ;; Or, actually, We will collaps all the other to the unobserved variable and the error term.
-(-> [:svg {:width "257pt", :height "116pt", :viewbox "0.00 0.00 257.00 116.00", :xmlns "http://www.w3.org/2000/svg", :xmlns:xlink "http://www.w3.org/1999/xlink"}
+#_(-> [:svg {:width "257pt", :height "116pt", :viewbox "0.00 0.00 257.00 116.00", :xmlns "http://www.w3.org/2000/svg", :xmlns:xlink "http://www.w3.org/1999/xlink"}
      [:g {:id "graph1", :class "graph", :transform "scale(1 1) rotate(0) translate(4 112)"}
       [:title "G"]
       [:polygon {:fill "white", :stroke "white", :points "-4,5 -4,-112 254,-112 254,5 -4,5"}] "<!-- Wind Angle -->"
@@ -243,7 +245,7 @@
 
 #_(require '[scicloj.clay.v2.api :as clay])
 #_(clay/make! {:source-path "/Users/samikallinen/projects/jon30/src/jon30/core.clj"})
-;; Generating synthetic data to develop models. Utilizing a VPP (Velocity Prediction Program), a tool that uses a physical model to compute the polars. Data is created using a free online tool by inputting boat data to generate polars for wind speeds of 6, 10, 15, and 20 knots. The tool produces a polar diagram as an image. Without access to an API or exact values, I used SketchUp to scale the image correctly and manually measured the specific points below.
+;; Generating synthetic data to develop models. Utilizing a VPP (Velocity Prediction Program), a tool that uses a physical model to compute the polars. Data is created using a free online tool by inputting boat data to generate polars for wind strengths of 6, 10, 15, and 20 knots. The tool produces a polar diagram as an image. Without access to an API or exact values, I used SketchUp to scale the image correctly and manually measured the specific points below.
 
 (->
  data/vpp-polar-01
@@ -251,7 +253,7 @@
   (map #(update % :wind str)))
  tc/dataset
  (ploclo/layer-line
-  {:=r :speed
+  {:=r :velocity
    :=theta :angle
    :=coordinates :polar
    :=rotation 90
@@ -272,9 +274,9 @@
   (map #(update % :wind str)))
  tc/dataset
  (haclo/plot haclo/point-chart
-                   {:=x :angle
-                    :=y :speed
-                    :=color :wind}))
+             {:=x :angle
+              :=y :velocity
+              :=color :wind}))
 
 ;; ## Pick one curve
 ;; First, let's create a helper function to filter out a single curve (wind strength) from the data.
@@ -289,33 +291,32 @@
 (-> (wind-strength 6)
     (haclo/plot haclo/point-chart
                 {:=x :angle
-                 :=y :speed
+                 :=y :velocity
                  :=color :wind}))
 
 ;; # Regressions
 ;; Let's analyze the curves using regression. First, we'll demonstrate a basic linear regression, which obviously will not provide a good fit.
 
-(->
- (wind-strength 6)
- (haclo/base
-  {:=x :angle})
- (haclo/layer-point
-  {:=y :speed
-   :=color :wind})
- (haclo/update-data  (fn [_]
-                       (->
-                        (wind-strength 6)
-                        (dm/create-design-matrix
-                         ;; (speed ~ angle)
-                         [:speed]
-                         [[:angle '(identity angle)]])
-                        (ml/train {:model-type :fastmath/ols})
-                        (->> (ml/predict (tc/dataset {:angle angles})))
-                        (tc/add-column :angle angles)
-                        (tc/add-column :wind "linear regression")
-                        (tc/rename-columns {:speed :speed-lm}))))
- (haclo/layer-line {:=y :speed-lm
-                    :=color :wind}))
+(-> (wind-strength 6)
+    (haclo/base
+     {:=x :angle})
+    (haclo/layer-point
+     {:=y :velocity
+      :=color :wind})
+    (haclo/update-data  (fn [_]
+                          (->
+                           (wind-strength 6)
+                           (dm/create-design-matrix
+                         ;; (velocity ~ angle)
+                            [:velocity]
+                            [[:angle '(identity angle)]])
+                           (ml/train {:model-type :fastmath/ols})
+                           (->> (ml/predict (tc/dataset {:angle angles})))
+                           (tc/add-column :angle angles)
+                           (tc/add-column :wind "linear regression")
+                           (tc/rename-columns {:velocity :velocity-lm}))))
+    (haclo/layer-line {:=y :velocity-lm
+                       :=color :wind}))
 
 ;; ## Polynomials
 ;; Polynomials provide us with greater flexibility when fitting the curve.
@@ -330,19 +331,19 @@
    (#(apply dm/create-design-matrix % formula))
    (ml/train {:model-type :fastmath/ols})
    (->> (ml/predict (-> {:angle angles
-                         :speed 0}
+                         :velocity 0}
                         tc/dataset
                         (#(apply dm/create-design-matrix
                                  %
                                  formula))
-                        (tc/drop-columns [:speed]))))
+                        (tc/drop-columns [:velocity]))))
    (tc/add-column :angle angles)
    (tc/add-column :wind (str reg-name "-regression-" strength))
-   (tc/rename-columns {:speed (keyword (str "speed-" strength "-"reg-name))})))
+   (tc/rename-columns {:velocity (keyword (str "velocity-" strength "-"reg-name))})))
 
 ;; ### A forumla for cubic regression
-;; This corresponds to something like `(speed ~ angle + angle^2 + angle^3)` in R.
-(def cubic-formula [[:speed]
+;; This corresponds to something like `(velocity ~ angle + angle^2 + angle^3)` in R.
+(def cubic-formula [[:velocity]
                     [[:angle '(identity angle)]
                      [:angle2 '(* angle angle)]
                      [:angle3 '(* angle angle angle)]]])
@@ -352,7 +353,7 @@
  (haclo/base
   {:=x :angle})
  (haclo/layer-point
-  {:=y :speed
+  {:=y :velocity
    :=color :wind})
  (haclo/update-data  (fn [_]
                        (wind-regression-predict
@@ -360,12 +361,12 @@
                          :strength 6
                          :formula  cubic-formula
                          :reg-name "cubic"})))
- (haclo/layer-line {:=y :speed-6-cubic
+ (haclo/layer-line {:=y :velocity-6-cubic
                     :=color :wind})
  (haclo/update-data (fn [_]
                       (-> (wind-strength 20)
-                          (tc/rename-columns {:speed :speed-20}))))
- (haclo/layer-point {:=y :speed-20
+                          (tc/rename-columns {:velocity :velocity-20}))))
+ (haclo/layer-point {:=y :velocity-20
                      :=color :wind})
  (haclo/update-data (fn [_]
                       (wind-regression-predict
@@ -373,7 +374,7 @@
                         :strength 20
                         :formula  cubic-formula
                         :reg-name "cubic"})))
- (haclo/layer-line {:=y :speed-20-cubic
+ (haclo/layer-line {:=y :velocity-20-cubic
                     :=color :wind}))
 ;; Not bad at all, one key benefit of these polynomials is that they are highly efficient to calculate, which is not so much our concern currently, but they do have some drawbacks as well.
 (->
@@ -381,7 +382,7 @@
  (haclo/base
   {:=x :angle})
  (haclo/layer-point
-  {:=y :speed
+  {:=y :velocity
    :=color :wind})
  (haclo/update-data (fn [_]
                       (wind-regression-predict
@@ -389,12 +390,12 @@
                         :strength 6
                         :formula  cubic-formula
                         :reg-name "cubic"})))
- (haclo/layer-line {:=y :speed-6-cubic
+ (haclo/layer-line {:=y :velocity-6-cubic
                     :=color :wind})
  (haclo/update-data (fn [_]
                       (-> (wind-strength 20)
-                          (tc/rename-columns {:speed :speed-20}))))
- (haclo/layer-point {:=y :speed-20
+                          (tc/rename-columns {:velocity :velocity-20}))))
+ (haclo/layer-point {:=y :velocity-20
                      :=color :wind})
  (haclo/update-data  (fn [_]
                        (wind-regression-predict
@@ -402,7 +403,7 @@
                          :strength 20
                          :formula  cubic-formula
                          :reg-name "cubic"})))
- (haclo/layer-line {:=y :speed-20-cubic
+ (haclo/layer-line {:=y :velocity-20-cubic
                     :=color :wind})
  ;;
  )
@@ -415,7 +416,7 @@
        (map (fn [v]
               {(:wind (first v)) (i/interpolation :b-spline
                                                   (map :angle v)
-                                                  (map :speed v))}))
+                                                  (map :velocity v))}))
        (mapcat identity)
        (into {})))
 
@@ -427,7 +428,7 @@
                 {(:wind (first v))
                  (let [degree nil
                        xs (m/seq->double-array (map :angle v))
-                       ys (m/seq->double-array (map :speed v))
+                       ys (m/seq->double-array (map :velocity v))
                        ^MathFunction obj (BSpline. xs ys (unchecked-int (or degree (m/dec (count xs)))))]
                    {:f      (fn ^double [^double x] (.evaluate obj x))
                     :knots (.getKnots obj)
@@ -435,7 +436,7 @@
                     :x (.getX obj)})}
                 #_{(:wind (first v)) (i/interpolation :b-spline
                                                       (map :angle v)
-                                                      (map :speed v))}))
+                                                      (map :velocity v))}))
          (mapcat identity)
          (into {})))
 
@@ -445,7 +446,7 @@
               (let [angles (range 181)]
                 (map (fn [angle]
                        {:angle angle
-                        :speed (f angle)
+                        :velocity (f angle)
                         :wind (str "spline-" w)}) angles))))
        (mapcat identity)
        #_(into data/vpp-polar-01)
@@ -454,10 +455,10 @@
 ;; ## Spline for 10 knots of wind
 (-> spline-ds
     (tc/select-rows (comp #{"spline-6"} :wind))
-    (tc/rename-columns {:speed :speed-spline})
+    (tc/rename-columns {:velocity :velocity-spline})
     (haclo/base
      {:=x :angle})
-    (haclo/layer-line {:=y :speed-spline
+    (haclo/layer-line {:=y :velocity-spline
                        :=color :wind})
     (haclo/update-data  (fn [_]
                           (wind-strength 6))
@@ -465,7 +466,7 @@
                         ;;
                         )
      (haclo/layer-point
-  {:=y :speed
+  {:=y :velocity
    :=color :wind}))
 
 
@@ -475,16 +476,16 @@
 (->> (repeatedly 300 #(rand-int 180))
      (map (fn [angle]
             (let [mu ((get splines 6) angle)
-                  speed (random/sample
+                  velocity (random/sample
                          (random/distribution :normal
                                               {:sd 0.3 :mu mu}))]
               {:angle angle
-               :speed speed
+               :velocity velocity
                :wind "spline-6"})))
      tc/dataset
      (#(haclo/plot %  haclo/point-chart
                    {:=x :angle
-                    :=y :speed})))
+                    :=y :velocity})))
 
 ;; # Testing stan
 (comment
@@ -520,7 +521,7 @@ model {
 data {
     int n;
     int k;
-    array[n] int speed;
+    array[n] int velocity;
     matrix[n, k] B;
 }
 parameters {
@@ -534,7 +535,7 @@ transformed parameters {
 }
 model {
     for (i in 1:n) {
-        speed[i] ~ normal(mu[i], sigma);
+        velocity[i] ~ normal(mu[i], sigma);
     }
     a ~ normal(100, 10);
     w ~ normal(0, 10);
@@ -556,7 +557,7 @@ model {
               {:B (tc/rows B)
                :k (count B)
                :n (-> dat :year count)
-               :speed (-> dat :doy vec)
+               :velocity (-> dat :doy vec)
                :w (vec (repeat (count B) 0))}))
            (->> (stan/sample blossom-model))
            :samples
@@ -608,7 +609,7 @@ model {
 data {
     int n;
     int k;
-    array[n] real speed;
+    array[n] real velocity;
     matrix[n, k] B;
 }
 parameters {
@@ -622,7 +623,7 @@ transformed parameters {
 }
 model {
     for (i in 1:n) {
-        speed[i] ~ normal(mu[i], sigma);
+        velocity[i] ~ normal(mu[i], sigma);
     }
     a ~ normal(100, 10);
     w ~ normal(0, 10);
@@ -635,11 +636,11 @@ model {
 (->> (repeatedly 300 #(rand-int 180))
      (map (fn [angle]
             (let [mu ((get splines 10) angle)
-                  speed (random/sample
+                  velocity (random/sample
                          (random/distribution :normal
                                               {:sd 0.3 :mu mu}))]
               {:angle angle
-               :speed speed})))
+               :velocity velocity})))
      tc/dataset
      ((fn [dat]
         (-> dat
@@ -649,7 +650,7 @@ model {
                {:B (tc/rows B)
                 :k (count B)
                 :n (-> dat :angle count)
-                :speed (-> dat :speed vec)
+                :velocity (-> dat :velocity vec)
                 :w (vec (repeat (count B) 0))}))
             (->> (stan/sample jon-model))
             :samples
@@ -678,13 +679,13 @@ model {
                                                               first
                                                               inc))))
              :row-id)
-            (tc/select-columns [:angle :row-id :speed :mean :sd :ptile-2.5 :ptile-97.5])
+            (tc/select-columns [:angle :row-id :velocity :mean :sd :ptile-2.5 :ptile-97.5])
             (tc/add-column :mean-sd (fn [row] (map #(- %1 %2) (:mean row) (:sd row))))
             (tc/add-column :mean+sd (fn [row] (map #(+ %1 %2) (:mean row) (:sd row))))
             #_(tc/pivot->longer (complement #{:year}))
             (haclo/base     {:=title "Distribution of means"
                              :=x :angle
-                             :=y :speed})
+                             :=y :velocity})
             haclo/layer-point
             (haclo/layer-line {:=y :mean
                                :=mark-color "red"})
@@ -696,17 +697,17 @@ model {
      ;;
      )
 
-;; Splines for all wind speeds
+;; Splines for all wind strengths
 (-> spline-ds
     (haclo/plot haclo/line-chart
                 {:=x :angle
-                 :=y :speed
+                 :=y :velocity
                  :=color :wind}))
 
 ;; ## Normalized
 (-> spline-ds
     (tc/group-by :wind)
-    (tc/add-column :normalised #(tcc/normalize (:speed %)))
+    (tc/add-column :normalised #(tcc/normalize (:velocity %)))
     tc/ungroup
     (haclo/plot haclo/line-chart
                 {:=x :angle
@@ -718,9 +719,9 @@ model {
 ;; Examining how the curves behave when scaled can provide insight into how to construct a model.
 (-> spline-ds
     (tc/group-by :wind)
-    (tc/add-column :max #(apply max (:speed %)))
+    (tc/add-column :max #(apply max (:velocity %)))
     tc/ungroup
-    (tc// :scaled [:speed :max])
+    (tc// :scaled [:velocity :max])
     (haclo/plot haclo/line-chart
                 {:=x :angle
                  :=y :scaled
@@ -728,14 +729,14 @@ model {
 
 (-> spline-ds
     (tc/group-by :wind)
-    (tc/add-column :max #(apply max (:speed %)))
+    (tc/add-column :max #(apply max (:velocity %)))
     tc/ungroup
-    (tc// :scaled [:speed :max])
-    (tc/drop-columns [:speed :max])
+    (tc// :scaled [:velocity :max])
+    (tc/drop-columns [:velocity :max])
     (tc/pivot->wider :wind :scaled)
-    (tc/- :speed-diff-20-6 ["spline-20" "spline-6"])
-    (tc/- :speed-diff-20-10 ["spline-20" "spline-10"])
-    (tc/- :speed-diff-20-15 ["spline-20" "spline-15"])
+    (tc/- :velocity-diff-20-6 ["spline-20" "spline-6"])
+    (tc/- :velocity-diff-20-10 ["spline-20" "spline-10"])
+    (tc/- :velocity-diff-20-15 ["spline-20" "spline-15"])
     (tc/drop-columns ["spline-20" "spline-15" "spline-10" "spline-6"])
     (tc/pivot->longer (complement #{:angle}) {:target-columns :wind
                                               :value-column-name :diff})
