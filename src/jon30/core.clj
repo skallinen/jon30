@@ -9,7 +9,6 @@
    [scicloj.cmdstan-clj.v1.api :as stan]
    [scicloj.hanamicloth.v1.api :as haclo]
    [scicloj.hanamicloth.v1.plotlycloth :as ploclo]
-   [scicloj.kindly.v4.kind :as kind]
    [scicloj.metamorph.ml :as ml]
    [scicloj.metamorph.ml.design-matrix :as dm]
    [scicloj.metamorph.ml.regression]
@@ -791,3 +790,6 @@ model {
                 (tc/dataset weather-url)))
 
 
+;; # Todo
+;; [ ] Rename speed to velocity and strength
+;; [ ] rewrite spline code using metamorph?
