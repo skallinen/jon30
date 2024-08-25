@@ -2,25 +2,29 @@
 (ns jon30.core
   (:require [aerial.hanami.templates :as ht]
             [charred.api :as charred]
+            [clojisr.v1.r :as r]
             [clojure.java.io :as io]
             [clojure.java.shell :as shell]
             [clojure.string :as str]
+            [fastmath.core :as m]
+            [fastmath.interpolation :as i]
+            [fastmath.interpolation.ssj :as ssj]
+            [fastmath.random :as random]
             [jon30.data :as data]
             [jon30.r :as r-helpers]
-            [fastmath.interpolation.ssj :as ssj]
-            [fastmath.interpolation :as i]
-            [fastmath.random :as random]
             [scicloj.cmdstan-clj.v1.api :as stan]
             [scicloj.hanamicloth.v1.api :as haclo]
             [scicloj.hanamicloth.v1.plotlycloth :as ploclo]
             [scicloj.kindly.v4.kind :as kind]
+            [scicloj.metamorph.ml :as ml]
+            [scicloj.metamorph.ml.design-matrix :as dm]
+            [scicloj.metamorph.ml.regression]
             [tablecloth.api :as tc]
             [tablecloth.column.api :as tcc]
-            [tech.v3.dataset.print :as print]
-            [fastmath.core :as m]
-            [clojisr.v1.r :as r])
+            [tech.v3.dataset.print :as print])
   (:import [umontreal.ssj.functionfit BSpline PolInterp SmoothingCubicSpline]
            [umontreal.ssj.functions MathFunction]))
+
 ;; # Workbook, notes and explorations
 ;; Please note that this document is not intended for the conference presentation, but is a working document.
 ;; # 1.  Question/goal/estimand
@@ -260,45 +264,159 @@
    :=theta :angle
    :=coordinates :polar
    :=rotation 90
-   :=color :wind}))
+   :=color :wind})
+ ploclo/plot
+ (assoc-in [:layout :polar]
 
-;; ## TODO
-"
-    polar: {
-      domain: {
-        x: [0,0.4],
-        y: [0,1]
-      },
-      radialaxis: {
-        tickfont: {
-          size: 8
-        }
-      },
-      angularaxis: {
-        tickfont: {
-          size: 8
-        },
-        rotation: 90,
-        direction: \"counterclockwise\"
-      }
-    },
-"
-
-;; Access at least `direction` and `rotation`
+           {:angularaxis {:tickfont {:size 16}
+                          :direction "clockwise"}
+            :sector [-90 90]}))
 
 ;; ## Explore in cartesian coordinates
+(def angles (range 1 (inc 180)))
+
 (->
  data/vpp-polar-01
  (->>
   (map #(update % :wind str)))
  tc/dataset
  (haclo/plot haclo/point-chart
-             {:=x :angle
-              :=y :speed
-              :=color :wind}))
+                   {:=x :angle
+                    :=y :speed
+                    :=color :wind}))
+
+;; ## Pick one curve
+;; First, let's create a helper function to filter out a single curve (wind strength) from the data.
+(defn wind-strength
+  [strength]
+  (->>  data/vpp-polar-01
+        (filter (comp #{strength} :wind))
+        (map #(update % :wind str))
+        tc/dataset))
+
+;; Let's start with the 6 knot winds.
+(-> (wind-strength 6)
+    (haclo/plot haclo/point-chart
+                {:=x :angle
+                 :=y :speed
+                 :=color :wind}))
+
+;; # Regressions
+;; Let's analyze the curves using regression. First, we'll demonstrate a basic linear regression, which obviously will not provide a good fit.
+
+(->
+ (wind-strength 6)
+ (haclo/base
+  {:=x :angle})
+ (haclo/layer-point
+  {:=y :speed
+   :=color :wind})
+ (haclo/update-data  (fn [_]
+                       (->
+                        (wind-strength 6)
+                        (dm/create-design-matrix
+                         ;; (speed ~ angle)
+                         [:speed]
+                         [[:angle '(identity angle)]])
+                        (ml/train {:model-type :fastmath/ols})
+                        (->> (ml/predict (tc/dataset {:angle angles})))
+                        (tc/add-column :angle angles)
+                        (tc/add-column :wind "linear regression")
+                        (tc/rename-columns {:speed :speed-lm}))))
+ (haclo/layer-line {:=y :speed-lm
+                    :=color :wind}))
+
+;; ## Polynomials
+;; Polynomials provide us with greater flexibility when fitting the curve.
+
+
+;; ### Creating a helper function that predicts the vessel's velocity based on the wind strength and direction.
+
+(defn wind-regression-predict
+  [{:keys [angles strength formula reg-name]}]
+  (->
+   (wind-strength strength)
+   (#(apply dm/create-design-matrix % formula))
+   (ml/train {:model-type :fastmath/ols})
+   (->> (ml/predict (-> {:angle angles
+                         :speed 0}
+                        tc/dataset
+                        (#(apply dm/create-design-matrix
+                                 %
+                                 formula))
+                        (tc/drop-columns [:speed]))))
+   (tc/add-column :angle angles)
+   (tc/add-column :wind (str reg-name "-regression-" strength))
+   (tc/rename-columns {:speed (keyword (str "speed-" strength "-"reg-name))})))
+
+;; ### A forumla for cubic regression
+;; This corresponds to something like `(speed ~ angle + angle^2 + angle^3)` in R.
+(def cubic-formula [[:speed]
+                    [[:angle '(identity angle)]
+                     [:angle2 '(* angle angle)]
+                     [:angle3 '(* angle angle angle)]]])
+
+(->
+ (wind-strength 6)
+ (haclo/base
+  {:=x :angle})
+ (haclo/layer-point
+  {:=y :speed
+   :=color :wind})
+ (haclo/update-data  (fn [_]
+                       (wind-regression-predict
+                        {:angles   angles
+                         :strength 6
+                         :formula  cubic-formula
+                         :reg-name "cubic"})))
+ (haclo/layer-line {:=y :speed-6-cubic
+                    :=color :wind})
+ (haclo/update-data (fn [_]
+                      (-> (wind-strength 20)
+                          (tc/rename-columns {:speed :speed-20}))))
+ (haclo/layer-point {:=y :speed-20
+                     :=color :wind})
+ (haclo/update-data (fn [_]
+                      (wind-regression-predict
+                       {:angles   angles
+                        :strength 20
+                        :formula  cubic-formula
+                        :reg-name "cubic"})))
+ (haclo/layer-line {:=y :speed-20-cubic
+                    :=color :wind}))
+;; Not bad at all, one key benefit of these polynomials is that they are highly efficient to calculate, which is not so much our concern currently, but they do have some drawbacks as well.
+(->
+ (wind-strength 6)
+ (haclo/base
+  {:=x :angle})
+ (haclo/layer-point
+  {:=y :speed
+   :=color :wind})
+ (haclo/update-data (fn [_]
+                      (wind-regression-predict
+                       {:angles   (range 1 (inc 360))
+                        :strength 6
+                        :formula  cubic-formula
+                        :reg-name "cubic"})))
+ (haclo/layer-line {:=y :speed-6-cubic
+                    :=color :wind})
+ (haclo/update-data (fn [_]
+                      (-> (wind-strength 20)
+                          (tc/rename-columns {:speed :speed-20}))))
+ (haclo/layer-point {:=y :speed-20
+                     :=color :wind})
+ (haclo/update-data  (fn [_]
+                       (wind-regression-predict
+                        {:angles   (range 1 (inc 360))
+                         :strength 20
+                         :formula  cubic-formula
+                         :reg-name "cubic"})))
+ (haclo/layer-line {:=y :speed-20-cubic
+                    :=color :wind})
+ ;;
+ )
 
 ;; ## Generate splines to explore the curves
-
 (def splines
   (->> data/vpp-polar-01
        (group-by :wind)
@@ -351,24 +469,34 @@
        tc/dataset))
 ;; ## Spline for 10 knots of wind
 (-> spline-ds
-    (tc/select-rows (comp #{"spline-10"} :wind))
-    (haclo/plot haclo/line-chart
-                {:=x :angle
-                 :=y :speed
-                 :=color :wind}))
+    (tc/select-rows (comp #{"spline-6"} :wind))
+    (tc/rename-columns {:speed :speed-spline})
+    (haclo/base
+     {:=x :angle})
+    (haclo/layer-line {:=y :speed-spline
+                       :=color :wind})
+    (haclo/update-data  (fn [_]
+                          (wind-strength 6))
 
-;; # Genareting data for constant 10 knot wind
-;; Generating syntethetic measurement points pretending the wind is always at streanth 10
+                        ;;
+                        )
+     (haclo/layer-point
+  {:=y :speed
+   :=color :wind}))
 
-#_(->> (repeatedly 300 #(rand-int 180))
+
+;; # Genareting data for constant 6 knot wind
+;; Generating syntethetic measurement points pretending the wind is always at streanth 6
+
+(->> (repeatedly 300 #(rand-int 180))
      (map (fn [angle]
-            (let [mu ((get splines 10) angle)
+            (let [mu ((get splines 6) angle)
                   speed (random/sample
                          (random/distribution :normal
                                               {:sd 0.3 :mu mu}))]
               {:angle angle
                :speed speed
-               :wind "spline-10"})))
+               :wind "spline-6"})))
      tc/dataset
      (#(haclo/plot %  haclo/point-chart
                    {:=x :angle
@@ -632,29 +760,6 @@ model {
                  :=x :angle
                  :=y :diff
                  :=color :wind}))
-
-;; ## Cubic polynomial?
-
-;; Fitted with https://curve.fit/zmP2BfIJ/single/20240823093635
-(defn cubic-polynomial
-  [x]
-  (+ (* 5.008E-06 x x x)
-     (* -1.744E-03 x x)
-     (* 1.783E-01 x)
-     1.005E-02))
-
-
-
-(->> (range 1 181)
-       (map (fn [x]
-              {:x x
-               :y (cubic-polynomial x)}))
-
-       tc/dataset
-       ((fn [ds]
-          (haclo/plot ds haclo/line-chart
-                      {:=x :x
-                       :=y :y}))))
 
 #_(->>
    (range 1 181)
