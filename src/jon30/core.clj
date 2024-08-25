@@ -1,29 +1,20 @@
 ^{:clay {:kindly/options {:kinds-that-hide-code #{:kind/hiccup :kind/md}}}}
 (ns jon30.core
-  (:require [aerial.hanami.templates :as ht]
-            [charred.api :as charred]
-            [clojisr.v1.r :as r]
-            [clojure.java.io :as io]
-            [clojure.java.shell :as shell]
-            [clojure.string :as str]
-            [fastmath.core :as m]
-            [fastmath.interpolation :as i]
-            [fastmath.interpolation.ssj :as ssj]
-            [fastmath.random :as random]
-            [jon30.data :as data]
-            [jon30.r :as r-helpers]
-            [scicloj.cmdstan-clj.v1.api :as stan]
-            [scicloj.hanamicloth.v1.api :as haclo]
-            [scicloj.hanamicloth.v1.plotlycloth :as ploclo]
-            [scicloj.kindly.v4.kind :as kind]
-            [scicloj.metamorph.ml :as ml]
-            [scicloj.metamorph.ml.design-matrix :as dm]
-            [scicloj.metamorph.ml.regression]
-            [tablecloth.api :as tc]
-            [tablecloth.column.api :as tcc]
-            [tech.v3.dataset.print :as print])
-  (:import [umontreal.ssj.functionfit BSpline PolInterp SmoothingCubicSpline]
-           [umontreal.ssj.functions MathFunction]))
+  (:require
+   [clojure.string :as str]
+   [fastmath.interpolation :as i]
+   [fastmath.random :as random]
+   [jon30.data :as data]
+   [jon30.r :as r-helpers]
+   [scicloj.cmdstan-clj.v1.api :as stan]
+   [scicloj.hanamicloth.v1.api :as haclo]
+   [scicloj.hanamicloth.v1.plotlycloth :as ploclo]
+   [scicloj.kindly.v4.kind :as kind]
+   [scicloj.metamorph.ml :as ml]
+   [scicloj.metamorph.ml.design-matrix :as dm]
+   [scicloj.metamorph.ml.regression]
+   [tablecloth.api :as tc]
+   [tablecloth.column.api :as tcc]))
 
 ;; # Workbook, notes and explorations
 ;; Please note that this document is not intended for the conference presentation, but is a working document.
@@ -422,13 +413,6 @@
        (group-by :wind)
        vals
        (map (fn [v]
-              #_{(:wind (first v))
-                 (ssj-math-function (BSpline. (m/seq->double-array
-                                               (map :angle v))
-                                              (m/seq->double-array
-                                               (map :speed v))
-                                              (int (dec (count
-                                                         (map :angle v))))))}
               {(:wind (first v)) (i/interpolation :b-spline
                                                   (map :angle v)
                                                   (map :speed v))}))
