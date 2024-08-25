@@ -801,4 +801,6 @@ model {
 
 ;; # Todo
 ;; [ ] Rename speed to velocity and strength
+;; [ ] Show how to use metamporph pipes for perdiction
 ;; [ ] rewrite spline code using metamorph?
+;; [ ] try modelling wind strengths with a polynomial?
