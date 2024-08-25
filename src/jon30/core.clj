@@ -5,6 +5,7 @@
    [fastmath.interpolation :as i]
    [fastmath.random :as random]
    [jon30.data :as data]
+   [jon30.graphviz :refer [digraph]]
    [jon30.r :as r-helpers]
    [scicloj.cmdstan-clj.v1.api :as stan]
    [scicloj.hanamicloth.v1.api :as haclo]
