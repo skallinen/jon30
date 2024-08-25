@@ -201,7 +201,118 @@
      [:hydrodynamic-forces :> :vessel-velocity]]
     digraph)
 
+;; ## The Offshore Racing Congress Model
+;; Now that we have attempted to understand the problem from "first principles," let's consider some previous work.
+;; The Offshore Racing Congress (ORC) publishes the specifications for their model that anyone can implement. Let's take a look at how their model is built.
 
+;;A velocity prediction program (VPP) is mainly utilized to forecast the performance of racing yachts in different sailing conditions. This is crucial for establishing handicaps in yacht racing, guaranteeing that competitions are just and grounded in a scientific evaluation of a yacht's speed potential.
+
+;; The VPP calculates these handicaps by modeling the physical forces acting on the yacht, including aerodynamic and hydrodynamic forces, and finding equilibrium conditions at different points of sail. This allows the VPP to predict the yacht's speed based on its design characteristics, such as hull shape, sail configuration, and righting moment​.
+
+
+;; The following workflow outlines how the Velocity Prediction Program (VPP) model functions.
+
+;; The VPP model estimates the boat's performance. This model feeds into the Solution Algorithm, which uses two distinct force models to simulate the boat's movement. The Aerodynamic Force Model calculates the air-induced forces on the boat, while the Hydrodynamic Force Model focuses on the water-induced impacts.
+
+;; These two force models converge to define the vessel's Equilibrium Conditions, where the aerodynamic and hydrodynamic forces are in equilibrium.
+
+;; Ultimately, by considering these conditions and models, the process culminates in the Performance Prediction, forecasting the boat's velocity under specified conditions.
+
+(->
+ [ ;; nodes
+  (dot/node-attrs {:shape :none
+                   :fontname "Helvetica"})
+  [:vpp-model {:label "VPP Model"
+               :shape :ellipse
+               :style :filled
+               :color :lightblue}]
+  [:aerodynamic-model {:label "Aerodynamic Force Model"
+                       :shape :ellipse
+                       :style :filled
+                       :color :lightgreen}]
+  [:hydrodynamic-model {:label "Hydrodynamic Force Model"
+                        :shape :ellipse
+                        :style :filled
+                        :color :lightgreen}]
+  [:algorithm {:label "Solution Algorithm"
+               :shape :ellipse
+               :style :filled
+               :color :lightyellow}]
+  [:equilibrium {:label "Equilibrium Conditions"
+                 :shape :ellipse
+                 :style :filled
+                 :color :lightcoral}]
+  [:performance-prediction {:label "Performance Prediction"
+                            :shape :ellipse
+                            :style :filled
+                            :color :lightgrey}]
+
+  ;; edges
+  [:vpp-model :> :algorithm]
+  [:algorithm :> :aerodynamic-model]
+  [:algorithm :> :hydrodynamic-model]
+  [:aerodynamic-model :> :equilibrium]
+  [:hydrodynamic-model :> :equilibrium]
+  [:equilibrium :> :performance-prediction]
+  
+  ]
+
+ digraph)
+;;HHere is another way to explain how the model functions.
+(->
+ [;; nodes
+  (dot/node-attrs {:shape :none
+                   :fontname "Helvetica"})
+
+  [:sail-forces {:label "Sail Forces"
+                 :shape :ellipse
+                 :style :filled
+                 :color :lightgreen}]
+  [:hull-forces {:label "Hull Forces"
+                 :shape :ellipse
+                 :style :filled
+                 :color :lightgreen}]
+  [:balance {:label "Force balancing"
+             :shape :ellipse
+             :style :filled
+             :color :lightyellow}]
+
+  [:sail-plan {:label "Sailplan Geometry"}]
+  [:wind-speed {:label "Wind Speed"}]
+  [:wind-angle {:label "True Wind Angle"}]
+
+  [:hull-geom {:label "Hull and Keel Geometry"}]
+  [:moment {:label "Righting Moment"}]
+  [:sea-state {:label "Sea State"}]
+
+  [:boat-speed {:label "Boat Speed"}]
+  [:heel {:label "Heel Angle"}]
+  [:leeway {:label "Leeway Angle"}]
+
+  ;; edges
+  [:sail-forces :> :balance]
+  [:hull-forces :> :balance]
+
+  [:hull-geom :> :hull-forces]
+  [:moment :> :hull-forces]
+  [:sea-state :> :hull-forces]
+
+  [:sail-plan :> :sail-forces]
+  [:wind-speed :> :sail-forces]
+  [:wind-angle :> :sail-forces]
+
+  [:boat-speed :> :balance]
+  [:heel :> :balance]
+  [:leeway :> :balance]]
+ digraph)
+
+;; The VPP model consists of two parts: the solution algorithm and the boat model. The solution algorithm is responsible for determining an equilibrium condition for each point of sailing, ensuring that:
+
+;; a) the driving force from the sails equals the hull and aerodynamic drag, and  
+
+;; b) the heeling moment from the rig is counterbalanced by the righting moment from the hull.  
+
+;; ## Keep it simple
 ;;But we will not start by modeling all of this right now. To understand the problem and showcase some of the tools today, we need to simplify the problem a lot. So today, the goal is to be able to model the vessel's speed based on wind angle and wind strength.
 (-> [(dot/node-attrs {:shape :none
                       :fontname "Helvetica"})
