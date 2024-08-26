@@ -75,7 +75,7 @@
 
      [:current {:label "Current"
                 :shape :ellipse}]
-     [:waves {:label "Waves"
+     [:sea-state {:label "Sea State"
               :shape :ellipse}]
      [:hydrodynamic-forces {:label "Hydrodynamic Forces"
                             :shape :box}]
@@ -86,21 +86,20 @@
      [:wind-angle-strength :> :aerodynamic-forces]
      [:wind-angle-strength :> :hydrodynamic-forces]
 
-     [:waves :> :hydrodynamic-forces]
+     [:sea-state :> :hydrodynamic-forces]
      [:current :> :hydrodynamic-forces]
 
      [:aerodynamic-forces :> :vessel-velocity]
      [:hydrodynamic-forces :> :vessel-velocity]]
     digraph)
 
-;; Let's provide more specifics about what influences the forces.
+;; Let's speculate about what factors might influence the forces.
 (-> [(dot/node-attrs {:shape :none
                       :fontname "Helvetica"})
      [:total-sail-area {:label "Total Sail Area"}]
      [:wind-angle-strength {:label "Wind Angle and Strength"
                             :shape :ellipse}]
-     [:sail-plan {:label "Sail Plan"}]
-     [:sail-trim {:label "Sail Trim"}]
+     [:sails {:label "Sail Plan and Trim"}]
      [:aerodynamic-forces {:label "Aerodynamic Forces"
                            :shape :box}]
 
@@ -111,7 +110,7 @@
 
      [:current {:label "Current"
                 :shape :ellipse}]
-     [:waves {:label "Waves"
+     [:sea-state {:label "Sea State"
               :shape :ellipse}]
      [:hydrodynamic-forces {:label "Hydrodynamic Forces"
                             :shape :box}]
@@ -119,8 +118,7 @@
      [:vessel-velocity {:label "Boat's Velocity"
                         :shape :circle}]
 
-     [:sail-plan :> :total-sail-area]
-     [:sail-trim :> :total-sail-area]
+     [:sails :> :total-sail-area]
      [:heeling-angle :> :total-sail-area]
      [:total-sail-area :> :aerodynamic-forces]
      [:wind-angle-strength :> :aerodynamic-forces]
@@ -131,12 +129,10 @@
      [:boat-length-waterline :> :hull-speed]
      [:heeling-angle :> :boat-length-waterline]
      [:heeling-angle :> :friction]
-     [:heeling-angle :> :hull-speed]
-     [:heeling-angle :> :hydrodynamic-forces]
      [:friction :> :hydrodynamic-forces]
 
 
-     [:waves :> :hydrodynamic-forces]
+     [:sea-state :> :hydrodynamic-forces]
      [:current :> :hydrodynamic-forces]
 
      [:aerodynamic-forces :> :vessel-velocity]
@@ -148,12 +144,11 @@
      [:total-sail-area {:label "Total Sail Area"}]
      [:wind-angle-strength {:label "Wind Angle and Strength"
                             :shape :ellipse}]
-     [:sail-plan {:label "Sail Plan"}]
-     [:sail-trim {:label "Sail Trim"}]
+     [:sails {:label "Sail Plan and Trim"}]
 
      [:current {:label "Current"
                 :shape :ellipse}]
-     [:waves {:label "Waves"
+     [:sea-state {:label "Sea State"
               :shape :ellipse}]
      [:aerodynamic-forces {:label "Aerodynamic Forces"
                            :shape :box}]
@@ -172,8 +167,7 @@
      [:vessel-velocity {:label "Boat's Velocity"
                         :shape :circle}]
 
-     [:sail-plan :> :total-sail-area]
-     [:sail-trim :> :total-sail-area]
+     [:sails :> :total-sail-area]
      [:heeling-angle :> :total-sail-area]
      [:total-sail-area :> :aerodynamic-forces]
      [:wind-angle-strength :> :aerodynamic-forces]
@@ -184,17 +178,14 @@
      [:boat-length-waterline :> :hull-speed]
      [:heeling-angle :> :boat-length-waterline]
      [:heeling-angle :> :friction]
-     [:heeling-angle :> :hull-speed]
-     [:heeling-angle :> :hydrodynamic-forces]
      [:friction :> :hydrodynamic-forces]
 
      [:captain-crew-competence :> :crew-performance]
      [:captain-crew-competence :> :fatigue-management]
      [:fatigue-management :> :crew-performance]
-     [:crew-performance :> :sail-plan]
-     [:crew-performance :> :sail-trim]
+     [:crew-performance :> :sails]
 
-     [:waves :> :hydrodynamic-forces]
+     [:sea-state :> :hydrodynamic-forces]
      [:current :> :hydrodynamic-forces]
 
      [:aerodynamic-forces :> :vessel-velocity]
