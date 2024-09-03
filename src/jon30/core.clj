@@ -858,21 +858,108 @@ model {
                  :=y :diff
                  :=color :wind}))
 
-#_(->>
-   (range 1 181)
-   #_(map #(let [alpha 3] (+ % alpha)))
-   (map (fn [x]
-          (let [alpha 3
-                beta 3
-                beta2 2
-                z (range 1 1000 10/180)]
-            {:x x
-             :y (double (+ alpha (* beta x)  (* (* -1 (/ beta 2)) x)))})))
-   (#(-> %
-         tc/dataset
-         (haclo/base {:=x :x
-                      :=y :y})
-         (haclo/layer-line))))
+;; # Multivariate regression
+
+(def color-boundries
+  [0.011111111111
+   0.222222222222
+   0.333333333333
+   0.444444444444
+   0.555555555556
+   0.666666666667
+   0.777777777778
+   0.888888888889
+   1.0])
+
+(def color-custom-scale
+  (into [[0.0 "rgb(255,0,0)"]]
+        (mapv (fn [c n]  [c (str "rgb(" n ", " n ", " n ")")])
+              color-boundries
+              (range 1 255 (int (/ 255 (count color-boundries)))))))
+
+(let [multi-cubic-formula
+      [[:velocity]
+       [[:angle '(identity angle)]
+        [:angle2 '(* angle angle)]
+        [:angle3 '(* angle angle angle)]
+        [:wind '(identity wind)]
+        [:wind2 '(* wind wind)]
+        [:wind3 '(* wind wind wind)]]]
+
+      predict-ds
+      (-> (for [a angles
+                w (range 30)]
+            {:angle a
+             :wind w
+             :velocity 0})
+          tc/dataset)
+
+      multi-cubic-model
+      (-> data/vpp-polar-01
+          tc/dataset
+          (#(apply dm/create-design-matrix % multi-cubic-formula))
+          (ml/train {:model-type :fastmath/ols}))
+
+      multi-cubic-pred
+      (-> (ml/predict (-> predict-ds
+                          (#(apply dm/create-design-matrix
+                                   %
+                                   multi-cubic-formula))
+                          (tc/drop-columns [:velocity]))
+                      multi-cubic-model)
+          (tc/add-column :angle (:angle predict-ds))
+          (tc/add-column :wind (:wind predict-ds)))
+
+      z-trace-for-surface
+      (-> multi-cubic-pred
+          (tc/drop-columns [0])
+          (tc/pivot->wider :wind :velocity)
+          (tc/drop-columns [:angle])
+          (tc/rows))
+
+      training-data-trace
+      (-> data/vpp-polar-01
+          tc/dataset
+          (tc/rename-columns {:angle :y
+                              :wind :x
+                              :velocity :z}))]
+
+  (-> multi-cubic-pred
+      (ploclo/layer-line)
+      ploclo/plot
+      ((fn [m]
+         (let [trace1 (-> m
+                          :data
+                          first
+                          (assoc :type :surface)
+                          #_#_#_
+                          (assoc :cauto false)
+                          (assoc :zmin 0)
+                          (assoc :colorscale color-custom-scale)
+                          (assoc :z z-trace-for-surface))
+               trace2 (-> m
+                          :data
+                          first
+                          (assoc :type :scatter3d)
+                          (assoc :mode :markers)
+                          (assoc :marker {:size 12
+                                          :line {:width 0.5
+                                                 :opacity 0.8}})
+                          (assoc :x (:x training-data-trace))
+                          (assoc :y (:y training-data-trace))
+                          (assoc :z (:z training-data-trace)))]
+           (-> m
+               (assoc :data [trace1 trace2])
+               (assoc-in [:layout :width] 600)
+               (assoc-in [:layout :height] 700)))))
+      #_:layout))
+
+;; grayscale for the surface?
+;; points with bigger residual other color
+;; try bi-variat cubic-2d
+;; try kriging? maybe not 2d?
+;; shape is regular.
+
 
 ;; # Random questions
 ;; - What would be a good path for the multivariate model ie using wind strength and wind angle as predictors.
