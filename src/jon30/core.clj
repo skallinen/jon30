@@ -1,4 +1,6 @@
-^{:clay {:kindly/options {:kinds-that-hide-code #{:kind/hiccup :kind/md :kind/html}}}}
+^{:clay {:kindly/options {:kinds-that-hide-code #{:kind/hiccup
+                                                  :kind/md
+                                                  :kind/html}}}}
 (ns jon30.core
   (:require
    [clojure.string :as str]
