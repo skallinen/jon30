@@ -5,3 +5,4 @@
 /.lsp/
 /.nrepl-port
 /docs/
+*transit.json
