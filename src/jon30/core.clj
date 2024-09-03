@@ -95,7 +95,8 @@
      [:hydrodynamic-forces :> :vessel-velocity]]
     digraph)
 
-;; Let's speculate about what factors might influence the forces.
+
+;; The current is a relatively simple variable since it can be added to or subtracted from the boat velocity. Additionally, in the waters where we are currently (no pun intended) collecting data, there is minimal current, so we can disregard it for the time being. However, we will still include it in the graph. The sea state may impact the empirical data, but for our exercises, we will also initially overlook this. Now, let's consider what factors could potentially influence these forces.
 (-> [(dot/node-attrs {:shape :none
                       :fontname "Helvetica"})
      [:total-sail-area {:label "Total Sail Area"}]
@@ -251,7 +252,7 @@
   ]
 
  digraph)
-;;HHere is another way to explain how the model functions.
+;; Here is another way to explain how the model functions.
 (->
  [;; nodes
   (dot/node-attrs {:shape :none
