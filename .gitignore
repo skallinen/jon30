@@ -6,3 +6,5 @@
 /.nrepl-port
 /docs/
 *transit.json
+/src/jon30/Python-VPP/
+/classes/
