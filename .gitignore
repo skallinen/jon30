@@ -1,6 +1,5 @@
 /.clerk/
-/.clj-kondo/
-/src/.clj-kondo/
+/src/.clj-kondo
 /.cpcache/
 /.lsp/
 /.nrepl-port
@@ -8,3 +7,4 @@
 *transit.json
 /src/jon30/Python-VPP/
 /classes/
+/.clj-kondo/
