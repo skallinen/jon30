@@ -21,8 +21,43 @@
 
 ;; # Workbook, notes and explorations
 ;; Please note that this document is not intended for the conference presentation, but is a working document.
+
+;; # 0. List of technical items I will use and try to demonstrate
+;; ###  - clay
+;; ###  - fastmath
+;; ###  - dorothy
+;; ###  - stan
+;; ###  - hanamicloth
+;; ###  - plotlycloth
+;; ###  - metamorph.ml
+;; ###  - metamorph design-matrix
+;; ###  - tablecloth
+;; ###  - libpython-clj
+;; ###  - tech.ml family of libraries underneath
+
 ;; # 1.  Question/goal/estimand
-;; Predicting boat velocity based on wind
+;; Predicting boat velocity based on wind.
+
+;; What do you do with these predictions.
+;; ### Polars
+(def polar-image
+  (-> "https://upload.wikimedia.org/wikipedia/commons/2/29/Downwind_polar_diagram_to_determine_velocity_made_good_at_various_wind_speeds.jpg"
+      java.net.URL.
+      javax.imageio.ImageIO/read))
+polar-image
+;; - Polars are charts used by racing sailors to optimize the speed of the vessel based on the boat design, sails, wind, and other conditions. They indicate the optimal speed for the boat in different conditions.
+;; ### Route and weather planning
+;; - I am not in a racer, but you still need polar data for passage planning planning.
+(defonce route-image
+  (->  "https://www.predictwind.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fmap.b8e74bd1.png&w=3840&q=75"
+       (java.net.URL.)
+       (javax.imageio.ImageIO/read)))
+route-image
+
+;; - The route depends on the weather at the point where you will be in X hours or days. To determine your location, the weather and your boat are taken into account. To estimate your position at any given time, polar charts are used to calculate the boat's speed under the existing conditions.
+
+;; ### "Quantified sailing"
+;; Mostly, it can be utilized as a refined navigation tool to accelerate the process of receiving feedback and learning. By constructing a model, you can inquire from it, for instance: Considering our theoretical boat model, how probable is it that I should be sailing at my current speed? If I am sailing slower than the theoretical speed, which is highly unlikely, it indicates that I am not maximizing my sailing abilities. I can also measure the distance between my current performance and the theoretical optimum. Similarly, I can compare my current performance to my past performance using my usual sailing model to determine how close I am to the optimum. Concurrently, I am consistently updating the model to observe progress over time. Additionally, it can double as a log for troubleshooting scenarios. For example, if you bring your entire wine collection onboard, how does the added weight impact performance, and so forth.
 
 ;; # 2. Causal models
 ;;  Optimizing the velocity of a sailing vessel involves carefully managing a range of interconnected factors. Central to this is the sail plan, which directly influences the total sail area and, in turn, the vessel's speed. The wind angle and strength also play crucial roles, as they determine how effectively the sails can harness wind power. A well-optimized sail plan will maximize the total sail area appropriate for the conditions, ensuring that the sails are configured to capture the wind most efficiently. Additionally, the hull speed, influenced by the boat's length at the waterline and the heeling angle, is a critical determinant of overall velocity. Reducing friction and maintaining a favorable heeling angle can significantly enhance the hull speed, contributing to a faster vessel.  
@@ -899,6 +934,7 @@ model {
           tc/dataset
           (#(apply dm/create-design-matrix % multi-cubic-formula))
           (ml/train {:model-type :fastmath/ols}))
+      _ (def model multi-cubic-model)
 
       multi-cubic-pred
       (-> (ml/predict (-> predict-ds
@@ -932,7 +968,8 @@ model {
                           :data
                           first
                           (assoc :type :surface)
-                          #_#_#_
+                          (assoc :colorscale "Greys")
+                          ;;#_#_#_
                           (assoc :cauto false)
                           (assoc :zmin 0)
                           (assoc :colorscale color-custom-scale)
@@ -979,11 +1016,6 @@ model {
 
 ;; # Stuff
  
-#_(clay/make! {:source-path "/Users/samikallinen/projects/jon30/src/core.clj"})
-
-#_(require '[nextjournal.clerk :as clerk])
-
-#_(clerk/serve! {:browse true})
 ;; https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/gotland/2023-10-02/2024-08-07?elements=datetime%2CdatetimeEpoch%2Ctemp%2Ctempmax%2Ctempmin%2Cprecip%2Cwindspeed%2Cwindgust%2Cfeelslike%2Cfeelslikemax%2Cfeelslikemin%2Cpressure%2Cstations%2Cdegreedays%2Caccdegreedays&include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=TX27NQVYGHA9FQQ2AA2MN7Z8A&contentType=csv
 #_(def weather-url "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/gotland/2023-10-02/2023-11-30?elements=datetime%2CdatetimeEpoch%2Ctemp%2Ctempmax%2Ctempmin%2Cprecip%2Cwindspeed%2Cwindgust%2Cfeelslike%2Cfeelslikemax%2Cfeelslikemin%2Cpressure%2Cstations%2Cdegreedays%2Caccdegreedays&include=fcst%2Cobs%2Chistfcst%2Cstats%2Cdays&key=TX27NQVYGHA9FQQ2AA2MN7Z8A&contentType=csv")
 
