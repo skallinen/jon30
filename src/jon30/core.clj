@@ -61,7 +61,7 @@ route-image
 ;; Mostly, it can be utilized as a refined navigation tool to accelerate the process of receiving feedback and learning. By constructing a model, you can inquire from it, for instance: Considering our theoretical boat model, how probable is it that I should be sailing at my current speed? If I am sailing slower than the theoretical speed, which is highly unlikely, it indicates that I am not maximizing my sailing abilities. I can also measure the distance between my current performance and the theoretical optimum. Similarly, I can compare my current performance to my past performance using my usual sailing model to determine how close I am to the optimum. Concurrently, I am consistently updating the model to observe progress over time. Additionally, it can double as a log for troubleshooting scenarios. For example, if you bring your entire wine collection onboard, how does the added weight impact performance, and so forth.
 
 ;; # 2. Causal models
-;;  Optimizing the velocity of a sailing vessel involves carefully managing a range of interconnected factors. Central to this is the sail plan, which directly influences the total sail area and, in turn, the vessel's speed. The wind angle and strength also play crucial roles, as they determine how effectively the sails can harness wind power. A well-optimized sail plan will maximize the total sail area appropriate for the conditions, ensuring that the sails are configured to capture the wind most efficiently. Additionally, the hull speed, influenced by the boat's length at the waterline and the heeling angle, is a critical determinant of overall velocity. Reducing friction and maintaining a favorable heeling angle can significantly enhance the hull speed, contributing to a faster vessel.  
+;;  Optimizing the velocity of a sailing vessel involves carefully managing a range of interconnected factors. Central to this is the sail plan, which directly influences the total sail area and, in turn, the vessel's speed. The wind angle and strength also play crucial roles, as they determine how effectively the sails can harness wind power. A well-optimized sail plan will maximize the total sail area appropriate for the conditions, ensuring that the sails are configured to capture the wind most efficiently. Additionally, the hull speed, influenced by the boat's length at the waterline and the heeling angle, is a critical determinant of overall velocity. Reducing friction and maintaining a favorable heeling angle can significantly enhance the hull speed, contributing to a faster vessel.
 
 ;; The human factor is equally vital in optimizing sailing speed. The captain's competence directly impacts both their performance and the performance of the crew, both of which are essential for maintaining high vessel velocity. Managing fatigue for both the captain and crew is crucial, as fatigue can diminish performance, thereby reducing the vessel's velocity. A well-coordinated and skilled crew, led by an experienced and alert captain, can make the necessary adjustments to the sail plan, respond to changing wind conditions, and maintain an optimal heeling angle, all of which contribute to maximizing the vessel's velocity on the water.
 ;; ## Reasoning about the model
@@ -284,7 +284,7 @@ route-image
   [:aerodynamic-model :> :equilibrium]
   [:hydrodynamic-model :> :equilibrium]
   [:equilibrium :> :performance-prediction]
-  
+
   ]
 
  digraph)
@@ -338,9 +338,9 @@ route-image
 
 ;; The VPP model consists of two parts: the solution algorithm and the boat model. The solution algorithm is responsible for determining an equilibrium condition for each point of sailing, ensuring that:
 
-;; a) the driving force from the sails equals the hull and aerodynamic drag, and  
+;; a) the driving force from the sails equals the hull and aerodynamic drag, and
 
-;; b) the heeling moment from the rig is counterbalanced by the righting moment from the hull.  
+;; b) the heeling moment from the rig is counterbalanced by the righting moment from the hull.
 
 ;; ## Keep it simple
 ;;But we will not start by modeling all of this right now. To understand the problem and showcase some of the tools today, we need to simplify the problem a lot. So today, the goal is to be able to model the vessel's speed based on wind angle and wind strength.
@@ -568,6 +568,23 @@ route-image
        (mapcat identity)
        (into {})))
 
+
+(def all-splines
+  (-> (tc/dataset "jon30vpp.csv" {:key-fn keyword})
+      (tc/rename-columns {:twa :angle
+                          :tws :wind
+                          :vessel-speed :velocity})
+      (tc/rows :as-maps)
+      (->> (group-by :wind)
+           vals
+           (map (fn [v]
+                  {(:wind (first v)) (i/interpolation :b-spline
+                                                      (map :angle v)
+                                                      (map :velocity v))}))
+           (mapcat identity)
+           (into {}))))
+
+
 #_(def knots
     (->> data/vpp-polar-01
          (group-by :wind)
@@ -750,7 +767,7 @@ model {
 
      ;;
      ))
-;; # Testing spline model on first synthetic boat data 
+;; # Testing spline model on first synthetic boat data
 
 (def jon-spline-model-code
   "
@@ -1133,7 +1150,7 @@ model {
 ;; - What would be a good path for the multivariate model ie using wind strength and wind angle as predictors.
 ;; - Polar chart: adding a few parameters? rotate and clockwise/counter-clockwise? Enable sectors?
 ;; - What scicloj libraries should i use/showcase that ia m not showcasing.
-;; - 
+;; -
 ;; - For later: code review... make sure everything is idiomatic.
 ;; - For later: presentation review.
 
@@ -1146,7 +1163,7 @@ model {
 ;; - Plotly addition
 
 ;; # Stuff
- 
+
 ;; https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/gotland/2023-10-02/2024-08-07?elements=datetime%2CdatetimeEpoch%2Ctemp%2Ctempmax%2Ctempmin%2Cprecip%2Cwindspeed%2Cwindgust%2Cfeelslike%2Cfeelslikemax%2Cfeelslikemin%2Cpressure%2Cstations%2Cdegreedays%2Caccdegreedays&include=fcst%2Cobs%2Chistfcst%2Cstats%2Chours&key=TX27NQVYGHA9FQQ2AA2MN7Z8A&contentType=csv
 #_(def weather-url "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/gotland/2023-10-02/2023-11-30?elements=datetime%2CdatetimeEpoch%2Ctemp%2Ctempmax%2Ctempmin%2Cprecip%2Cwindspeed%2Cwindgust%2Cfeelslike%2Cfeelslikemax%2Cfeelslikemin%2Cpressure%2Cstations%2Cdegreedays%2Caccdegreedays&include=fcst%2Cobs%2Chistfcst%2Cstats%2Cdays&key=TX27NQVYGHA9FQQ2AA2MN7Z8A&contentType=csv")
 
@@ -1159,3 +1176,141 @@ model {
 ;; [ ] Show how to use metamporph pipes for perdiction
 ;; [ ] rewrite spline code using metamorph?
 ;; [ ] try modelling wind strengths with a polynomial?
+
+
+
+(def jon-spline-slices-model-code
+  "
+data {
+    int n_angles;
+    int n_winds;
+    int k;
+    array[n_angles, n_winds] real velocity;
+    matrix[n_angles, k] B;
+}
+parameters {
+    array[n_winds] real a;
+    matrix[k, n_winds] w;
+    real<lower=0> sigma;
+}
+transformed parameters {
+    matrix[n_angles, n_winds] mu;
+    mu = B * w;
+}
+model {
+    for (i_a in 1:n_angles) {
+        for (i_w in 1:n_winds) {
+            velocity[i_a, i_w] ~ normal(mu[i_a, i_w] + a[i_w], sigma);
+        }
+    }
+    a ~ normal(100, 10);
+    for (i_k in 1:k) {
+        for (i_w in 1:n_winds) {
+            w[i_k, i_w] ~ normal(0, 10);
+        }
+    }
+    sigma ~ exponential(1);
+}")
+
+(def jon-spline-slices-model
+  (stan/model jon-spline-slices-model-code))
+
+
+
+(let [angles [1 2 3 4 5 6 7 8]
+      min-angle (apply min angles)
+      winds [1 2 3]
+      min-wind (apply min winds)
+      B (-> {:angle angles}
+            tc/dataset
+            (r-helpers/base-function "angle" 8))
+      training-data (tc/dataset
+                     (for [angle angles
+                           wind winds]
+                       (let [mu angle
+                             velocity mu]
+                         {:angle angle
+                          :wind wind
+                          :velocity velocity})))
+      sampling (->> {:n_angles (count angles)
+                     :n_winds (count winds)
+                     :B (tc/rows B)
+                     :k (count B)
+                     :velocity (->> training-data
+                                    :velocity
+                                    (partition (count winds)))}
+                    (stan/sample jon-spline-slices-model))]
+  (-> sampling
+      :samples
+      (tc/select-columns (comp
+                          (partial re-find #"mu")
+                          name))
+      (->> (map (fn [[k column]]
+                  (tcc/mean column)))
+           (partition (count angles)))))
+
+
+
+
+
+
+
+
+(let [angles (range 1 181)
+      min-angle (apply min angles)
+      winds (sort (keys all-splines))
+      min-wind (apply min winds)
+      B (-> {:angle angles}
+            tc/dataset
+            (r-helpers/base-function "angle" 7))
+      training-data (tc/dataset
+                     (for [angle angles
+                           wind winds]
+                       (let [mu ((get all-splines wind) angle)
+                             velocity mu #_(random/sample
+                                            (random/distribution :normal
+                                                                 {:sd 0.3 :mu mu}))]
+                         {:angle angle
+                          :wind wind
+                          :velocity velocity})))
+      sampling (->> {:n_angles (count angles)
+                     :n_winds (count winds)
+                     :B (tc/rows B)
+                     :k (count B)
+                     :velocity (->> training-data
+                                    :velocity
+                                    (partition (count winds)))}
+                    (stan/sample jon-spline-slices-model))
+      z-trace-for-surface (-> sampling
+                              :samples
+                              (tc/select-columns (comp
+                                                  (partial re-find #"mu")
+                                                  name))
+                              (->> (map (fn [[k column]]
+                                          (tcc/mean column)))
+                                   (partition (count angles))))
+      training-data-trace (-> training-data
+                              (tc/select-rows (comp not neg? :velocity))
+                              (tc/rename-columns {:angle :x
+                                                  :wind :y
+                                                  :velocity :z}))]
+  (kind/plotly
+   {:data [(-> {:type :surface
+                :mode :lines
+                :colorscale "Greys"
+                :cauto false
+                :zmin 0
+                ;; :colorscale color-custom-scale
+                :z z-trace-for-surface})
+           (-> {:type :scatter3d
+                :mode :markers
+                :marker {:size 6
+                         :line {:width 0.5
+                                :opacity 0.8}}
+                :x (tcc/- (:x training-data-trace)
+                          min-angle)
+                :y (tcc/- (:y training-data-trace)
+                          min-wind)
+                :z (:z training-data-trace)})]
+    :layout {:width 600
+             :height 700}}))
