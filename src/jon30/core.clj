@@ -17,7 +17,8 @@
    [scicloj.metamorph.ml.design-matrix :as dm]
    [scicloj.metamorph.ml.regression]
    [tablecloth.api :as tc]
-   [tablecloth.column.api :as tcc]))
+   [tablecloth.column.api :as tcc]
+   [scicloj.kindly.v4.kind :as kind]))
 
 ;; # Workbook, notes and explorations
 ;; Please note that this document is not intended for the conference presentation, but is a working document.
@@ -919,7 +920,8 @@ model {
         [:angle3 '(* angle angle angle)]
         [:wind '(identity wind)]
         [:wind2 '(* wind wind)]
-        [:wind3 '(* wind wind wind)]]]
+        [:wind3 '(* wind wind wind)]
+        [:wind4 '(* wind wind wind wind)]]]
 
       predict-ds
       (-> (for [a angles
@@ -928,39 +930,51 @@ model {
              :wind w
              :velocity 0})
           tc/dataset)
+      _ (def predict-ds predict-ds)
+
+      predict-matrix (-> predict-ds
+                         (#(apply dm/create-design-matrix % multi-cubic-formula)))
+
+      training-data
+      (-> (tc/dataset "jon30vpp.csv" {:key-fn keyword})
+          (tc/rename-columns {:twa :angle
+                              :tws :wind
+                              :vessel-speed :velocity}))
+      _ (def training-data training-data)
+
+      training-design-matrix (-> training-data
+                                 (#(apply dm/create-design-matrix % multi-cubic-formula)))
+
+      _ (def training-design-matrix training-design-matrix)
 
       multi-cubic-model
-      (-> data/vpp-polar-01
-          tc/dataset
-          (#(apply dm/create-design-matrix % multi-cubic-formula))
+      (-> training-design-matrix
           (ml/train {:model-type :fastmath/ols}))
       _ (def model multi-cubic-model)
 
-      multi-cubic-pred
-      (-> (ml/predict (-> predict-ds
-                          (#(apply dm/create-design-matrix
-                                   %
-                                   multi-cubic-formula))
+      multi-cubic-predictions
+      (-> (ml/predict (-> predict-matrix
                           (tc/drop-columns [:velocity]))
                       multi-cubic-model)
           (tc/add-column :angle (:angle predict-ds))
           (tc/add-column :wind (:wind predict-ds)))
+      _ (def multi-cubic-predictions multi-cubic-predictions)
 
       z-trace-for-surface
-      (-> multi-cubic-pred
+      (-> multi-cubic-predictions
           (tc/drop-columns [0])
           (tc/pivot->wider :wind :velocity)
           (tc/drop-columns [:angle])
           (tc/rows))
 
       training-data-trace
-      (-> data/vpp-polar-01
-          tc/dataset
+      (-> training-data
+          (tc/select-rows (comp not neg? :velocity))
           (tc/rename-columns {:angle :y
                               :wind :x
                               :velocity :z}))]
 
-  (-> multi-cubic-pred
+  (-> multi-cubic-predictions
       (ploclo/layer-line)
       ploclo/plot
       ((fn [m]
@@ -979,7 +993,7 @@ model {
                           first
                           (assoc :type :scatter3d)
                           (assoc :mode :markers)
-                          (assoc :marker {:size 12
+                          (assoc :marker {:size 6
                                           :line {:width 0.5
                                                  :opacity 0.8}})
                           (assoc :x (:x training-data-trace))
@@ -988,9 +1002,126 @@ model {
            (-> m
                (assoc :data [trace1 trace2])
                (assoc-in [:layout :width] 600)
-               (assoc-in [:layout :height] 700)))))
+               (assoc-in [:layout :height] 700)))))))
+
+(let [multi-cubic-formula
+      [[:velocity]
+       [[:angle '(identity angle)]
+        [:angle2 '(* angle angle)]
+        [:angle3 '(* angle angle angle)]
+        [:wind '(identity wind)]
+        [:wind2 '(* wind wind)]
+        [:wind3 '(* wind wind wind)]
+        [:wind4 '(* wind wind wind wind)]]]
+
+      predict-ds
+      (-> (for [a (range 0 (inc 180))
+                w (range 0 30)]
+            {:angle a
+             :wind w
+             :velocity 0})
+          tc/dataset)
+      _ (def predict-ds predict-ds)
+
+      training-data
+      (-> (tc/dataset "jon30vpp.csv" {:key-fn keyword})
+          (tc/rename-columns {:twa :angle
+                              :tws :wind
+                              :vessel-speed :velocity}))
+
+      _      (def training-data training-data)
+
+      cubic-2d-pred-func
+      (-> training-data
+          ((fn [td]
+             (def td td)
+             (i/interpolation :cubic-2d
+                              (sort (set (:wind td)))
+                              (take 180 (:angle td))
+                              (partition 180 (:velocity td))))))
+      _ (def cubic-2d-pred-func cubic-2d-pred-func)
+
+      cubic-2d-predictions
+      (-> predict-ds
+          (tc/add-column :prediction #(map (fn [a w] (cubic-2d-pred-func w a)) (:angle %) (:wind %)))
+          (tc/add-column :prediction #(-> %
+                                           :prediction
+                                           (->> (map (fn [p] (if (or (neg? p)
+                                                                     (> p 10)) nil p))))
+                                           (tcc/column)))
+          (tc/replace-missing :midpoint))
+
+      _ (def cubic-2d-predictions cubic-2d-predictions)
+      z-trace-for-surface
+      (-> cubic-2d-predictions
+          (tc/drop-columns [0])
+          (tc/pivot->wider :wind :prediction)
+          (tc/drop-columns [:angle])
+          (tc/rows))
+
+      training-data-trace
+      (-> training-data
+          (tc/select-rows (comp not neg? :velocity))
+          (tc/rename-columns {:angle :y
+                              :wind :x
+                              :velocity :z}))]
+
+  (-> multi-cubic-predictions
+      (ploclo/layer-line)
+      ploclo/plot
+      ((fn [m]           (let [trace1 (-> m
+                                          :data
+                                          first
+                                          (assoc :type :surface)
+                                          (assoc :colorscale "Greys")
+                                         ;;#_#_#_
+                                          (assoc :cauto false)
+                                          (assoc :zmin 0)
+                                          (assoc :colorscale color-custom-scale)
+                                          (assoc :z z-trace-for-surface))
+                               trace2 (-> m
+                                          :data
+                                          first
+                                          (assoc :type :scatter3d)
+                                          (assoc :mode :markers)
+                                          (assoc :marker {:size 6
+                                                          :line {:width 0.5
+                                                                 :opacity 0.8}})
+                                          (assoc :x (:x training-data-trace))
+                                          (assoc :y (:y training-data-trace))
+                                          (assoc :z (:z training-data-trace)))]
+                           (-> m
+                               (assoc :data [trace1 trace2])
+                               (assoc-in [:layout :width] 600)
+                               (assoc-in [:layout :height] 700)))))
       #_:layout))
 
+(comment       _ (def cubic-2d-pred-func cubic-2d-pred-func)
+                      (-> predict-ds
+                          (tc/add-column :prediction #(->> (map (fn [a w] (cubic-2d-pred-func a w)) (:angle %) (:wind %)))))
+                      cubic-2d-predictions
+                      (-> predict-ds
+                          (tc/add-column :angle (:angle predict-ds))
+                          (tc/add-column :wind (:wind predict-ds)))
+                      _ (def predictions cubic-2d-predictions)
+
+                      z-trace-for-surface
+                      (-> multi-cubic-predictions
+                          (tc/drop-columns [0])
+                          (tc/pivot->wider :wind :velocity)
+                          (tc/drop-columns [:angle])
+                          (tc/rows))
+
+                      training-data-trace
+                      (-> training-data
+                          (tc/select-rows (comp not neg? :velocity))
+                          (tc/rename-columns {:angle :y
+                                              :wind :x
+                                              :velocity :z})))
+#_(-> predict-ds
+    (tc/add-column :prediction #(map (fn [a w] (cubic-2d-pred-func a w)) (:angle %) (:wind %)))
+    #_          (tc/add-column :prediction #(-> % :prediction (partial map (fn [p] (when (and (pos? p)
+                                                                                             (< p 10)) p))) tc/dataset)))
 ;; grayscale for the surface?
 ;; points with bigger residual other color
 ;; try bi-variat cubic-2d
