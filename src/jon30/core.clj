@@ -1426,3 +1426,61 @@ model {
                 (assoc-in [0 6] 0))))
          (transf/reverse-2d t)
          fastmath/double-double-array->seq)))
+
+
+(let [n 256
+      smaller-n 200
+      angles (vec (range 1 (inc n)))
+      min-angle (apply min angles)
+      winds (vec (sort (keys all-splines)))
+      min-wind (apply min winds)
+      B (-> {:angle angles}
+            tc/dataset
+            (r-helpers/base-function "angle" 7))
+      training-data (vec (for [i-angle (range n)]
+                           (vec (for [i-wind (range n)]
+                                  (or (when-let [w (get winds i-wind)]
+                                        (when-let [s (get all-splines w)]
+                                          (when-let [a (get angles i-angle)]
+                                            (s a))))
+                                      0)))))
+      t (transf/transformer :real :fft)
+      z-trace-for-surface (->> training-data
+                               (transf/forward-2d t)
+                               fastmath/double-double-array->seq
+                               (mapv (fn [row]
+                                       (concat (take smaller-n row)
+                                               (repeat (- n smaller-n) 0))))
+                               (take smaller-n)
+                               (#(concat % (repeat (- n smaller-n)
+                                                   (repeat n 0))))
+                               (transf/reverse-2d t)
+                               fastmath/double-double-array->seq
+                               (take (count angles))
+                               (map (partial take (count winds))))
+      ;; training-data-trace (-> training-data
+      ;;                         (tc/select-rows (comp not neg? :velocity))
+      ;;                         (tc/rename-columns {:angle :x
+      ;;                                             :wind :y
+      ;;                                             :velocity :z}))
+      ]
+  (kind/plotly
+   {:data [(-> {:type :surface
+                :mode :lines
+                :colorscale "Greys"
+                :cauto false
+                :zmin 0
+                ;; :colorscale color-custom-scale
+                :z z-trace-for-surface})
+           #_(-> {:type :scatter3d
+                  :mode :markers
+                  :marker {:size 6
+                           :line {:width 0.5
+                                  :opacity 0.8}}
+                  :x (tcc/- (:x training-data-trace)
+                            min-angle)
+                  :y (tcc/- (:y training-data-trace)
+                            min-wind)
+                  :z (:z training-data-trace)})]
+    :layout {:width 600
+             :height 700}}))
