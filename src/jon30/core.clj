@@ -7,6 +7,8 @@
    [dorothy.core :as dot]
    [fastmath.interpolation :as i]
    [fastmath.random :as random]
+   [fastmath.core :as fastmath]
+   [fastmath.transform :as transf]
    [jon30.data :as data]
    [jon30.graphviz :refer [digraph]]
    [jon30.r :as r-helpers]
@@ -19,6 +21,7 @@
    [tablecloth.api :as tc]
    [tablecloth.column.api :as tcc]
    [scicloj.kindly.v4.kind :as kind]))
+
 
 ;; # Workbook, notes and explorations
 ;; Please note that this document is not intended for the conference presentation, but is a working document.
@@ -1405,3 +1408,21 @@ model {
                   :z (:z training-data-trace)})]
       :layout {:width 600
                :height 700}})))
+
+
+
+(delay
+  (let [t (transf/transformer :real :fft)
+        data (vec (for [x (range 8)]
+                    (vec (for [y (range 8)]
+                           (+ x y)))))]
+    (->> data
+         (transf/forward-2d t)
+         fastmath/double-double-array->seq
+         (mapv vec)
+         ((fn [data]
+            (-> data
+                (assoc-in [0 7] 0)
+                (assoc-in [0 6] 0))))
+         (transf/reverse-2d t)
+         fastmath/double-double-array->seq)))
