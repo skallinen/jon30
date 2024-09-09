@@ -798,69 +798,70 @@ model {
 (def jon-model (stan/model jon-spline-model-code))
 
 ;; ## Samples of μ's and the mean of μ's
-(->> (repeatedly 300 #(rand-int 180))
-     (map (fn [angle]
-            (let [mu ((get splines 10) angle)
-                  velocity (random/sample
-                         (random/distribution :normal
-                                              {:sd 0.3 :mu mu}))]
-              {:angle angle
-               :velocity velocity})))
-     tc/dataset
-     ((fn [dat]
-        (-> dat
-            (tc/drop-columns :wind)
-            (r-helpers/base-function "angle" 5)
-            ((fn [B]
-               {:B (tc/rows B)
-                :k (count B)
-                :n (-> dat :angle count)
-                :velocity (-> dat :velocity vec)
-                :w (vec (repeat (count B) 0))}))
-            (->> (stan/sample jon-model))
-            :samples
-            (tc/select-columns (comp (partial re-find #"mu") name))
-            (tc/aggregate-columns (juxt tcc/mean
-                                        tcc/standard-deviation
-                                        (comp first #(tcc/percentiles % [2.5]))
-                                        (comp first #(tcc/percentiles % [97.5]))))
-            tc/pivot->longer
-            (tc/add-column :col #(->> % :$column (map (comp
-                                                       {"-0" :mean
-                                                        "-1" :sd
-                                                        "-2" :ptile-2.5
-                                                        "-3" :ptile-97.5}
-                                                       (partial re-find #"-.*")
-                                                       name))))
-            (tc/add-column :row-id (fn [ds] (->> ds :$column (map (comp read-string
-                                                                        #(clojure.string/replace % #"-.*" "")
-                                                                        #(clojure.string/replace % #"mu." "") name)))))
-            (tc/drop-columns :$column)
-            (tc/pivot->wider :col [:$value] {:drop-missing? false})
-            (tc/order-by :row-id)
-            (tc/left-join
-             (tc/add-column dat :row-id (fn [dt] (range 1 (-> dt
-                                                              tc/shape
-                                                              first
-                                                              inc))))
-             :row-id)
-            (tc/select-columns [:angle :row-id :velocity :mean :sd :ptile-2.5 :ptile-97.5])
-            (tc/add-column :mean-sd (fn [row] (map #(- %1 %2) (:mean row) (:sd row))))
-            (tc/add-column :mean+sd (fn [row] (map #(+ %1 %2) (:mean row) (:sd row))))
-            #_(tc/pivot->longer (complement #{:year}))
-            (haclo/base     {:=title "Distribution of means"
-                             :=x :angle
-                             :=y :velocity})
-            haclo/layer-point
-            (haclo/layer-line {:=y :mean
-                               :=mark-color "red"})
-            (haclo/layer-line {:=y :mean-sd
-                               :=mark-color "gray"})
-            (haclo/layer-line {:=y :mean+sd
-                               :=mark-color "gray"}))))
+(delay
+  (->> (repeatedly 300 #(rand-int 180))
+       (map (fn [angle]
+              (let [mu ((get splines 10) angle)
+                    velocity (random/sample
+                              (random/distribution :normal
+                                                   {:sd 0.3 :mu mu}))]
+                {:angle angle
+                 :velocity velocity})))
+       tc/dataset
+       ((fn [dat]
+          (-> dat
+              (tc/drop-columns :wind)
+              (r-helpers/base-function "angle" 5)
+              ((fn [B]
+                 {:B (tc/rows B)
+                  :k (count B)
+                  :n (-> dat :angle count)
+                  :velocity (-> dat :velocity vec)
+                  :w (vec (repeat (count B) 0))}))
+              (->> (stan/sample jon-model))
+              :samples
+              (tc/select-columns (comp (partial re-find #"mu") name))
+              (tc/aggregate-columns (juxt tcc/mean
+                                          tcc/standard-deviation
+                                          (comp first #(tcc/percentiles % [2.5]))
+                                          (comp first #(tcc/percentiles % [97.5]))))
+              tc/pivot->longer
+              (tc/add-column :col #(->> % :$column (map (comp
+                                                         {"-0" :mean
+                                                          "-1" :sd
+                                                          "-2" :ptile-2.5
+                                                          "-3" :ptile-97.5}
+                                                         (partial re-find #"-.*")
+                                                         name))))
+              (tc/add-column :row-id (fn [ds] (->> ds :$column (map (comp read-string
+                                                                          #(clojure.string/replace % #"-.*" "")
+                                                                          #(clojure.string/replace % #"mu." "") name)))))
+              (tc/drop-columns :$column)
+              (tc/pivot->wider :col [:$value] {:drop-missing? false})
+              (tc/order-by :row-id)
+              (tc/left-join
+               (tc/add-column dat :row-id (fn [dt] (range 1 (-> dt
+                                                                tc/shape
+                                                                first
+                                                                inc))))
+               :row-id)
+              (tc/select-columns [:angle :row-id :velocity :mean :sd :ptile-2.5 :ptile-97.5])
+              (tc/add-column :mean-sd (fn [row] (map #(- %1 %2) (:mean row) (:sd row))))
+              (tc/add-column :mean+sd (fn [row] (map #(+ %1 %2) (:mean row) (:sd row))))
+              #_(tc/pivot->longer (complement #{:year}))
+              (haclo/base     {:=title "Distribution of means"
+                               :=x :angle
+                               :=y :velocity})
+              haclo/layer-point
+              (haclo/layer-line {:=y :mean
+                                 :=mark-color "red"})
+              (haclo/layer-line {:=y :mean-sd
+                                 :=mark-color "gray"})
+              (haclo/layer-line {:=y :mean+sd
+                                 :=mark-color "gray"}))))
 
-     ;;
-     )
+       ;;
+       ))
 
 ;; Splines for all wind strengths
 (-> spline-ds
@@ -930,50 +931,51 @@ model {
               color-boundries
               (range 1 255 (int (/ 255 (count color-boundries)))))))
 
-(let [multi-cubic-formula
-      [[:velocity]
-       [[:angle '(identity angle)]
-        [:angle2 '(* angle angle)]
-        [:angle3 '(* angle angle angle)]
-        [:wind '(identity wind)]
-        [:wind2 '(* wind wind)]
-        [:wind3 '(* wind wind wind)]
-        [:wind4 '(* wind wind wind wind)]]]
+(delay
+  (let [multi-cubic-formula
+        [[:velocity]
+         [[:angle '(identity angle)]
+          [:angle2 '(* angle angle)]
+          [:angle3 '(* angle angle angle)]
+          [:wind '(identity wind)]
+          [:wind2 '(* wind wind)]
+          [:wind3 '(* wind wind wind)]
+          [:wind4 '(* wind wind wind wind)]]]
 
-      predict-ds
-      (-> (for [a angles
-                w (range 30)]
-            {:angle a
-             :wind w
-             :velocity 0})
-          tc/dataset)
-      _ (def predict-ds predict-ds)
+        predict-ds
+        (-> (for [a angles
+                  w (range 30)]
+              {:angle a
+               :wind w
+               :velocity 0})
+            tc/dataset)
+        _ (def predict-ds predict-ds)
 
-      predict-matrix (-> predict-ds
-                         (#(apply dm/create-design-matrix % multi-cubic-formula)))
+        predict-matrix (-> predict-ds
+                           (#(apply dm/create-design-matrix % multi-cubic-formula)))
 
-      training-data
-      (-> (tc/dataset "jon30vpp.csv" {:key-fn keyword})
-          (tc/rename-columns {:twa :angle
-                              :tws :wind
-                              :vessel-speed :velocity}))
-      _ (def training-data training-data)
+        training-data
+        (-> (tc/dataset "jon30vpp.csv" {:key-fn keyword})
+            (tc/rename-columns {:twa :angle
+                                :tws :wind
+                                :vessel-speed :velocity}))
+        _ (def training-data training-data)
 
-      training-design-matrix (-> training-data
-                                 (#(apply dm/create-design-matrix % multi-cubic-formula)))
+        training-design-matrix (-> training-data
+                                   (#(apply dm/create-design-matrix % multi-cubic-formula)))
 
-      _ (def training-design-matrix training-design-matrix)
+        _ (def training-design-matrix training-design-matrix)
 
-      multi-cubic-model
-      (-> training-design-matrix
-          (ml/train {:model-type :fastmath/ols}))
-      _ (def model multi-cubic-model)
+        multi-cubic-model
+        (-> training-design-matrix
+            (ml/train {:model-type :fastmath/ols}))
+        _ (def model multi-cubic-model)
 
-      multi-cubic-predictions
-      (-> (ml/predict (-> predict-matrix
-                          (tc/drop-columns [:velocity]))
-                      multi-cubic-model)
-          (tc/add-column :angle (:angle predict-ds))
+        multi-cubic-predictions
+        (-> (ml/predict (-> predict-matrix
+                            (tc/drop-columns [:velocity]))
+                        multi-cubic-model)
+            (tc/add-column :angle (:angle predict-ds))
           (tc/add-column :wind (:wind predict-ds)))
       _ (def multi-cubic-predictions multi-cubic-predictions)
 
@@ -1019,108 +1021,109 @@ model {
            (-> m
                (assoc :data [trace1 trace2])
                (assoc-in [:layout :width] 600)
-               (assoc-in [:layout :height] 700)))))))
+               (assoc-in [:layout :height] 700))))))))
 
-(let [multi-cubic-formula
-      [[:velocity]
-       [[:angle '(identity angle)]
-        [:angle2 '(* angle angle)]
-        [:angle3 '(* angle angle angle)]
-        [:wind '(identity wind)]
-        [:wind2 '(* wind wind)]
-        [:wind3 '(* wind wind wind)]
-        [:wind4 '(* wind wind wind wind)]]]
+(delay
+  (let [multi-cubic-formula
+        [[:velocity]
+         [[:angle '(identity angle)]
+          [:angle2 '(* angle angle)]
+          [:angle3 '(* angle angle angle)]
+          [:wind '(identity wind)]
+          [:wind2 '(* wind wind)]
+          [:wind3 '(* wind wind wind)]
+          [:wind4 '(* wind wind wind wind)]]]
 
-      predict-ds
-      (-> (for [a (range 0 (inc 180))
-                w (range 0 30)]
-            {:angle a
-             :wind w
-             :velocity 0})
-          tc/dataset)
-      _ (def predict-ds predict-ds)
+        predict-ds
+        (-> (for [a (range 0 (inc 180))
+                  w (range 0 30)]
+              {:angle a
+               :wind w
+               :velocity 0})
+            tc/dataset)
+        _ (def predict-ds predict-ds)
 
-      training-data
-      (-> (tc/dataset "jon30vpp.csv" {:key-fn keyword})
-          (tc/rename-columns {:twa :angle
-                              :tws :wind
-                              :vessel-speed :velocity}))
+        training-data
+        (-> (tc/dataset "jon30vpp.csv" {:key-fn keyword})
+            (tc/rename-columns {:twa :angle
+                                :tws :wind
+                                :vessel-speed :velocity}))
 
-      _      (def training-data training-data)
+        _      (def training-data training-data)
 
-      cubic-2d-pred-func
-      (-> training-data
-          ((fn [td]
-             (def td td)
-             (i/interpolation :cubic-2d
-                              (sort (set (:wind td)))
-                              (take 180 (:angle td))
-                              (partition 180 (:velocity td))))))
-      _ (def cubic-2d-pred-func cubic-2d-pred-func)
+        pred-func
+        (-> training-data
+            ((fn [td]
+               (def td td)
+               (i/interpolation :cubic-2d
+                                (sort (set (:wind td)))
+                                (take 180 (:angle td))
+                                (partition 180 (:velocity td))))))
+        _ (def pred-func pred-func)
 
-      cubic-2d-predictions
-      (-> predict-ds
-          (tc/add-column :prediction #(map (fn [a w] (cubic-2d-pred-func w a)) (:angle %) (:wind %)))
-          (tc/add-column :prediction #(-> %
-                                           :prediction
-                                           (->> (map (fn [p] (if (or (neg? p)
-                                                                     (> p 10)) nil p))))
-                                           (tcc/column)))
-          (tc/replace-missing :midpoint))
+        predictions
+        (-> predict-ds
+            (tc/add-column :prediction #(map (fn [a w] (pred-func w a)) (:angle %) (:wind %)))
+            (tc/add-column :prediction #(-> %
+                                            :prediction
+                                            (->> (map (fn [p] (if (or (neg? p)
+                                                                      (> p 10)) nil p))))
+                                            (tcc/column)))
+            (tc/replace-missing :midpoint))
 
-      _ (def cubic-2d-predictions cubic-2d-predictions)
-      z-trace-for-surface
-      (-> cubic-2d-predictions
-          (tc/drop-columns [0])
-          (tc/pivot->wider :wind :prediction)
-          (tc/drop-columns [:angle])
-          (tc/rows))
+        _ (def predictions predictions)
+        z-trace-for-surface
+        (-> predictions
+            (tc/drop-columns [0])
+            (tc/pivot->wider :wind :prediction)
+            (tc/drop-columns [:angle])
+            (tc/rows))
 
-      training-data-trace
-      (-> training-data
-          (tc/select-rows (comp not neg? :velocity))
-          (tc/rename-columns {:angle :y
-                              :wind :x
-                              :velocity :z}))]
+        training-data-trace
+        (-> training-data
+            (tc/select-rows (comp not neg? :velocity))
+            (tc/rename-columns {:angle :y
+                                :wind :x
+                                :velocity :z}))]
 
-  (-> multi-cubic-predictions
-      (ploclo/layer-line)
-      ploclo/plot
-      ((fn [m]           (let [trace1 (-> m
-                                          :data
-                                          first
-                                          (assoc :type :surface)
-                                          (assoc :colorscale "Greys")
-                                         ;;#_#_#_
-                                          (assoc :cauto false)
-                                          (assoc :zmin 0)
-                                          (assoc :colorscale color-custom-scale)
-                                          (assoc :z z-trace-for-surface))
-                               trace2 (-> m
-                                          :data
-                                          first
-                                          (assoc :type :scatter3d)
-                                          (assoc :mode :markers)
-                                          (assoc :marker {:size 6
-                                                          :line {:width 0.5
-                                                                 :opacity 0.8}})
-                                          (assoc :x (:x training-data-trace))
-                                          (assoc :y (:y training-data-trace))
-                                          (assoc :z (:z training-data-trace)))]
-                           (-> m
-                               (assoc :data [trace1 trace2])
-                               (assoc-in [:layout :width] 600)
-                               (assoc-in [:layout :height] 700)))))
-      #_:layout))
+    (-> multi-cubic-predictions
+        (ploclo/layer-line)
+        ploclo/plot
+        ((fn [m]           (let [trace1 (-> m
+                                            :data
+                                            first
+                                            (assoc :type :surface)
+                                            (assoc :colorscale "Greys")
+                                            ;;#_#_#_
+                                            (assoc :cauto false)
+                                            (assoc :zmin 0)
+                                            (assoc :colorscale color-custom-scale)
+                                            (assoc :z z-trace-for-surface))
+                                 trace2 (-> m
+                                            :data
+                                            first
+                                            (assoc :type :scatter3d)
+                                            (assoc :mode :markers)
+                                            (assoc :marker {:size 6
+                                                            :line {:width 0.5
+                                                                   :opacity 0.8}})
+                                            (assoc :x (:x training-data-trace))
+                                            (assoc :y (:y training-data-trace))
+                                            (assoc :z (:z training-data-trace)))]
+                             (-> m
+                                 (assoc :data [trace1 trace2])
+                                 (assoc-in [:layout :width] 600)
+                                 (assoc-in [:layout :height] 700)))))
+        #_:layout)))
 
-(comment       _ (def cubic-2d-pred-func cubic-2d-pred-func)
+(comment       _ (def pred-func pred-func)
                       (-> predict-ds
-                          (tc/add-column :prediction #(->> (map (fn [a w] (cubic-2d-pred-func a w)) (:angle %) (:wind %)))))
-                      cubic-2d-predictions
+                          (tc/add-column :prediction #(->> (map (fn [a w] (pred-func a w)) (:angle %) (:wind %)))))
+                      predictions
                       (-> predict-ds
                           (tc/add-column :angle (:angle predict-ds))
                           (tc/add-column :wind (:wind predict-ds)))
-                      _ (def predictions cubic-2d-predictions)
+                      _ (def predictions predictions)
 
                       z-trace-for-surface
                       (-> multi-cubic-predictions
@@ -1136,7 +1139,7 @@ model {
                                               :wind :x
                                               :velocity :z})))
 #_(-> predict-ds
-    (tc/add-column :prediction #(map (fn [a w] (cubic-2d-pred-func a w)) (:angle %) (:wind %)))
+    (tc/add-column :prediction #(map (fn [a w] (pred-func a w)) (:angle %) (:wind %)))
     #_          (tc/add-column :prediction #(-> % :prediction (partial map (fn [p] (when (and (pos? p)
                                                                                              (< p 10)) p))) tc/dataset)))
 ;; grayscale for the surface?
@@ -1217,100 +1220,188 @@ model {
 
 
 
-(let [angles [1 2 3 4 5 6 7 8]
-      min-angle (apply min angles)
-      winds [1 2 3]
-      min-wind (apply min winds)
-      B (-> {:angle angles}
-            tc/dataset
-            (r-helpers/base-function "angle" 8))
-      training-data (tc/dataset
-                     (for [angle angles
-                           wind winds]
-                       (let [mu angle
-                             velocity mu]
-                         {:angle angle
-                          :wind wind
-                          :velocity velocity})))
-      sampling (->> {:n_angles (count angles)
-                     :n_winds (count winds)
-                     :B (tc/rows B)
-                     :k (count B)
-                     :velocity (->> training-data
-                                    :velocity
-                                    (partition (count winds)))}
-                    (stan/sample jon-spline-slices-model))]
-  (-> sampling
-      :samples
-      (tc/select-columns (comp
-                          (partial re-find #"mu")
-                          name))
-      (->> (map (fn [[k column]]
-                  (tcc/mean column)))
-           (partition (count angles)))))
+#_(let [angles [1 2 3 4 5 6 7 8]
+        min-angle (apply min angles)
+        winds [1 2 3]
+        min-wind (apply min winds)
+        B (-> {:angle angles}
+              tc/dataset
+              (r-helpers/base-function "angle" 8))
+        training-data (tc/dataset
+                       (for [angle angles
+                             wind winds]
+                         (let [mu angle
+                               velocity mu]
+                           {:angle angle
+                            :wind wind
+                            :velocity velocity})))
+        sampling (->> {:n_angles (count angles)
+                       :n_winds (count winds)
+                       :B (tc/rows B)
+                       :k (count B)
+                       :velocity (->> training-data
+                                      :velocity
+                                      (partition (count winds)))}
+                      (stan/sample jon-spline-slices-model))]
+    (-> sampling
+        :samples
+        (tc/select-columns (comp
+                            (partial re-find #"mu")
+                            name))
+        (->> (map (fn [[k column]]
+                    (tcc/mean column)))
+             (partition (count angles)))))
+
+(delay
+  (let [angles (range 1 181)
+        min-angle (apply min angles)
+        winds (sort (keys all-splines))
+        min-wind (apply min winds)
+        B (-> {:angle angles}
+              tc/dataset
+              (r-helpers/base-function "angle" 7))
+        training-data (tc/dataset
+                       (for [angle angles
+                             wind winds]
+                         (let [mu ((get all-splines wind) angle)
+                               velocity mu #_(random/sample
+                                              (random/distribution :normal
+                                                                   {:sd 0.3 :mu mu}))]
+                           {:angle angle
+                            :wind wind
+                            :velocity velocity})))
+        sampling (->> {:n_angles (count angles)
+                       :n_winds (count winds)
+                       :B (tc/rows B)
+                       :k (count B)
+                       :velocity (->> training-data
+                                      :velocity
+                                      (partition (count winds)))}
+                      (stan/sample jon-spline-slices-model))
+        z-trace-for-surface (-> sampling
+                                :samples
+                                (tc/select-columns (comp
+                                                    (partial re-find #"mu")
+                                                    name))
+                                (->> (map (fn [[k column]]
+                                            (tcc/mean column)))
+                                     (partition (count angles))))
+        training-data-trace (-> training-data
+                                (tc/select-rows (comp not neg? :velocity))
+                                (tc/rename-columns {:angle :x
+                                                    :wind :y
+                                                    :velocity :z}))]
+    (kind/plotly
+     {:data [(-> {:type :surface
+                  :mode :lines
+                  :colorscale "Greys"
+                  :cauto false
+                  :zmin 0
+                  ;; :colorscale color-custom-scale
+                  :z z-trace-for-surface})
+             (-> {:type :scatter3d
+                  :mode :markers
+                  :marker {:size 6
+                           :line {:width 0.5
+                                  :opacity 0.8}}
+                  :x (tcc/- (:x training-data-trace)
+                            min-angle)
+                  :y (tcc/- (:y training-data-trace)
+                            min-wind)
+                  :z (:z training-data-trace)})]
+      :layout {:width 600
+               :height 700}})))
 
 
 
+(delay
+  (let [predict-ds
+        (-> (for [a (range 0 (inc 180))
+                  w (range 0 30)]
+              {:angle a
+               :wind w
+               :velocity 0})
+            tc/dataset)
+        _ (def predict-ds predict-ds)
 
+        training-data
+        (-> (tc/dataset "jon30vpp.csv" {:key-fn keyword})
+            (tc/rename-columns {:twa :angle
+                                :tws :wind
+                                :vessel-speed :velocity}))
 
+        _      (def training-data training-data)
 
+        min-wind (-> training-data
+                     :wind
+                     tcc/reduce-min)
 
+        max-wind (-> training-data
+                     :wind
+                     tcc/reduce-max)
 
-(let [angles (range 1 181)
-      min-angle (apply min angles)
-      winds (sort (keys all-splines))
-      min-wind (apply min winds)
-      B (-> {:angle angles}
-            tc/dataset
-            (r-helpers/base-function "angle" 7))
-      training-data (tc/dataset
-                     (for [angle angles
-                           wind winds]
-                       (let [mu ((get all-splines wind) angle)
-                             velocity mu #_(random/sample
-                                            (random/distribution :normal
-                                                                 {:sd 0.3 :mu mu}))]
-                         {:angle angle
-                          :wind wind
-                          :velocity velocity})))
-      sampling (->> {:n_angles (count angles)
-                     :n_winds (count winds)
-                     :B (tc/rows B)
-                     :k (count B)
-                     :velocity (->> training-data
-                                    :velocity
-                                    (partition (count winds)))}
-                    (stan/sample jon-spline-slices-model))
-      z-trace-for-surface (-> sampling
-                              :samples
-                              (tc/select-columns (comp
-                                                  (partial re-find #"mu")
-                                                  name))
-                              (->> (map (fn [[k column]]
-                                          (tcc/mean column)))
-                                   (partition (count angles))))
-      training-data-trace (-> training-data
-                              (tc/select-rows (comp not neg? :velocity))
-                              (tc/rename-columns {:angle :x
-                                                  :wind :y
-                                                  :velocity :z}))]
-  (kind/plotly
-   {:data [(-> {:type :surface
-                :mode :lines
-                :colorscale "Greys"
-                :cauto false
-                :zmin 0
-                ;; :colorscale color-custom-scale
-                :z z-trace-for-surface})
-           (-> {:type :scatter3d
-                :mode :markers
-                :marker {:size 6
-                         :line {:width 0.5
-                                :opacity 0.8}}
-                :x (tcc/- (:x training-data-trace)
-                          min-angle)
-                :y (tcc/- (:y training-data-trace)
-                          min-wind)
-                :z (:z training-data-trace)})]
-    :layout {:width 600
-             :height 700}}))
+        min-angle (-> training-data
+                      :angle
+                      tcc/reduce-min)
+
+        max-angle (-> training-data
+                      :angle
+                      tcc/reduce-max)
+
+        pred-func
+        (-> training-data
+            ((fn [td]
+               (def td td)
+               (i/interpolation :bicubic
+                                (sort (set (:wind td)))
+                                (take 180 (:angle td))
+                                (partition 180 (:velocity td))))))
+        _ (def pred-func pred-func)
+
+        predictions
+        (-> predict-ds
+            (tc/add-column :prediction #(map (fn [a w]
+                                               (if (and (< min-wind w max-wind)
+                                                        (< min-angle w max-angle))
+                                                 (pred-func w a)
+                                                 0))
+                                             (:angle %) (:wind %)))
+            (tc/add-column :prediction #(-> %
+                                            :prediction
+                                            (->> (map (fn [p] (if (or (neg? p)
+                                                                      (> p 10)) nil p))))
+                                            (tcc/column)))
+            (tc/replace-missing :midpoint))
+
+        _ (def predictions predictions)
+        z-trace-for-surface
+        (-> predictions
+            (tc/drop-columns [0])
+            (tc/pivot->wider :wind :prediction)
+            (tc/drop-columns [:angle])
+            (tc/rows))
+
+        training-data-trace
+        (-> training-data
+            (tc/select-rows (comp not neg? :velocity))
+            (tc/rename-columns {:angle :y
+                                :wind :x
+                                :velocity :z}))]
+    (kind/plotly
+     {:data [(-> {:type :surface
+                  :mode :lines
+                  :colorscale "Greys"
+                  :cauto false
+                  :zmin 0
+                  ;; :colorscale color-custom-scale
+                  :z z-trace-for-surface})
+             (-> {:type :scatter3d
+                  :mode :markers
+                  :marker {:size 6
+                           :line {:width 0.5
+                                  :opacity 0.8}}
+                  :x (:x training-data-trace)
+                  :y (:y training-data-trace)
+                  :z (:z training-data-trace)})]
+      :layout {:width 600
+               :height 700}})))
