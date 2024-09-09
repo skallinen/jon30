@@ -20,7 +20,10 @@
    [scicloj.metamorph.ml.regression]
    [tablecloth.api :as tc]
    [tablecloth.column.api :as tcc]
-   [scicloj.kindly.v4.kind :as kind]))
+   [scicloj.kindly.v4.kind :as kind]
+   [tech.v3.tensor :as tensor]
+   [tech.v3.datatype.functional :as fun]
+   [clojure.math :as math]))
 
 
 ;; # Workbook, notes and explorations
@@ -1428,42 +1431,101 @@ model {
          fastmath/double-double-array->seq)))
 
 
-(let [n 256
+
+(delay
+  (fun/* (tensor/compute-tensor [10 10]
+                                (fn [i j] 1000)
+                                :float32)
+         (tensor/compute-tensor [10 10]
+                                (fn [i j] (/ 1.0
+                                             (math/log (+ 1 i j))))
+                                :float32)))
+
+
+
+(tensor/compute-tensor [10 10]
+                       (fn [i j] (/ 1.0
+                                    (math/log (+ 3 i j))))
+                       :float32)
+
+
+
+
+
+
+(-> (tc/dataset "jon30vpp.csv" {:key-fn keyword})
+    :twa
+    distinct
+    sort
+    vec)
+
+
+(-> (tc/dataset "jon30vpp.csv" {:key-fn keyword})
+    (tc/group-by [:twa :tws] {:result-type :as-map})
+    (update-vals (fn [ds]
+                   (-> ds
+                       :vessel-speed
+                       first)))
+    (get {:twa 1
+          :tws (first (vec (sort (keys all-splines))))}))
+
+
+
+(let [vpp-data (tc/dataset "jon30vpp.csv" {:key-fn keyword})
+      twa-tws->vessel-speed (-> vpp-data
+                                (tc/group-by [:twa :tws] {:result-type :as-map})
+                                (update-vals (fn [ds]
+                                               (-> ds
+                                                   :vessel-speed
+                                                   first))))
+      n 256
       smaller-n 200
-      angles (vec (range 1 (inc n)))
+      angles (-> vpp-data
+                 :twa
+                 distinct
+                 sort
+                 vec)
       min-angle (apply min angles)
-      winds (vec (sort (keys all-splines)))
+      winds (-> vpp-data
+                :tws
+                distinct
+                sort
+                vec)
       min-wind (apply min winds)
       B (-> {:angle angles}
             tc/dataset
             (r-helpers/base-function "angle" 7))
-      training-data (vec (for [i-angle (range n)]
-                           (vec (for [i-wind (range n)]
-                                  (or (when-let [w (get winds i-wind)]
-                                        (when-let [s (get all-splines w)]
-                                          (when-let [a (get angles i-angle)]
-                                            (s a))))
-                                      0)))))
+      training-data (tensor/compute-tensor
+                     [n n]
+                     (fn [i-angle i-wind]
+                       (max 0
+                            (or (when-let [w (get winds i-wind)]
+                                  (when-let [a (get angles i-angle)]
+                                    (twa-tws->vessel-speed
+                                     {:twa a
+                                      :tws w})))
+                                0)))
+                     :float32)
       t (transf/transformer :real :fft)
       z-trace-for-surface (->> training-data
                                (transf/forward-2d t)
                                fastmath/double-double-array->seq
-                               (mapv (fn [row]
-                                       (concat (take smaller-n row)
-                                               (repeat (- n smaller-n) 0))))
-                               (take smaller-n)
-                               (#(concat % (repeat (- n smaller-n)
-                                                   (repeat n 0))))
+                               tensor/->tensor
+                               (fun/* (tensor/compute-tensor
+                                       [n n]
+                                       (fn [i j] (if (> i 220)
+                                                   0
+                                                   1))
+                                       :float32))
                                (transf/reverse-2d t)
                                fastmath/double-double-array->seq
-                               (take (count angles))
+                               (take 180)
                                (map (partial take (count winds))))
-      ;; training-data-trace (-> training-data
-      ;;                         (tc/select-rows (comp not neg? :velocity))
-      ;;                         (tc/rename-columns {:angle :x
-      ;;                                             :wind :y
-      ;;                                             :velocity :z}))
-      ]
+      training-data-trace (-> vpp-data
+                              (tc/rename-columns {:twa :y
+                                                  :tws :x
+                                                  :vessel-speed :z})
+                              (tc/select-rows #(-> % :z (>= 0))))]
   (kind/plotly
    {:data [(-> {:type :surface
                 :mode :lines
@@ -1472,15 +1534,15 @@ model {
                 :zmin 0
                 ;; :colorscale color-custom-scale
                 :z z-trace-for-surface})
-           #_(-> {:type :scatter3d
-                  :mode :markers
-                  :marker {:size 6
-                           :line {:width 0.5
-                                  :opacity 0.8}}
-                  :x (tcc/- (:x training-data-trace)
-                            min-angle)
-                  :y (tcc/- (:y training-data-trace)
-                            min-wind)
-                  :z (:z training-data-trace)})]
+           (-> {:type :scatter3d
+                :mode :markers
+                :marker {:size 6
+                         :line {:width 0.5
+                                :opacity 0.8}}
+                :x (tcc/- (:x training-data-trace)
+                          min-wind)
+                :y (tcc/- (:y training-data-trace)
+                          min-angle)
+                :z (:z training-data-trace)})]
     :layout {:width 600
              :height 700}}))
