@@ -1470,79 +1470,80 @@ model {
           :tws (first (vec (sort (keys all-splines))))}))
 
 
-
-(let [vpp-data (tc/dataset "jon30vpp.csv" {:key-fn keyword})
-      twa-tws->vessel-speed (-> vpp-data
-                                (tc/group-by [:twa :tws] {:result-type :as-map})
-                                (update-vals (fn [ds]
-                                               (-> ds
-                                                   :vessel-speed
-                                                   first))))
-      n 256
-      smaller-n 200
-      angles (-> vpp-data
-                 :twa
-                 distinct
-                 sort
-                 vec)
-      min-angle (apply min angles)
-      winds (-> vpp-data
-                :tws
-                distinct
-                sort
-                vec)
-      min-wind (apply min winds)
-      B (-> {:angle angles}
-            tc/dataset
-            (r-helpers/base-function "angle" 7))
-      training-data (tensor/compute-tensor
-                     [n n]
-                     (fn [i-angle i-wind]
-                       (max 0
-                            (or (when-let [w (get winds i-wind)]
-                                  (when-let [a (get angles i-angle)]
-                                    (twa-tws->vessel-speed
-                                     {:twa a
-                                      :tws w})))
-                                0)))
-                     :float32)
-      t (transf/transformer :real :fft)
-      z-trace-for-surface (->> training-data
-                               (transf/forward-2d t)
-                               fastmath/double-double-array->seq
-                               tensor/->tensor
-                               (fun/* (tensor/compute-tensor
-                                       [n n]
-                                       (fn [i j] (if (> i 220)
-                                                   0
-                                                   1))
-                                       :float32))
-                               (transf/reverse-2d t)
-                               fastmath/double-double-array->seq
-                               (take 180)
-                               (map (partial take (count winds))))
-      training-data-trace (-> vpp-data
-                              (tc/rename-columns {:twa :y
-                                                  :tws :x
-                                                  :vessel-speed :z})
-                              (tc/select-rows #(-> % :z (>= 0))))]
-  (kind/plotly
-   {:data [(-> {:type :surface
-                :mode :lines
-                :colorscale "Greys"
-                :cauto false
-                :zmin 0
-                ;; :colorscale color-custom-scale
-                :z z-trace-for-surface})
-           (-> {:type :scatter3d
-                :mode :markers
-                :marker {:size 6
-                         :line {:width 0.5
-                                :opacity 0.8}}
-                :x (tcc/- (:x training-data-trace)
-                          min-wind)
-                :y (tcc/- (:y training-data-trace)
-                          min-angle)
-                :z (:z training-data-trace)})]
-    :layout {:width 600
-             :height 700}}))
+(delay
+  (let [vpp-data (tc/dataset "jon30vpp.csv" {:key-fn keyword})
+        twa-tws->vessel-speed (-> vpp-data
+                                  (tc/group-by [:twa :tws] {:result-type :as-map})
+                                  (update-vals (fn [ds]
+                                                 (-> ds
+                                                     :vessel-speed
+                                                     first))))
+        n 256
+        smaller-n 200
+        angles (-> vpp-data
+                   :twa
+                   distinct
+                   sort
+                   vec)
+        min-angle (apply min angles)
+        winds (-> vpp-data
+                  :tws
+                  distinct
+                  sort
+                  vec)
+        min-wind (apply min winds)
+        B (-> {:angle angles}
+              tc/dataset
+              (r-helpers/base-function "angle" 7))
+        training-data (tensor/compute-tensor
+                       [n n]
+                       (fn [i-angle i-wind]
+                         (max 0
+                              (or (when-let [w (get winds i-wind)]
+                                    (when-let [a (get angles i-angle)]
+                                      (twa-tws->vessel-speed
+                                       {:twa a
+                                        :tws w})))
+                                  0)))
+                       :float32)
+        t (transf/transformer :real :fft)
+        z-trace-for-surface (->> training-data
+                                 (transf/forward-2d t)
+                                 fastmath/double-double-array->seq
+                                 tensor/->tensor
+                                 (fun/* (tensor/compute-tensor
+                                         [n n]
+                                         (fn [i j]
+                                           (if (> (+ i j)
+                                                  300)
+                                             0 1))
+                                         :float32))
+                                 (transf/reverse-2d t)
+                                 fastmath/double-double-array->seq
+                                 (take 180)
+                                 (map (partial take (count winds))))
+        training-data-trace (-> vpp-data
+                                (tc/rename-columns {:twa :y
+                                                    :tws :x
+                                                    :vessel-speed :z})
+                                (tc/select-rows #(-> % :z (>= 0))))]
+    (kind/plotly
+     {:data [(-> {:type :surface
+                  :mode :lines
+                  :colorscale "Greys"
+                  :cauto false
+                  :zmin 0
+                  ;; :colorscale color-custom-scale
+                  :z z-trace-for-surface})
+             (-> {:type :scatter3d
+                  :mode :markers
+                  :marker {:size 6
+                           :line {:width 0.5
+                                  :opacity 0.8}}
+                  :x (tcc/- (:x training-data-trace)
+                            min-wind)
+                  :y (tcc/- (:y training-data-trace)
+                            min-angle)
+                  :z (:z training-data-trace)})]
+      :layout {:width 600
+               :height 700}})))
