@@ -713,66 +713,66 @@ model {
     sigma ~ exponential(1);
 }")
 
-(def blossom-model (stan/model stan-spline-model-code))
+(def blossom-model (delay (stan/model stan-spline-model-code)))
 
 #_(-> (tc/dataset (str "https://raw.githubusercontent.com/rmcelreath/rethinking/"
-                     "slim/data/cherry_blossoms.csv")
-                {:separator ";"
-                 :key-fn keyword})
-    (tc/select-columns [:year :doy])
-    (tc/select-rows (comp number? :doy))
-    ((fn [dat]
-       (-> dat
-           (r-helpers/base-function "year" 13)
-           ((fn [B]
-              {:B (tc/rows B)
-               :k (count B)
-               :n (-> dat :year count)
-               :velocity (-> dat :doy vec)
-               :w (vec (repeat (count B) 0))}))
-           (->> (stan/sample blossom-model))
-           :samples
-           (tc/select-columns (comp (partial re-find #"mu") name))
-           (tc/aggregate-columns (juxt tcc/mean
-                                       tcc/standard-deviation
-                                       (comp first #(tcc/percentiles % [2.5]))
-                                       (comp first #(tcc/percentiles % [97.5]))))
-           tc/pivot->longer
-           (tc/add-column :col #(->> % :$column (map (comp
-                                                      {"-0" :mean
-                                                       "-1" :sd
-                                                       "-2" :ptile-2.5
-                                                       "-3" :ptile-97.5}
-                                                      (partial re-find #"-.*")
-                                                      name))))
-           (tc/add-column :row-id (fn [ds] (->> ds :$column (map (comp read-string
-                                                                       #(clojure.string/replace % #"-.*" "")
-                                                                       #(clojure.string/replace % #"mu." "") name)))))
-           (tc/drop-columns :$column)
-           (tc/pivot->wider :col [:$value] {:drop-missing? false})
-           (tc/order-by :row-id)
-           (tc/left-join
-            (tc/add-column dat :row-id (fn [dt] (range 1 (-> dt
-                                                             tc/shape
-                                                             first
-                                                             inc))))
-            :row-id)
-           (tc/select-columns [:year :row-id :doy :mean :sd :ptile-2.5 :ptile-97.5])
-           (tc/add-column :mean-sd (fn [row] (map #(- %1 %2) (:mean row) (:sd row))))
-           (tc/add-column :mean+sd (fn [row] (map #(+ %1 %2) (:mean row) (:sd row))))
-           #_(tc/pivot->longer (complement #{:year}))
-           (haclo/base     {:=x :row-id
-                            :=y :doy})
-           haclo/layer-point
-           (haclo/layer-line {:=y :mean
-                              :=mark-color "red"})
-           (haclo/layer-line {:=y :mean-sd
-                              :=mark-color "gray"})
-           (haclo/layer-line {:=y :mean+sd
-                              :=mark-color "gray"})))
+                       "slim/data/cherry_blossoms.csv")
+                  {:separator ";"
+                   :key-fn keyword})
+      (tc/select-columns [:year :doy])
+      (tc/select-rows (comp number? :doy))
+      ((fn [dat]
+         (-> dat
+             (r-helpers/base-function "year" 13)
+             ((fn [B]
+                {:B (tc/rows B)
+                 :k (count B)
+                 :n (-> dat :year count)
+                 :velocity (-> dat :doy vec)
+                 :w (vec (repeat (count B) 0))}))
+             (->> (stan/sample @blossom-model))
+             :samples
+             (tc/select-columns (comp (partial re-find #"mu") name))
+             (tc/aggregate-columns (juxt tcc/mean
+                                         tcc/standard-deviation
+                                         (comp first #(tcc/percentiles % [2.5]))
+                                         (comp first #(tcc/percentiles % [97.5]))))
+             tc/pivot->longer
+             (tc/add-column :col #(->> % :$column (map (comp
+                                                        {"-0" :mean
+                                                         "-1" :sd
+                                                         "-2" :ptile-2.5
+                                                         "-3" :ptile-97.5}
+                                                        (partial re-find #"-.*")
+                                                        name))))
+             (tc/add-column :row-id (fn [ds] (->> ds :$column (map (comp read-string
+                                                                         #(clojure.string/replace % #"-.*" "")
+                                                                         #(clojure.string/replace % #"mu." "") name)))))
+             (tc/drop-columns :$column)
+             (tc/pivot->wider :col [:$value] {:drop-missing? false})
+             (tc/order-by :row-id)
+             (tc/left-join
+              (tc/add-column dat :row-id (fn [dt] (range 1 (-> dt
+                                                               tc/shape
+                                                               first
+                                                               inc))))
+              :row-id)
+             (tc/select-columns [:year :row-id :doy :mean :sd :ptile-2.5 :ptile-97.5])
+             (tc/add-column :mean-sd (fn [row] (map #(- %1 %2) (:mean row) (:sd row))))
+             (tc/add-column :mean+sd (fn [row] (map #(+ %1 %2) (:mean row) (:sd row))))
+             #_(tc/pivot->longer (complement #{:year}))
+             (haclo/base     {:=x :row-id
+                              :=y :doy})
+             haclo/layer-point
+             (haclo/layer-line {:=y :mean
+                                :=mark-color "red"})
+             (haclo/layer-line {:=y :mean-sd
+                                :=mark-color "gray"})
+             (haclo/layer-line {:=y :mean+sd
+                                :=mark-color "gray"})))
 
-     ;;
-     ))
+       ;;
+       ))
 ;; # Testing spline model on first synthetic boat data
 
 (def jon-spline-model-code
@@ -801,7 +801,8 @@ model {
     sigma ~ exponential(1);
 }")
 
-(def jon-model (stan/model jon-spline-model-code))
+(def jon-model
+  (delay (stan/model jon-spline-model-code)))
 
 ;; ## Samples of μ's and the mean of μ's
 (delay
@@ -824,7 +825,7 @@ model {
                   :n (-> dat :angle count)
                   :velocity (-> dat :velocity vec)
                   :w (vec (repeat (count B) 0))}))
-              (->> (stan/sample jon-model))
+              (->> (stan/sample @jon-model))
               :samples
               (tc/select-columns (comp (partial re-find #"mu") name))
               (tc/aggregate-columns (juxt tcc/mean
@@ -1222,7 +1223,8 @@ model {
 }")
 
 (def jon-spline-slices-model
-  (stan/model jon-spline-slices-model-code))
+  (delay
+    (stan/model jon-spline-slices-model-code)))
 
 
 
@@ -1248,7 +1250,7 @@ model {
                        :velocity (->> training-data
                                       :velocity
                                       (partition (count winds)))}
-                      (stan/sample jon-spline-slices-model))]
+                      (stan/sample @jon-spline-slices-model))]
     (-> sampling
         :samples
         (tc/select-columns (comp
@@ -1283,7 +1285,7 @@ model {
                        :velocity (->> training-data
                                       :velocity
                                       (partition (count winds)))}
-                      (stan/sample jon-spline-slices-model))
+                      (stan/sample @jon-spline-slices-model))
         z-trace-for-surface (-> sampling
                                 :samples
                                 (tc/select-columns (comp
@@ -1592,7 +1594,8 @@ model {
 }")
 
 (def jon-polynomial-model
-  (stan/model jon-polynomial-model-code))
+  (delay
+    (stan/model jon-polynomial-model-code)))
 
 (delay
   (let [n-angles 180
@@ -1644,7 +1647,7 @@ model {
                     (->> (into {}))
                     (update-vals vec)
                     (assoc :n (tc/row-count training-data))
-                    (#(stan/sample jon-polynomial-model
+                    (#(stan/sample @jon-polynomial-model
                                    %
                                    {:num-chains 1
                                     :num-samples 1000}))
