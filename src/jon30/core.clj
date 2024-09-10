@@ -1613,6 +1613,11 @@ model {
                                                                  (- 90)
                                                                  (#(* % % %))
                                                                  (/ (* 90 90)))))
+                          (tc/map-columns :angle4 [:angle] (fn [a]
+                                                             (-> a
+                                                                 (- 90)
+                                                                 (#(* % % % %))
+                                                                 (/ (* 90 90 90)))))
                           (tc/map-columns :wind2 [:wind] (fn [w]
                                                            (-> w
                                                                (- 15)
@@ -1623,6 +1628,11 @@ model {
                                                                (- 15)
                                                                (#(* % % %))
                                                                (/ (* 15 15)))))
+                          (tc/map-columns :wind4 [:wind] (fn [w]
+                                                           (-> w
+                                                               (- 15)
+                                                               (#(* % % %))
+                                                               (/ (* 15 15 15)))))
                           #_(tc/random 200 {:seed 1}))
         min-angle (-> training-data
                       :angle
@@ -1636,8 +1646,8 @@ model {
                     (assoc :n (tc/row-count training-data))
                     (#(stan/sample jon-polynomial-model
                                    %
-                                   {:num-chains 4
-                                    :num-samples 2000}))
+                                   {:num-chains 1
+                                    :num-samples 1000}))
                     :samples)
         z-trace-for-surface (-> samples
                                 (tc/tail 500)
@@ -1654,8 +1664,8 @@ model {
                                                     :velocity :z}))]
     [training-data
      (for [k [:a0
-              :a1_angle :a2_angle :a3_angle
-              :a1_wind :a2_wind :a3_wind
+              :a1_angle :a2_angle :a3_angle ;; :a4_angle
+              :a1_wind :a2_wind :a3_wind ;; :a4_wind
               :sigma]]
        (-> samples
            (ploclo/layer-point {:=x :i
