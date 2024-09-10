@@ -1558,7 +1558,11 @@ model {
 data {
     int n;
     vector[n] angle;
+    vector[n] angle2;
+    vector[n] angle3;
     vector[n] wind;
+    vector[n] wind2;
+    vector[n] wind3;
     vector[n] velocity;
 }
 parameters {
@@ -1573,24 +1577,22 @@ parameters {
 }
 transformed parameters {
     vector[n] mu;
-    mu = a0 + a1_angle * angle + a2_angle * (angle .* angle) + a3_angle * (angle .* angle .* angle);
-// + a1_wind * wind + a2_wind * (wind .* wind) + a3_wind * (wind .* wind .* wind)
+    mu = a0 + a1_angle * angle + a2_angle * angle2 + a3_angle * angle3 + a1_wind * wind + a2_wind * wind2 + a3_wind * wind3;
 }
 model {
     velocity ~ normal(mu,sigma);
-    sigma ~ exponential(1);
-    a0 ~ normal(0,1);
-    a1_angle ~ normal(0,1);
-    a2_angle ~ normal(0,1);
-    a3_angle ~ normal(0,1);
-    a1_wind ~ normal(0,1);
-    a2_wind ~ normal(0,1);
-    a3_wind ~ normal(0,1);
+    sigma ~ exponential(10);
+    a0 ~ normal(0,10);
+    a1_angle ~ normal(0,10);
+    a2_angle ~ normal(0,10);
+    a3_angle ~ normal(0,10);
+    a1_wind ~ normal(0,10);
+    a2_wind ~ normal(0,10);
+    a3_wind ~ normal(0,10);
 }")
 
 (def jon-polynomial-model
   (stan/model jon-polynomial-model-code))
-
 
 (delay
   (let [n-angles 180
@@ -1601,21 +1603,44 @@ model {
                           (tc/rename-columns {:twa :angle
                                               :tws :wind
                                               :vessel-speed :velocity})
-                          ;; (tc/random 200 {:seed 1})
-                          )
+                          (tc/map-columns :angle2 [:angle] (fn [a]
+                                                             (-> a
+                                                                 (- 90)
+                                                                 (#(* % %))
+                                                                 (/ 90))))
+                          (tc/map-columns :angle3 [:angle] (fn [a]
+                                                             (-> a
+                                                                 (- 90)
+                                                                 (#(* % % %))
+                                                                 (/ (* 90 90)))))
+                          (tc/map-columns :wind2 [:wind] (fn [w]
+                                                           (-> w
+                                                               (- 15)
+                                                               (#(* % %))
+                                                               (/ 15))))
+                          (tc/map-columns :wind3 [:wind] (fn [w]
+                                                           (-> w
+                                                               (- 15)
+                                                               (#(* % % %))
+                                                               (/ (* 15 15)))))
+                          #_(tc/random 200 {:seed 1}))
         min-angle (-> training-data
                       :angle
                       tcc/reduce-min)
         min-wind (-> training-data
                      :wind
                      tcc/reduce-min)
-        sampling (-> training-data
-                     (->> (into {}))
-                     (update-vals vec)
-                     (assoc :n (tc/row-count training-data))
-                     (->> (stan/sample jon-polynomial-model)))
-        z-trace-for-surface (-> sampling
-                                :samples
+        samples (-> training-data
+                    (->> (into {}))
+                    (update-vals vec)
+                    (assoc :n (tc/row-count training-data))
+                    (#(stan/sample jon-polynomial-model
+                                   %
+                                   {:num-chains 4
+                                    :num-samples 2000}))
+                    :samples)
+        z-trace-for-surface (-> samples
+                                (tc/tail 500)
                                 (tc/select-columns (comp
                                                     (partial re-find #"mu")
                                                     name))
@@ -1627,22 +1652,33 @@ model {
                                 (tc/rename-columns {:angle :x
                                                     :wind :y
                                                     :velocity :z}))]
-    (kind/plotly
-     {:data [(-> {:type :surface
-                  :mode :lines
-                  :colorscale "Greys"
-                  :cauto false
-                  :zmin 0
-                  :z z-trace-for-surface})
-             (-> {:type :scatter3d
-                  :mode :markers
-                  :marker {:size 6
-                           :line {:width 0.5
-                                  :opacity 0.8}}
-                  :x (tcc/- (:x training-data-trace)
-                            min-angle)
-                  :y (tcc/- (:y training-data-trace)
-                            min-wind)
-                  :z (:z training-data-trace)})]
-      :layout {:width 600
-               :height 700}})))
+    [training-data
+     (for [k [:a0
+              :a1_angle :a2_angle :a3_angle
+              :a1_wind :a2_wind :a3_wind
+              :sigma]]
+       (-> samples
+           (ploclo/layer-point {:=x :i
+                                :=y k
+                                :=color :chain
+                                :=color-type :nominal})
+           ploclo/plot))
+     (kind/plotly
+      {:data [(-> {:type :surface
+                   :mode :lines
+                   :colorscale "Greys"
+                   :cauto false
+                   :zmin 0
+                   :z z-trace-for-surface})
+              (-> {:type :scatter3d
+                   :mode :markers
+                   :marker {:size 6
+                            :line {:width 0.5
+                                   :opacity 0.8}}
+                   :x (tcc/- (:x training-data-trace)
+                             min-angle)
+                   :y (tcc/- (:y training-data-trace)
+                             min-wind)
+                   :z (:z training-data-trace)})]
+       :layout {:width 600
+                :height 700}})]))
