@@ -1547,3 +1547,102 @@ model {
                   :z (:z training-data-trace)})]
       :layout {:width 600
                :height 700}})))
+
+
+
+
+
+
+(def jon-polynomial-model-code
+  "
+data {
+    int n;
+    vector[n] angle;
+    vector[n] wind;
+    vector[n] velocity;
+}
+parameters {
+    real a0;
+    real a1_angle;
+    real a2_angle;
+    real a3_angle;
+    real a1_wind;
+    real a2_wind;
+    real a3_wind;
+    real<lower=0> sigma;
+}
+transformed parameters {
+    vector[n] mu;
+    mu = a0 + a1_angle * angle + a2_angle * (angle .* angle) + a3_angle * (angle .* angle .* angle);
+// + a1_wind * wind + a2_wind * (wind .* wind) + a3_wind * (wind .* wind .* wind)
+}
+model {
+    velocity ~ normal(mu,sigma);
+    sigma ~ exponential(1);
+    a0 ~ normal(0,1);
+    a1_angle ~ normal(0,1);
+    a2_angle ~ normal(0,1);
+    a3_angle ~ normal(0,1);
+    a1_wind ~ normal(0,1);
+    a2_wind ~ normal(0,1);
+    a3_wind ~ normal(0,1);
+}")
+
+(def jon-polynomial-model
+  (stan/model jon-polynomial-model-code))
+
+
+(delay
+  (let [n-angles 180
+        n-winds 26
+        vpp-data (tc/dataset "jon30vpp.csv" {:key-fn keyword})
+        training-data (-> vpp-data
+                          (tc/select-columns [:twa :tws :vessel-speed])
+                          (tc/rename-columns {:twa :angle
+                                              :tws :wind
+                                              :vessel-speed :velocity})
+                          ;; (tc/random 200 {:seed 1})
+                          )
+        min-angle (-> training-data
+                      :angle
+                      tcc/reduce-min)
+        min-wind (-> training-data
+                     :wind
+                     tcc/reduce-min)
+        sampling (-> training-data
+                     (->> (into {}))
+                     (update-vals vec)
+                     (assoc :n (tc/row-count training-data))
+                     (->> (stan/sample jon-polynomial-model)))
+        z-trace-for-surface (-> sampling
+                                :samples
+                                (tc/select-columns (comp
+                                                    (partial re-find #"mu")
+                                                    name))
+                                (->> (map (fn [[k column]]
+                                            (tcc/mean column)))
+                                     (partition n-angles)))
+        training-data-trace (-> training-data
+                                (tc/select-rows (comp not neg? :velocity))
+                                (tc/rename-columns {:angle :x
+                                                    :wind :y
+                                                    :velocity :z}))]
+    (kind/plotly
+     {:data [(-> {:type :surface
+                  :mode :lines
+                  :colorscale "Greys"
+                  :cauto false
+                  :zmin 0
+                  :z z-trace-for-surface})
+             (-> {:type :scatter3d
+                  :mode :markers
+                  :marker {:size 6
+                           :line {:width 0.5
+                                  :opacity 0.8}}
+                  :x (tcc/- (:x training-data-trace)
+                            min-angle)
+                  :y (tcc/- (:y training-data-trace)
+                            min-wind)
+                  :z (:z training-data-trace)})]
+      :layout {:width 600
+               :height 700}})))
