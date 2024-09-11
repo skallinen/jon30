@@ -1708,8 +1708,8 @@ model {
                                   :name part
                                   :marker {:size 3
                                            :opacity 0.8}
-                                  :x x
-                                  :y y
+                                  :x (tcc/- x min-angle)
+                                  :y (tcc/- y min-wind)
                                   :z z}))))
        :layout {:width 600
                 :height 700}})
@@ -1740,6 +1740,7 @@ model {
              empirical-data))
 
 
+
 (delay
   (kind/plotly
    {:data  (-> vpp-and-empirical-data
@@ -1753,10 +1754,91 @@ model {
                            {:type :scatter3d
                             :mode :markers
                             :name part
-                            :marker {:size 3
-                                     :opacity 0.5}
-                            :x x
-                            :y y
+                            :marker {:size 5
+                                     :opacity 0.8}
+                            :x (tcc/- x min-angle)
+                            :y (tcc/- y min-wind)
                             :z z}))))
     :layout {:width 600
              :height 700}}))
+
+
+
+
+(def vpp-and-empirical-data-multiplied
+  (->> empirical-data
+       (repeat 40)
+       (cons vpp-data)
+       (apply tc/concat)))
+
+
+(delay
+  (let [n-angles 180
+        n-winds 26
+        vpp-data vpp-data
+        main-training-data (-> vpp-data
+                               prepare-polynomials)
+        full-training-data (-> vpp-and-empirical-data-multiplied
+                               prepare-polynomials)
+        min-angle (-> main-training-data
+                      :angle
+                      tcc/reduce-min)
+        min-wind (-> main-training-data
+                     :wind
+                     tcc/reduce-min)
+        samples (-> full-training-data
+                    (tc/drop-columns [:part])
+                    (->> (into {}))
+                    (update-vals vec)
+                    (assoc :n (tc/row-count full-training-data))
+                    (#(stan/sample @jon-polynomial-model
+                                   %
+                                   {:num-samples 100}))
+                    :samples)
+        z-trace-for-surface (-> samples
+                                (tc/tail 500)
+                                (tc/select-columns (comp
+                                                    (partial re-find #"mu")
+                                                    name))
+                                (->> (map (fn [[k column]]
+                                            (tcc/mean column)))
+                                     (take (tc/row-count main-training-data))
+                                     (partition n-angles)))
+        training-data-traces (-> full-training-data
+                                 (tc/select-rows (comp not neg? :velocity))
+                                 (tc/rename-columns {:angle :x
+                                                     :wind :y
+                                                     :velocity :z})
+                                 (tc/group-by [:part] {:result-type :as-map})
+                                 vals)]
+    [(kind/plotly
+      {:data (concat [{:type :surface
+                       :mode :lines
+                       :colorscale "Greys"
+                       :cauto false
+                       :marker {:line {:opacity 0.5}}
+                       :zmin 0
+                       :z z-trace-for-surface}]
+                     (->> training-data-traces
+                          (map (fn [{:keys [x y z part]}]
+                                 {:type :scatter3d
+                                  :mode :markers
+                                  :name part
+                                  :marker {:size 3
+                                           :opacity 0.8}
+                                  :x (tcc/- x min-angle)
+                                  :y (tcc/- y min-wind)
+                                  :z z}))))
+       :layout {:width 600
+                :height 700}})
+     (for [k [:a0
+              :a1_angle :a2_angle :a3_angle ;; :a4_angle
+              :a1_wind :a2_wind :a3_wind ;; :a4_wind
+              :sigma]]
+       (-> samples
+           (ploclo/layer-point {:=x :i
+                                :=y k
+                                :=color :chain
+                                :=color-type :nominal})
+           ploclo/plot))
+     full-training-data]))
