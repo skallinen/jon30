@@ -1772,13 +1772,14 @@ model {
        (apply tc/concat)))
 
 
-(delay
-  (let [n-angles 180
-        n-winds 26
-        vpp-data vpp-data
-        main-training-data (-> vpp-data
+(defn create-surface [{:keys [n-angles n-winds use-empirical]
+                       :or {n-angles 180
+                            n-winds 26}}]
+  (let [main-training-data (-> vpp-data
                                prepare-polynomials)
-        full-training-data (-> vpp-and-empirical-data-multiplied
+        full-training-data (-> (if use-empirical
+                                 vpp-and-empirical-data-multiplied
+                                 vpp-data)
                                prepare-polynomials)
         min-angle (-> main-training-data
                       :angle
@@ -1811,34 +1812,82 @@ model {
                                                      :velocity :z})
                                  (tc/group-by [:part] {:result-type :as-map})
                                  vals)]
-    [(kind/plotly
-      {:data (concat [{:type :surface
-                       :mode :lines
-                       :colorscale "Greys"
-                       :cauto false
-                       :marker {:line {:opacity 0.5}}
-                       :zmin 0
-                       :z z-trace-for-surface}]
-                     (->> training-data-traces
-                          (map (fn [{:keys [x y z part]}]
-                                 {:type :scatter3d
-                                  :mode :markers
-                                  :name part
-                                  :marker {:size 3
-                                           :opacity 0.8}
-                                  :x (tcc/- x min-angle)
-                                  :y (tcc/- y min-wind)
-                                  :z z}))))
-       :layout {:width 600
-                :height 700}})
-     (for [k [:a0
-              :a1_angle :a2_angle :a3_angle ;; :a4_angle
-              :a1_wind :a2_wind :a3_wind ;; :a4_wind
-              :sigma]]
-       (-> samples
-           (ploclo/layer-point {:=x :i
-                                :=y k
-                                :=color :chain
-                                :=color-type :nominal})
-           ploclo/plot))
-     full-training-data]))
+    {:z-trace-for-surface z-trace-for-surface
+     :training-data-traces training-data-traces
+     :samples samples
+     :min-angle min-angle
+     :min-wind min-wind}))
+
+(defn plot-one-run [{:keys [z-trace-for-surface
+                            training-data-traces
+                            min-angle
+                            min-wind
+                            samples]}]
+  [(kind/plotly
+    {:data (concat [{:type :surface
+                     :mode :lines
+                     :colorscale "Greys"
+                     :cauto false
+                     :marker {:line {:opacity 0.5}}
+                     :zmin 0
+                     :z z-trace-for-surface}]
+                   (->> training-data-traces
+                        (map (fn [{:keys [x y z part]}]
+                               {:type :scatter3d
+                                :mode :markers
+                                :name part
+                                :marker {:size 3
+                                         :opacity 0.8}
+                                :x (tcc/- x min-angle)
+                                :y (tcc/- y min-wind)
+                                :z z}))))
+     :layout {:width 600
+              :height 700}})
+   (for [k [:a0
+            :a1_angle :a2_angle :a3_angle ;; :a4_angle
+            :a1_wind :a2_wind :a3_wind ;; :a4_wind
+            :sigma]]
+     (-> samples
+         (ploclo/layer-point {:=x :i
+                              :=y k
+                              ;; :=color :chain
+                              ;; :=color-type :nominal
+                              })
+         ploclo/plot))])
+
+
+
+
+
+(defn plot-runs [& runs]
+  (let [colorscales ["Greys" "Greens"]]
+    (kind/plotly
+     {:data (->> runs
+                 (map-indexed
+                  (fn [i {:keys [z-trace-for-surface]}]
+                    {:type :surface
+                     :mode :lines
+                     :colorscale (colorscales i)
+                     :cauto false
+                     :marker {:line {:opacity 0.5}}
+                     :zmin 0
+                     :z z-trace-for-surface})))
+      :layout {:width 600
+               :height 700}})))
+
+
+(def results-without-empirical
+  (future (create-surface {:use-empirical false})))
+
+(def results-with-empirical
+  (future (create-surface {:use-empirical true})))
+
+(plot-one-run @results-with-empirical)
+(plot-one-run @results-without-empirical)
+
+(map realized?
+     [results-without-empirical
+      results-with-empirical])
+
+(plot-runs @results-without-empirical
+           @results-with-empirical)
