@@ -7,6 +7,7 @@
    [dorothy.core :as dot]
    [fastmath.interpolation :as i]
    [fastmath.random :as random]
+   [fastmath.stats :as stats]
    [fastmath.core :as fastmath]
    [fastmath.transform :as transf]
    [jon30.data :as data]
@@ -1780,9 +1781,13 @@ model {
 
 
 
-(defn create-surface [{:keys [n-angles n-winds use-empirical]
+(defn create-surface [{:keys [n-angles n-winds use-empirical
+                              stats]
                        :or {n-angles 180
-                            n-winds 26}}]
+                            n-winds 26
+                            stats [#(stats/quantile % 0.1)
+                                   #_tcc/median
+                                   #(stats/quantile % 0.9)]}}]
   (let [main-training-data (-> vpp-data
                                prepare-polynomials)
         full-training-data (-> (if use-empirical
@@ -1807,14 +1812,16 @@ model {
                                     :num-chains 4
                                     :num-threads 4}))
                     :samples)
-        z-trace-for-surface (-> samples
-                                (tc/select-columns (comp
-                                                    (partial re-find #"mu")
-                                                    name))
-                                (->> (map (fn [[k column]]
-                                            (tcc/mean column)))
-                                     (take (tc/row-count main-training-data))
-                                     (partition n-angles)))
+        z-traces-for-surface (->> stats
+                                  (map (fn [f]
+                                         (-> samples
+                                             (tc/select-columns (comp
+                                                                 (partial re-find #"mu")
+                                                                 name))
+                                             (->> (map (fn [[k column]]
+                                                         (f column)))
+                                                  (take (tc/row-count main-training-data))
+                                                  (partition n-angles))))))
         training-data-traces (-> full-training-data
                                  (tc/select-rows (comp not neg? :velocity))
                                  (tc/rename-columns {:angle :x
@@ -1822,25 +1829,28 @@ model {
                                                      :velocity :z})
                                  (tc/group-by [:part] {:result-type :as-map})
                                  vals)]
-    {:z-trace-for-surface z-trace-for-surface
+    {:z-traces-for-surface z-traces-for-surface
      :training-data-traces training-data-traces
      :samples samples
      :min-angle min-angle
      :min-wind min-wind}))
 
-(defn plot-one-run [{:keys [z-trace-for-surface
+
+(defn plot-one-run [{:keys [z-traces-for-surface
                             training-data-traces
                             min-angle
                             min-wind
                             samples]}]
   [(kind/plotly
-    {:data (concat [{:type :surface
-                     :mode :lines
-                     :colorscale "Greys"
-                     :cauto false
-                     :marker {:line {:opacity 0.5}}
-                     :zmin 0
-                     :z z-trace-for-surface}]
+    {:data (concat (->> z-traces-for-surface
+                        (map (fn [z-trace]
+                               {:type :surface
+                                :mode :lines
+                                :colorscale "Greys"
+                                :cauto false
+                                :marker {:line {:opacity 0.5}}
+                                :zmin 0
+                                :z z-trace})))
                    (->> training-data-traces
                         (map (fn [{:keys [x y z part]}]
                                {:type :scatter3d
@@ -1873,14 +1883,17 @@ model {
     (kind/plotly
      {:data (->> runs
                  (map-indexed
-                  (fn [i {:keys [z-trace-for-surface]}]
-                    {:type :surface
-                     :mode :lines
-                     :colorscale (colorscales i)
-                     :cauto false
-                     :marker {:line {:opacity 0.5}}
-                     :zmin 0
-                     :z z-trace-for-surface})))
+                  (fn [i {:keys [z-traces-for-surface]}]
+                    (->> z-traces-for-surface
+                         (map (fn [z-trace]
+                                {:type :surface
+                                 :mode :lines
+                                 :colorscale (colorscales i)
+                                 :cauto false
+                                 :marker {:line {:opacity 0.5}}
+                                 :zmin 0
+                                 :z z-trace})))))
+                 (apply concat))
       :layout {:width 600
                :height 700}})))
 
