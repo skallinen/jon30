@@ -1724,3 +1724,39 @@ model {
                                 :=color-type :nominal})
            ploclo/plot))
      full-training-data]))
+
+
+
+(def empirical-data
+  (-> (tc/dataset "jon-empirical.csv" {:key-fn keyword})
+      (tc/rename-columns {:TWA :angle
+                          :TWS :wind
+                          :SOG :velocity})
+      (tc/add-column :part :empirical)))
+
+
+(def vpp-and-empirical-data
+  (tc/concat vpp-data
+             empirical-data))
+
+
+(delay
+  (kind/plotly
+   {:data  (-> vpp-and-empirical-data
+               (tc/select-rows (comp not neg? :velocity))
+               (tc/rename-columns {:angle :x
+                                   :wind :y
+                                   :velocity :z})
+               (tc/group-by [:part] {:result-type :as-map})
+               vals
+               (->> (map (fn [{:keys [x y z part]}]
+                           {:type :scatter3d
+                            :mode :markers
+                            :name part
+                            :marker {:size 3
+                                     :opacity 0.5}
+                            :x x
+                            :y y
+                            :z z}))))
+    :layout {:width 600
+             :height 700}}))
