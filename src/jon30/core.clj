@@ -1885,10 +1885,12 @@ model {
 
 
 (def results-without-empirical
-  (future (create-surface {:use-empirical false})))
+  (delay
+    (create-surface {:use-empirical false})))
 
 (def results-with-empirical
-  (future (create-surface {:use-empirical true})))
+  (delay
+    (create-surface {:use-empirical true})))
 
 (delay
   (plot-one-run @results-without-empirical))
