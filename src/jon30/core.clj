@@ -1557,6 +1557,7 @@ model {
 
 (def jon-polynomial-model-code
   "
+
 data {
     int n;
     vector[n] angle;
@@ -1566,6 +1567,7 @@ data {
     vector[n] wind2;
     vector[n] wind3;
     vector[n] velocity;
+    array[n] int<lower=0,upper=1> should_observe;
 }
 parameters {
     real a0;
@@ -1582,7 +1584,11 @@ transformed parameters {
     mu = a0 + a1_angle * angle + a2_angle * angle2 + a3_angle * angle3 + a1_wind * wind + a2_wind * wind2 + a3_wind * wind3;
 }
 model {
-    velocity ~ normal(mu,sigma);
+    for(i in 1:n) {
+      if(should_observe[i]==1) {
+        velocity[i] ~ normal(mu[i],sigma);
+      }
+    }
     sigma ~ exponential(10);
     a0 ~ normal(0,10);
     a1_angle ~ normal(0,10);
@@ -1595,15 +1601,23 @@ model {
 
 (def jon-polynomial-model
   (delay
-    (stan/model jon-polynomial-model-code)))
+    (stan/model jon-polynomial-model-code ["-j12"])))
 
-(defonce vpp-data
+(def vpp-data
   (-> (tc/dataset "jon30vpp.csv" {:key-fn keyword})
       (tc/select-columns [:twa :tws :vessel-speed])
       (tc/rename-columns {:twa :angle
                           :tws :wind
                           :vessel-speed :velocity})
-      (tc/add-column :part :vpp)))
+      (tc/add-column :part :vpp)
+      (tc/add-column :should_observe
+                     (fn [ds]
+                       (let [rng (random/rng :isaac 5336)]
+                         (repeatedly
+                          (tc/row-count ds)
+                          #(if (> 0.05 (random/frandom rng))
+                             1 0)))))))
+
 
 (def vpp-data-with-additions
   (tc/concat vpp-data
@@ -1615,10 +1629,7 @@ model {
                                                       (tcc/* -0.02)
                                                       tcc/exp
                                                       (tcc/* 0.4)
-                                                      (tcc/+ 0.8))))
-                 (tc/random 500 {:seed 1})
-                 (->> (repeat 20)
-                      (apply tc/concat)))))
+                                                      (tcc/+ 0.8)))))))
 
 (defn prepare-polynomials [data]
   (-> data
@@ -1675,10 +1686,9 @@ model {
                     (assoc :n (tc/row-count full-training-data))
                     (#(stan/sample @jon-polynomial-model
                                    %
-                                   {:num-chains 4}))
+                                   {:num-samples 200}))
                     :samples)
         z-trace-for-surface (-> samples
-                                (tc/tail 500)
                                 (tc/select-columns (comp
                                                     (partial re-find #"mu")
                                                     name))
@@ -1726,7 +1736,6 @@ model {
      full-training-data]))
 
 
-
 (def empirical-data
   (-> (tc/dataset "jon-empirical.csv" {:key-fn keyword})
       (tc/rename-columns {:TWA :angle
@@ -1741,9 +1750,14 @@ model {
 
 
 
-;; TODO: A minor fix is needed here.
-#_(delay
-    (kind/plotly
+(delay
+  (kind/plotly
+   (let [min-angle (-> vpp-and-empirical-data
+                       :angle
+                       tcc/reduce-min)
+         min-wind (-> vpp-and-empirical-data
+                      :wind
+                      tcc/reduce-min)]
      {:data  (-> vpp-and-empirical-data
                  (tc/select-rows (comp not neg? :velocity))
                  (tc/rename-columns {:angle :x
@@ -1761,16 +1775,8 @@ model {
                               :y (tcc/- y min-wind)
                               :z z}))))
       :layout {:width 600
-               :height 700}}))
+               :height 700}})))
 
-
-
-
-(def vpp-and-empirical-data-multiplied
-  (->> empirical-data
-       (repeat 40)
-       (cons vpp-data)
-       (apply tc/concat)))
 
 
 (defn create-surface [{:keys [n-angles n-winds use-empirical]
@@ -1779,7 +1785,7 @@ model {
   (let [main-training-data (-> vpp-data
                                prepare-polynomials)
         full-training-data (-> (if use-empirical
-                                 vpp-and-empirical-data-multiplied
+                                 vpp-and-empirical-data
                                  vpp-data)
                                prepare-polynomials)
         min-angle (-> main-training-data
@@ -1795,10 +1801,12 @@ model {
                     (assoc :n (tc/row-count full-training-data))
                     (#(stan/sample @jon-polynomial-model
                                    %
-                                   {:num-samples 100}))
+                                   {:num-warmup 400
+                                    :num-samples 50
+                                    :num-chains 4
+                                    :num-threads 4}))
                     :samples)
         z-trace-for-surface (-> samples
-                                (tc/tail 500)
                                 (tc/select-columns (comp
                                                     (partial re-find #"mu")
                                                     name))
@@ -1844,18 +1852,17 @@ model {
                                 :z z}))))
      :layout {:width 600
               :height 700}})
-   (for [k [:a0
-            :a1_angle :a2_angle :a3_angle ;; :a4_angle
-            :a1_wind :a2_wind :a3_wind ;; :a4_wind
-            :sigma]]
-     (-> samples
-         (ploclo/layer-point {:=x :i
-                              :=y k
-                              ;; :=color :chain
-                              ;; :=color-type :nominal
-                              })
-         ploclo/plot))])
-
+   #_(for [k [:a0
+              :a1_angle :a2_angle :a3_angle ;; :a4_angle
+              :a1_wind :a2_wind :a3_wind ;; :a4_wind
+              :sigma]]
+       (-> samples
+           (ploclo/layer-point {:=x :i
+                                :=y k
+                                ;; :=color :chain
+                                ;; :=color-type :nominal
+                                })
+           ploclo/plot))])
 
 
 
@@ -1877,17 +1884,17 @@ model {
                :height 700}})))
 
 
-(defonce results-without-empirical
+(def results-without-empirical
   (future (create-surface {:use-empirical false})))
 
-(defonce results-with-empirical
+(def results-with-empirical
   (future (create-surface {:use-empirical true})))
 
 (delay
-  (plot-one-run @results-with-empirical))
+  (plot-one-run @results-without-empirical))
 
 (delay
-  (plot-one-run @results-without-empirical))
+  (plot-one-run @results-with-empirical))
 
 (map realized?
      [results-without-empirical
