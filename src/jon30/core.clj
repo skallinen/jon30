@@ -1741,7 +1741,8 @@ model {
       (tc/rename-columns {:TWA :angle
                           :TWS :wind
                           :SOG :velocity})
-      (tc/add-column :part :empirical)))
+      (tc/add-column :part :empirical)
+      (tc/add-column :should_observe 1)))
 
 
 (def vpp-and-empirical-data
