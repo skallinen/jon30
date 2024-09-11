@@ -1840,13 +1840,15 @@ model {
                             training-data-traces
                             min-angle
                             min-wind
-                            samples]}]
+                            samples]}
+                    {:keys [colorscale]
+                     :or {colorscale "Greys"}}]
   [(kind/plotly
     {:data (concat (->> z-traces-for-surface
                         (map (fn [z-trace]
                                {:type :surface
                                 :mode :lines
-                                :colorscale "Greys"
+                                :colorscale colorscale
                                 :cauto false
                                 :marker {:line {:opacity 0.5}}
                                 :zmin 0
@@ -1863,39 +1865,39 @@ model {
                                 :z z}))))
      :layout {:width 600
               :height 700}})
-   #_(for [k [:a0
-              :a1_angle :a2_angle :a3_angle ;; :a4_angle
-              :a1_wind :a2_wind :a3_wind ;; :a4_wind
-              :sigma]]
-       (-> samples
-           (ploclo/layer-point {:=x :i
-                                :=y k
-                                ;; :=color :chain
-                                ;; :=color-type :nominal
-                                })
-           ploclo/plot))])
+   (for [k [:a0
+            :a1_angle :a2_angle :a3_angle ;; :a4_angle
+            :a1_wind :a2_wind :a3_wind ;; :a4_wind
+            :sigma]]
+     (-> samples
+         (ploclo/layer-point (merge {:=x :i
+                                     :=y k}
+                                    (when (:chain samples)
+                                      {:=color :chain
+                                       :=color-type :nominal})))
+         ploclo/plot))])
 
 
 
 
-(defn plot-runs [& runs]
-  (let [colorscales ["Greys" "Greens"]]
-    (kind/plotly
-     {:data (->> runs
-                 (map-indexed
-                  (fn [i {:keys [z-traces-for-surface]}]
-                    (->> z-traces-for-surface
-                         (map (fn [z-trace]
-                                {:type :surface
-                                 :mode :lines
-                                 :colorscale (colorscales i)
-                                 :cauto false
-                                 :marker {:line {:opacity 0.5}}
-                                 :zmin 0
-                                 :z z-trace})))))
-                 (apply concat))
-      :layout {:width 600
-               :height 700}})))
+(defn plot-runs [runs {:keys [colorscales]
+                       :or {colorscales ["Greys" "Greens"]}}]
+  (kind/plotly
+   {:data (->> runs
+               (map-indexed
+                (fn [i {:keys [z-traces-for-surface]}]
+                  (->> z-traces-for-surface
+                       (map (fn [z-trace]
+                              {:type :surface
+                               :mode :lines
+                               :colorscale (colorscales i)
+                               :cauto false
+                               :marker {:line {:opacity 0.5}}
+                               :zmin 0
+                               :z z-trace})))))
+               (apply concat))
+    :layout {:width 600
+             :height 700}}))
 
 
 (def results-without-empirical
@@ -1907,15 +1909,18 @@ model {
     (create-surface {:use-empirical true})))
 
 (delay
-  (plot-one-run @results-without-empirical))
+  (plot-one-run @results-without-empirical
+                {:colorscale "Greys"}))
 
 (delay
-  (plot-one-run @results-with-empirical))
+  (plot-one-run @results-with-empirical
+                {:colorscale "Greens"}))
 
 (map realized?
      [results-without-empirical
       results-with-empirical])
 
 (delay
-  (plot-runs @results-without-empirical
-             @results-with-empirical))
+  (plot-runs [@results-without-empirical
+              @results-with-empirical]
+             {}))
