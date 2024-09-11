@@ -1601,7 +1601,7 @@ model {
 
 (def jon-polynomial-model
   (delay
-    (stan/model jon-polynomial-model-code ["-j12"])))
+    (stan/model jon-polynomial-model-code)))
 
 (def vpp-data
   (-> (tc/dataset "jon30vpp.csv" {:key-fn keyword})
