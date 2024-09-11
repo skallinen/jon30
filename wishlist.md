@@ -1,8 +1,6 @@
 - making sampling quicker
   - support weighting
 
-- align the surface
-
 - surface with and without real data
 
 - generalize code (centering, scaling, etc.)
