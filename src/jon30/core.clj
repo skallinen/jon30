@@ -1741,26 +1741,27 @@ model {
 
 
 
-(delay
-  (kind/plotly
-   {:data  (-> vpp-and-empirical-data
-               (tc/select-rows (comp not neg? :velocity))
-               (tc/rename-columns {:angle :x
-                                   :wind :y
-                                   :velocity :z})
-               (tc/group-by [:part] {:result-type :as-map})
-               vals
-               (->> (map (fn [{:keys [x y z part]}]
-                           {:type :scatter3d
-                            :mode :markers
-                            :name part
-                            :marker {:size 5
-                                     :opacity 0.8}
-                            :x (tcc/- x min-angle)
-                            :y (tcc/- y min-wind)
-                            :z z}))))
-    :layout {:width 600
-             :height 700}}))
+;; TODO: A minor fix is needed here.
+#_(delay
+    (kind/plotly
+     {:data  (-> vpp-and-empirical-data
+                 (tc/select-rows (comp not neg? :velocity))
+                 (tc/rename-columns {:angle :x
+                                     :wind :y
+                                     :velocity :z})
+                 (tc/group-by [:part] {:result-type :as-map})
+                 vals
+                 (->> (map (fn [{:keys [x y z part]}]
+                             {:type :scatter3d
+                              :mode :markers
+                              :name part
+                              :marker {:size 5
+                                       :opacity 0.8}
+                              :x (tcc/- x min-angle)
+                              :y (tcc/- y min-wind)
+                              :z z}))))
+      :layout {:width 600
+               :height 700}}))
 
 
 
@@ -1876,18 +1877,22 @@ model {
                :height 700}})))
 
 
-(def results-without-empirical
+(defonce results-without-empirical
   (future (create-surface {:use-empirical false})))
 
-(def results-with-empirical
+(defonce results-with-empirical
   (future (create-surface {:use-empirical true})))
 
-(plot-one-run @results-with-empirical)
-(plot-one-run @results-without-empirical)
+(delay
+  (plot-one-run @results-with-empirical))
+
+(delay
+  (plot-one-run @results-without-empirical))
 
 (map realized?
      [results-without-empirical
       results-with-empirical])
 
-(plot-runs @results-without-empirical
-           @results-with-empirical)
+(delay
+  (plot-runs @results-without-empirical
+             @results-with-empirical))
