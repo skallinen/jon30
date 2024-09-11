@@ -1597,60 +1597,85 @@ model {
   (delay
     (stan/model jon-polynomial-model-code)))
 
+(defonce vpp-data
+  (-> (tc/dataset "jon30vpp.csv" {:key-fn keyword})
+      (tc/select-columns [:twa :tws :vessel-speed])
+      (tc/rename-columns {:twa :angle
+                          :tws :wind
+                          :vessel-speed :velocity})
+      (tc/add-column :part :vpp)))
+
+(def vpp-data-with-additions
+  (tc/concat vpp-data
+             (-> vpp-data
+                 (tc/add-column :part :addition)
+                 (tc/add-column :velocity #(tcc/* (:velocity %)
+                                                  (-> (tcc/+ (tcc/sq (tcc/- (:angle %) 90))
+                                                             (tcc/sq (tcc/- (:wind %) 15)))
+                                                      (tcc/* -0.02)
+                                                      tcc/exp
+                                                      (tcc/* 0.4)
+                                                      (tcc/+ 0.8))))
+                 (tc/random 500 {:seed 1})
+                 (->> (repeat 20)
+                      (apply tc/concat)))))
+
+(defn prepare-polynomials [data]
+  (-> data
+      (tc/map-columns :angle2 [:angle] (fn [a]
+                                         (-> a
+                                             (- 90)
+                                             (#(* % %))
+                                             (/ 90))))
+      (tc/map-columns :angle3 [:angle] (fn [a]
+                                         (-> a
+                                             (- 90)
+                                             (#(* % % %))
+                                             (/ (* 90 90)))))
+      (tc/map-columns :angle4 [:angle] (fn [a]
+                                         (-> a
+                                             (- 90)
+                                             (#(* % % % %))
+                                             (/ (* 90 90 90)))))
+      (tc/map-columns :wind2 [:wind] (fn [w]
+                                       (-> w
+                                           (- 15)
+                                           (#(* % %))
+                                           (/ 15))))
+      (tc/map-columns :wind3 [:wind] (fn [w]
+                                       (-> w
+                                           (- 15)
+                                           (#(* % % %))
+                                           (/ (* 15 15)))))
+      (tc/map-columns :wind4 [:wind] (fn [w]
+                                       (-> w
+                                           (- 15)
+                                           (#(* % % %))
+                                           (/ (* 15 15 15)))))))
+
+
 (delay
   (let [n-angles 180
         n-winds 26
-        vpp-data (tc/dataset "jon30vpp.csv" {:key-fn keyword})
-        training-data (-> vpp-data
-                          (tc/select-columns [:twa :tws :vessel-speed])
-                          (tc/rename-columns {:twa :angle
-                                              :tws :wind
-                                              :vessel-speed :velocity})
-                          (tc/map-columns :angle2 [:angle] (fn [a]
-                                                             (-> a
-                                                                 (- 90)
-                                                                 (#(* % %))
-                                                                 (/ 90))))
-                          (tc/map-columns :angle3 [:angle] (fn [a]
-                                                             (-> a
-                                                                 (- 90)
-                                                                 (#(* % % %))
-                                                                 (/ (* 90 90)))))
-                          (tc/map-columns :angle4 [:angle] (fn [a]
-                                                             (-> a
-                                                                 (- 90)
-                                                                 (#(* % % % %))
-                                                                 (/ (* 90 90 90)))))
-                          (tc/map-columns :wind2 [:wind] (fn [w]
-                                                           (-> w
-                                                               (- 15)
-                                                               (#(* % %))
-                                                               (/ 15))))
-                          (tc/map-columns :wind3 [:wind] (fn [w]
-                                                           (-> w
-                                                               (- 15)
-                                                               (#(* % % %))
-                                                               (/ (* 15 15)))))
-                          (tc/map-columns :wind4 [:wind] (fn [w]
-                                                           (-> w
-                                                               (- 15)
-                                                               (#(* % % %))
-                                                               (/ (* 15 15 15)))))
-                          #_(tc/random 200 {:seed 1}))
-        min-angle (-> training-data
+        vpp-data vpp-data
+        main-training-data (-> vpp-data
+                               prepare-polynomials)
+        full-training-data (-> vpp-data-with-additions
+                               prepare-polynomials)
+        min-angle (-> main-training-data
                       :angle
                       tcc/reduce-min)
-        min-wind (-> training-data
+        min-wind (-> main-training-data
                      :wind
                      tcc/reduce-min)
-        samples (-> training-data
+        samples (-> full-training-data
+                    (tc/drop-columns [:part])
                     (->> (into {}))
                     (update-vals vec)
-                    (assoc :n (tc/row-count training-data))
+                    (assoc :n (tc/row-count full-training-data))
                     (#(stan/sample @jon-polynomial-model
                                    %
-                                   {:num-chains 1
-                                    :num-samples 1000}))
+                                   {:num-chains 4}))
                     :samples)
         z-trace-for-surface (-> samples
                                 (tc/tail 500)
@@ -1659,13 +1684,35 @@ model {
                                                     name))
                                 (->> (map (fn [[k column]]
                                             (tcc/mean column)))
+                                     (take (tc/row-count main-training-data))
                                      (partition n-angles)))
-        training-data-trace (-> training-data
-                                (tc/select-rows (comp not neg? :velocity))
-                                (tc/rename-columns {:angle :x
-                                                    :wind :y
-                                                    :velocity :z}))]
-    [training-data
+        training-data-traces (-> full-training-data
+                                 (tc/select-rows (comp not neg? :velocity))
+                                 (tc/rename-columns {:angle :x
+                                                     :wind :y
+                                                     :velocity :z})
+                                 (tc/group-by [:part] {:result-type :as-map})
+                                 vals)]
+    [(kind/plotly
+      {:data (concat [{:type :surface
+                       :mode :lines
+                       :colorscale "Greys"
+                       :cauto false
+                       :marker {:line {:opacity 0.5}}
+                       :zmin 0
+                       :z z-trace-for-surface}]
+                     (->> training-data-traces
+                          (map (fn [{:keys [x y z part]}]
+                                 {:type :scatter3d
+                                  :mode :markers
+                                  :name part
+                                  :marker {:size 3
+                                           :opacity 0.8}
+                                  :x x
+                                  :y y
+                                  :z z}))))
+       :layout {:width 600
+                :height 700}})
      (for [k [:a0
               :a1_angle :a2_angle :a3_angle ;; :a4_angle
               :a1_wind :a2_wind :a3_wind ;; :a4_wind
@@ -1676,22 +1723,4 @@ model {
                                 :=color :chain
                                 :=color-type :nominal})
            ploclo/plot))
-     (kind/plotly
-      {:data [(-> {:type :surface
-                   :mode :lines
-                   :colorscale "Greys"
-                   :cauto false
-                   :zmin 0
-                   :z z-trace-for-surface})
-              (-> {:type :scatter3d
-                   :mode :markers
-                   :marker {:size 6
-                            :line {:width 0.5
-                                   :opacity 0.8}}
-                   :x (tcc/- (:x training-data-trace)
-                             min-angle)
-                   :y (tcc/- (:y training-data-trace)
-                             min-wind)
-                   :z (:z training-data-trace)})]
-       :layout {:width 600
-                :height 700}})]))
+     full-training-data]))
