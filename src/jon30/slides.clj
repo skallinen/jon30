@@ -34,6 +34,58 @@
             [tech.v3.datatype.functional :as fun]
             [tech.v3.tensor :as tensor]))
 
+;; # {background-color="black" background-image="slides-revealjs_files/resources/slide-0.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="pblack" background-image="slides-revealjs_files/resources/slide-1.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="black" background-image="slides-revealjs_files/resources/slide-2.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="black" background-image="slides-revealjs_files/resources/slide-3.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="black" background-image="slides-revealjs_files/resources/slide-4.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+
+;; # {background-color="white" background-image="slides-revealjs_files/resources/slide-5.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+
+;; # {background-color="white" background-image="slides-revealjs_files/resources/slide-7.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="slides-revealjs_files/resources/slide-8.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="slides-revealjs_files/resources/slide-9.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="slides-revealjs_files/resources/slide-9.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
 
 ;; # Multivariate regression
 ;; ::: {.notes}
@@ -871,10 +923,12 @@ model {
          (map (fn [{:keys [results color title]}]
                 (-> results
                     :samples
+
                     (tc/rename-columns {(keyword (str "mu." (+ n-vpp-examples
                                                                i
                                                                1)))
                                         :posterior-velocity})
+
                     (tc/select-columns :posterior-velocity)
                     (ploclo/base {:=title (str "empirical example #" i
                                                " - " title)})
@@ -891,10 +945,8 @@ model {
          kind/fragment)))
 
 
-(delay
+#_(delay
   (show-empirical-example 9))
-
-
 
 ;; ## Comparing synthetic with empirical <- Daniel
 ;; ::: {.notes}
@@ -907,44 +959,48 @@ model {
 ;; Fin
 ;; :::
 
+^:kind/hidden
 (def surface
   (core/create-surface {:use-empirical true}))
 
-(let [{:keys [z-traces-for-surface
-              min-angle
-              min-wind]} surface]
-  (-> (->> z-traces-for-surface
-           tensor/->tensor
-           (map-indexed
-            (fn [i-stat stat-surfaces]
-              (->> [5 15]
-                   (map (fn [wind]
-                          (let [velocities-by-angle (-> wind
-                                                        (- 4)
-                                                        stat-surfaces)]
-                            (-> {:stat i-stat
-                                 :wind wind
-                                 :angle (-> velocities-by-angle
-                                            count
-                                            range
-                                            (tcc/+ min-angle))
-                                 :velocity velocities-by-angle}
-                                tc/dataset))))
-                   (apply tc/concat))))
-           (apply tc/concat))
-      (tc/select-rows #(-> % :velocity pos?))
-      (ploclo/layer-line
-       {:=r :velocity
-        :=theta :angle
-        :=coordinates :polar
-        :=color :wind
-        :=color-type :nominal})
-      ploclo/plot
-      (assoc-in [:layout :polar]
 
-                {:angularaxis {:tickfont {:size 16}
-                               :direction "clockwise"}
-                 :sector [-90 90]})))
+^:kindly/hide-code
+(delay
+  (let [{:keys [z-traces-for-surface
+                min-angle
+                min-wind]} surface]
+    (-> (->> z-traces-for-surface
+             tensor/->tensor
+             (map-indexed
+              (fn [i-stat stat-surfaces]
+                (->> [5 15]
+                     (map (fn [wind]
+                            (let [velocities-by-angle (-> wind
+                                                          (- 4)
+                                                          stat-surfaces)]
+                              (-> {:stat i-stat
+                                   :wind wind
+                                   :angle (-> velocities-by-angle
+                                              count
+                                              range
+                                              (tcc/+ min-angle))
+                                   :velocity velocities-by-angle}
+                                  tc/dataset))))
+                     (apply tc/concat))))
+             (apply tc/concat))
+        (tc/select-rows #(-> % :velocity pos?))
+        (ploclo/layer-line
+         {:=r :velocity
+          :=theta :angle
+          :=coordinates :polar
+          :=color :wind
+          :=color-type :nominal})
+        ploclo/plot
+        (assoc-in [:layout :polar]
+
+                  {:angularaxis {:tickfont {:size 16}
+                                 :direction "clockwise"}
+                   :sector [-90 90]}))))
 
 
 ;; Polars, two polars with 6 knots and 12 knots. With credible intervals. Maybe next to each oter one for sythetic and one for posteriors
