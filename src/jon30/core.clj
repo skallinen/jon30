@@ -1781,7 +1781,9 @@ model {
 
 
 
-(defn create-surface [{:keys [n-angles n-winds use-empirical
+(defn create-surface [{:keys [n-angles
+                              n-winds
+                              use-empirical
                               stats]
                        :or {n-angles 180
                             n-winds 26
@@ -1790,9 +1792,14 @@ model {
                                    #(stats/quantile % 0.9)]}}]
   (let [main-training-data (-> vpp-data
                                prepare-polynomials)
-        full-training-data (-> (if use-empirical
-                                 vpp-and-empirical-data
-                                 vpp-data)
+        full-training-data (-> vpp-and-empirical-data
+                               (cond-> (not use-empirical)
+                                 (tc/map-columns :should_observe
+                                                 [:should_observe :part]
+                                                 (fn [so p]
+                                                   (if (= p :empirical)
+                                                     0
+                                                     so))))
                                prepare-polynomials)
         min-angle (-> main-training-data
                       :angle
@@ -1827,6 +1834,8 @@ model {
                                  (tc/rename-columns {:angle :x
                                                      :wind :y
                                                      :velocity :z})
+                                 (cond-> (not use-empirical)
+                                   (tc/select-rows #(-> % :part (not= :empirical))))
                                  (tc/group-by [:part] {:result-type :as-map})
                                  vals)]
     {:z-traces-for-surface z-traces-for-surface
