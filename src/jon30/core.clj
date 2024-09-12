@@ -1852,39 +1852,41 @@ model {
                             samples]}
                     {:keys [colorscale]
                      :or {colorscale "Greys"}}]
-  [(kind/plotly
-    {:data (concat (->> z-traces-for-surface
-                        (map (fn [z-trace]
-                               {:type :surface
-                                :mode :lines
-                                :colorscale colorscale
-                                :cauto false
-                                :marker {:line {:opacity 0.5}}
-                                :zmin 0
-                                :z z-trace})))
-                   (->> training-data-traces
-                        (map (fn [{:keys [x y z part]}]
-                               {:type :scatter3d
-                                :mode :markers
-                                :name part
-                                :marker {:size 3
-                                         :opacity 0.8}
-                                :x (tcc/- x min-angle)
-                                :y (tcc/- y min-wind)
-                                :z z}))))
-     :layout {:width 600
-              :height 700}})
-   (for [k [:a0
-            :a1_angle :a2_angle :a3_angle ;; :a4_angle
-            :a1_wind :a2_wind :a3_wind ;; :a4_wind
-            :sigma]]
-     (-> samples
-         (ploclo/layer-point (merge {:=x :i
-                                     :=y k}
-                                    (when (:chain samples)
-                                      {:=color :chain
-                                       :=color-type :nominal})))
-         ploclo/plot))])
+  (kind/fragment
+   [(kind/plotly
+     {:data (concat (->> z-traces-for-surface
+                         (map (fn [z-trace]
+                                {:type :surface
+                                 :mode :lines
+                                 :colorscale colorscale
+                                 :cauto false
+                                 :marker {:line {:opacity 0.5}}
+                                 :zmin 0
+                                 :z z-trace})))
+                    (->> training-data-traces
+                         (map (fn [{:keys [x y z part]}]
+                                {:type :scatter3d
+                                 :mode :markers
+                                 :name part
+                                 :marker {:size 3
+                                          :opacity 0.8}
+                                 :x (tcc/- x min-angle)
+                                 :y (tcc/- y min-wind)
+                                 :z z}))))
+      :layout {:width 600
+               :height 700}})
+    (kind/fragment
+     (for [k [:a0
+              :a1_angle :a2_angle :a3_angle ;; :a4_angle
+              :a1_wind :a2_wind :a3_wind ;; :a4_wind
+              :sigma]]
+       (-> samples
+           (ploclo/layer-point (merge {:=x :i
+                                       :=y k}
+                                      (when (:chain samples)
+                                        {:=color :chain
+                                         :=color-type :nominal})))
+           ploclo/plot)))]))
 
 
 
