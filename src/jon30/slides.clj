@@ -961,14 +961,15 @@ model {
 
 ^:kind/hidden
 (def surface
-  (core/create-surface {:use-empirical true}))
+  (delay
+    (core/create-surface {:use-empirical true})))
 
 
 ^:kindly/hide-code
 (delay
   (let [{:keys [z-traces-for-surface
                 min-angle
-                min-wind]} surface]
+                min-wind]} @surface]
     (-> (->> z-traces-for-surface
              tensor/->tensor
              (map-indexed
