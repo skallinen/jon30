@@ -936,7 +936,9 @@ model {
       (ploclo/layer-line
        {:=r :velocity
         :=theta :angle
-        :=coordinates :polar})
+        :=coordinates :polar
+        :=color :wind
+        :=color-type :nominal})
       ploclo/plot
       (assoc-in [:layout :polar]
 
