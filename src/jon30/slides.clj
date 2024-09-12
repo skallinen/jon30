@@ -946,7 +946,7 @@ model {
                                         :=mark-color "red"})
                     ploclo/plot)))
          (cons (kind/hiccup
-                [:p (str "empirical example #" i)]))
+                [:h3 (str "empirical example #" i)]))
          kind/fragment)))
 
 ^:kindly/hide-code
