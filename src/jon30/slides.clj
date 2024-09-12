@@ -111,7 +111,7 @@
                             min-wind)
                   :z (:z training-data-trace)})]
       :layout {:width 1200
-               :height 500}})))
+               :height 600}})))
 
 ;; ## velocity ~ angle + angle<sup>2</sup>  
 ;; ::: {.notes}
@@ -201,9 +201,9 @@
                             min-wind)
                   :z (:z training-data-trace)})]
       :layout {:width 1200
-               :height 500}})))
+               :height 600}})))
 
-;; ## velocity ~ angle + angle<sup>2</sup>  + angle<sup>3</sup>  
+;; ## velocity ~ angle + angle<sup>2</sup>  + angle<sup>3</sup>  TODO! Parabola
 ;; ::: {.notes}
 ;; Cubic polynomial
 ;; :::
@@ -224,13 +224,17 @@
 
 ;; Velocity =
 
-;; α₀ + α₁ * Wind +
+;; α₀ +
+
+;; α₁ * Wind +
 
 ;; α₂ * Wind² +
 
 ;; α₃ * Wind³
 
-;; β₀ + β₁ * Angle +
+;; β₀ +
+
+;; β₁ * Angle +
 
 ;; β₂ * Angle² +
 
@@ -319,7 +323,7 @@
                             min-wind)
                   :z (:z training-data-trace)})]
       :layout {:width 1200
-               :height 500}})))
+               :height 600}})))
 
 
 ;; ## Mo data, mo problems
@@ -405,7 +409,7 @@
                             min-wind)
                   :z (:z training-data-trace)})]
       :layout {:width 1200
-               :height 500}})))
+               :height 600}})))
 
 
 ;; ## Better model
@@ -491,7 +495,7 @@
                             min-wind)
                   :z (:z training-data-trace)})]
       :layout {:width 1200
-               :height 500}})))
+               :height 600}})))
 
 ;; ## Custom gradient
 ;; ::: {.notes}
@@ -622,7 +626,7 @@
                             min-wind)
                   :z (:z training-data-trace)})]
       :layout {:width 1200
-               :height 500}})))
+               :height 600}})))
 
 ;; # Bayesian Statistics
 ;; ::: {.notes}
@@ -657,13 +661,17 @@
 
 ;; Velocity =
 
-;; α₀ + α₁ * Wind +
+;; α₀ +
+
+;; α₁ * Wind +
 
 ;; α₂ * Wind² +
 
 ;; α₃ * Wind³
 
-;; β₀ + β₁ * Angle +
+;; β₀ +
+
+;; β₁ * Angle +
 
 ;; β₂ * Angle² +
 
@@ -810,7 +818,7 @@ model {
                               :y (tcc/- y min-wind)
                               :z z}))))
       :layout {:width 1200
-               :height 500}})))
+               :height 600}})))
 
 ;; ## Updating the synthetic model with the measurements
 ;; ::: {.notes}
@@ -830,11 +838,24 @@ model {
 ;; Here are some numbers comparing the optimal performance and the actual performance of the two different distributions.
 
 
-;; ## Comparing synthetic with empirical
+;; ## Comparing synthetic with empirical <- Daniel
 ;; ::: {.notes}
 ;; Fin
 ;; :::
-;; Polars
+;; We want to show the two surfaces only synthetic and after adding the empirical
+
+;; ## Comparing synthetic with empirical <- Daniel
+;; ::: {.notes}
+;; Fin
+;; :::
+;; Some point estimates. Take one empirical value show how it realates to the syntehtic distribution and how it relates to the posterior distributin
+
+;; ## drumroll.. Polars
+;; ::: {.notes}
+;; Fin
+;; :::
+
+;; Polars, two polars with 6 knots and 12 knots. With credible intervals. Maybe next to each oter one for sythetic and one for posteriors
 
 
 ;; # Conclusion
