@@ -855,6 +855,10 @@ model {
       (tc/rows :as-maps)
       first))
 
+(def n-vpp-examples
+  (-> core/vpp-data
+      tc/row-count))
+
 (defn show-empirical-example [i]
   (let [{:as example
          :keys [velocity]} (empirical-example i)]
@@ -887,7 +891,8 @@ model {
          kind/fragment)))
 
 
-(show-empirical-example 9)
+(delay
+  (show-empirical-example 9))
 
 
 
