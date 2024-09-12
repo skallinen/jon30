@@ -907,6 +907,44 @@ model {
 ;; Fin
 ;; :::
 
+(def surface
+  (core/create-surface {:use-empirical true}))
+
+(let [{:keys [z-traces-for-surface
+              min-angle
+              min-wind]} surface]
+  (-> (->> z-traces-for-surface
+           tensor/->tensor
+           (map-indexed
+            (fn [i-stat stat-surfaces]
+              (->> [5 15]
+                   (map (fn [wind]
+                          (let [velocities-by-angle (-> wind
+                                                        (- 4)
+                                                        stat-surfaces)]
+                            (-> {:stat i-stat
+                                 :wind wind
+                                 :angle (-> velocities-by-angle
+                                            count
+                                            range
+                                            (tcc/+ min-angle))
+                                 :velocity velocities-by-angle}
+                                tc/dataset))))
+                   (apply tc/concat))))
+           (apply tc/concat))
+      (tc/select-rows #(-> % :velocity pos?))
+      (ploclo/layer-line
+       {:=r :velocity
+        :=theta :angle
+        :=coordinates :polar})
+      ploclo/plot
+      (assoc-in [:layout :polar]
+
+                {:angularaxis {:tickfont {:size 16}
+                               :direction "clockwise"}
+                 :sector [-90 90]})))
+
+
 ;; Polars, two polars with 6 knots and 12 knots. With credible intervals. Maybe next to each oter one for sythetic and one for posteriors
 
 
