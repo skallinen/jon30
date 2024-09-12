@@ -113,7 +113,7 @@
       :layout {:width 1200
                :height 600}})))
 
-;; ## velocity ~ angle + angle<sup>2</sup>  
+;; ## velocity ~ angle + angle<sup>2</sup>
 ;; ::: {.notes}
 ;; Quadratic polynomial
 ;; :::
@@ -238,7 +238,7 @@
 
 ;; β₂ * Angle² +
 
-;; β₃ * Angle³ 
+;; β₃ * Angle³
 
 
 
@@ -523,9 +523,9 @@
 (def color-custom-scale
   (into [[0.0 "rgb(220, 20, 60)"]]
         (mapv (fn [c n]  [c (str "rgb(" n
-                                ", " n
-                                ", " n
-                                ")")])
+                                 ", " n
+                                 ", " n
+                                 ")")])
               color-boundries
               (->> color-boundries
                    count
@@ -535,8 +535,8 @@
 
 ;; ## Analysis
 ;; ::: {.notes}
-;; We can now observe some shortcomings of this model. While it is a relatively good fit, as is common with polynomials, issues arise at the boundaries where the model becomes erratic. 
-;; - The model performs poorly around the point (0, 0). 
+;; We can now observe some shortcomings of this model. While it is a relatively good fit, as is common with polynomials, issues arise at the boundaries where the model becomes erratic.
+;; - The model performs poorly around the point (0, 0).
 ;; - Specifically, the orientation of the axis at 0 degrees regardless of wind strength is incorrect. It should ideally be a straight line representing 0 velocity at 0 angle.
 ;; - This is logical as a boat directly facing into the wind would not be able to sail, and the model accounts for this.
 ;; - Another related issue is that towards 180 degrees, the velocity begins to increase again. This outcome is unrealistic in practice.
@@ -644,10 +644,10 @@
 ;; - Real-world measurements
 ;; - Update findings
 ;; - Bayesian approach
-;; We've utilized synthetic data on our boat's performance to troubleshoot and delve into how we'd like to tackle this issue. However, we now aim to pursue a different objective. We may consider the data used thus far as a hypothetical optimal performance of our boat. In such a scenario, we aim to assess how well we truly adhere to this theoretical best possible performance. Thus, we'll need to incorporate real-world measurements on how we operate our boat to update our findings. This is a scenario where a Bayesian approach proves useful.;; 
+;; We've utilized synthetic data on our boat's performance to troubleshoot and delve into how we'd like to tackle this issue. However, we now aim to pursue a different objective. We may consider the data used thus far as a hypothetical optimal performance of our boat. In such a scenario, we aim to assess how well we truly adhere to this theoretical best possible performance. Thus, we'll need to incorporate real-world measurements on how we operate our boat to update our findings. This is a scenario where a Bayesian approach proves useful.;;
 ;; :::
 
-;;   
+;;
 
 ;; Using synthetic data as a benchmark for our boat's optimal performance, and through a Bayesian approach, we plan to compare and update this with real-world measurements to assess and enhance our actual performance.
 
@@ -657,7 +657,7 @@
 ;; In Bayesian analysis, we view the parameters not as a single fitted value, but as random variables with uncertainty. This means that all the alphas and betas have distributions, allowing us to reason about the likelihood of various parameters and, ultimately, different predicted values.
 ;; :::
 
-;;   
+;;
 
 ;; Velocity =
 
@@ -684,9 +684,9 @@
 ;;STAN is a probabilistic programming language that enables users to create intricate statistical models and conduct Bayesian inference on them. It boasts some of the most efficient algorithms for modeling. STAN can be utilized in Clojure with the Scicloj library known as cmdstan-clj.
 
 
-;; ## Modelling with STAN 
+;; ## Modelling with STAN
 ;; ::: {.notes}
-;; Follows simple C syntax. in the data block you define the observed data. in the parameters block we define what the unknown quantities ie. parameters are, in the transformed parameters you create a new parameter based on the parameters you set previously. the model is specified in the model block, at the end we define sk priors for our paramters. that is 
+;; Follows simple C syntax. in the data block you define the observed data. in the parameters block we define what the unknown quantities ie. parameters are, in the transformed parameters you create a new parameter based on the parameters you set previously. the model is specified in the model block, at the end we define sk priors for our paramters. that is
 ;; :::
 
 ^:kindly/hide-code
@@ -734,7 +734,7 @@ model {
 }
 ```")
 
-;; ## Compiling the model 
+;; ## Compiling the model
 ;; ::: {.notes}
 ;; This complies the model, the core/jon-polynomial-modal-code refers to the same code we saw an previous slide.
 ;; :::
@@ -743,7 +743,7 @@ model {
     (stan/model core/jon-polynomial-model-code)))
 
 
-;; ## Training the model 
+;; ## Training the model
 ;; ::: {.notes}
 ;; Otherwise, we will use the same code as earlier to get a plot, but now we have to organize the data to send to STAN before we proceed with modeling.
 ;; :::
@@ -829,7 +829,7 @@ model {
 ^:kindly/hide-code
 (delay
   (core/plot-one-run @core/results-with-empirical
-                {:colorscale "Greens"}))
+                     {:colorscale "Greens"}))
 
 ;; ## Comparing synthetic with empirical
 ;; ::: {.notes}
@@ -843,6 +843,53 @@ model {
 ;; Fin
 ;; :::
 ;; We want to show the two surfaces only synthetic and after adding the empirical
+
+
+(def empirical-example-idx
+  (let [rng (random/rng :isaac 5336)]
+    (random/irandom rng (tc/row-count core/empirical-data))))
+
+(defn empirical-example [i]
+  (-> core/empirical-data
+      (tc/select-rows [i])
+      (tc/rows :as-maps)
+      first))
+
+(defn show-empirical-example [i]
+  (let [{:as example
+         :keys [velocity]} (empirical-example i)]
+    (->> [{:results @core/results-without-empirical
+           :color "grey"
+           :title "posterior without empirical"}
+          {:results @core/results-with-empirical
+           :color "green"
+           :title "posterior with empirical"}]
+         (map (fn [{:keys [results color title]}]
+                (-> results
+                    :samples
+                    (tc/rename-columns {(keyword (str "mu." (+ n-vpp-examples
+                                                               i
+                                                               1)))
+                                        :posterior-velocity})
+                    (tc/select-columns :posterior-velocity)
+                    (ploclo/base {:=title (str "empirical example #" i
+                                               " - " title)})
+                    (ploclo/layer-histogram {:=x :posterior-velocity
+                                             :=histogram-nbins 30
+                                             :=mark-color color})
+                    (ploclo/update-data (constantly
+                                         (tc/dataset
+                                          {:x [10 10]
+                                           :y [0 15]})))
+                    (ploclo/layer-line {:=mark-size 4
+                                        :=mark-color "red"})
+                    ploclo/plot)))
+         kind/fragment)))
+
+
+(show-empirical-example 9)
+
+
 
 ;; ## Comparing synthetic with empirical <- Daniel
 ;; ::: {.notes}
@@ -899,7 +946,3 @@ model {
 
 ;; ## Opportunities to take advantage of
 ;; There are numerous opportunities here. If you are eager to learn, there are plenty of chances for you. You can explore Clojure, Data Science, or Open Source projects. Scicloj provides an excellent program for mentoring open source developers. Check out the website to learn more; it's a fantastic resource.
-
-
-
-
