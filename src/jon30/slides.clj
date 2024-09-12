@@ -34,54 +34,54 @@
             [tech.v3.datatype.functional :as fun]
             [tech.v3.tensor :as tensor]))
 
-;; # {background-color="black" background-image="slides-revealjs_files/resources/slide-0.png" background-size="cover"}
+;; # {background-color="black" background-image="src/resources/slide-0.png" background-size="cover"}r
 ;; ::: {.notes}
 ;; Not working very well
 ;; :::
 
-;; # {background-color="pblack" background-image="slides-revealjs_files/resources/slide-1.png" background-size="cover"}
+;; # {background-color="pblack" background-image="src/resources/slide-1.png" background-size="cover"}
 ;; ::: {.notes}
 ;; Not working very well
 ;; :::
 
-;; # {background-color="black" background-image="slides-revealjs_files/resources/slide-2.png" background-size="cover"}
+;; # {background-color="black" background-image="src/resources/slide-2.png" background-size="cover"}
 ;; ::: {.notes}
 ;; Not working very well
 ;; :::
 
-;; # {background-color="black" background-image="slides-revealjs_files/resources/slide-3.png" background-size="cover"}
+;; # {background-color="black" background-image="src/resources/slide-3.png" background-size="cover"}
 ;; ::: {.notes}
 ;; Not working very well
 ;; :::
 
-;; # {background-color="black" background-image="slides-revealjs_files/resources/slide-4.png" background-size="cover"}
-;; ::: {.notes}
-;; Not working very well
-;; :::
-
-
-;; # {background-color="white" background-image="slides-revealjs_files/resources/slide-5.png" background-size="cover"}
+;; # {background-color="black" background-image="src/resources/slide-4.png" background-size="cover"}
 ;; ::: {.notes}
 ;; Not working very well
 ;; :::
 
 
-;; # {background-color="white" background-image="slides-revealjs_files/resources/slide-7.png" background-size="cover"}
+;; # {background-color="white" background-image="src/resources/slide-5.png" background-size="cover"}
 ;; ::: {.notes}
 ;; Not working very well
 ;; :::
 
-;; # {background-color="white" background-image="slides-revealjs_files/resources/slide-8.png" background-size="cover"}
+
+;; # {background-color="white" background-image="src/resources/slide-7.png" background-size="cover"}
 ;; ::: {.notes}
 ;; Not working very well
 ;; :::
 
-;; # {background-color="white" background-image="slides-revealjs_files/resources/slide-9.png" background-size="cover"}
+;; # {background-color="white" background-image="src/resources/slide-8.png" background-size="cover"}
 ;; ::: {.notes}
 ;; Not working very well
 ;; :::
 
-;; # {background-color="white" background-image="slides-revealjs_files/resources/slide-9.png" background-size="cover"}
+;; # {background-color="white" background-image="src/resources/slide-9.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-9.png" background-size="cover"}
 ;; ::: {.notes}
 ;; Not working very well
 ;; :::
@@ -946,7 +946,7 @@ model {
 
 
 #_(delay
-  (show-empirical-example 9))
+    (show-empirical-example 9))
 
 ;; ## Comparing synthetic with empirical <- Daniel
 ;; ::: {.notes}
