@@ -896,21 +896,25 @@ model {
 ;; :::
 ;; We want to show the two surfaces only synthetic and after adding the empirical
 
-
+^:kindly/hide-code
 (def empirical-example-idx
   (let [rng (random/rng :isaac 5336)]
     (random/irandom rng (tc/row-count core/empirical-data))))
 
+^:kindly/hide-code
 (defn empirical-example [i]
   (-> core/empirical-data
       (tc/select-rows [i])
       (tc/rows :as-maps)
       first))
 
+^:kindly/hide-code
 (def n-vpp-examples
   (-> core/vpp-data
       tc/row-count))
 
+
+^:kindly/hide-code
 (defn show-empirical-example [i]
   (let [{:as example
          :keys [velocity]} (empirical-example i)]
@@ -930,8 +934,7 @@ model {
                                         :posterior-velocity})
 
                     (tc/select-columns :posterior-velocity)
-                    (ploclo/base {:=title (str "empirical example #" i
-                                               " - " title)})
+                    (ploclo/base {:=title title})
                     (ploclo/layer-histogram {:=x :posterior-velocity
                                              :=histogram-nbins 30
                                              :=mark-color color})
@@ -942,11 +945,13 @@ model {
                     (ploclo/layer-line {:=mark-size 4
                                         :=mark-color "red"})
                     ploclo/plot)))
+         (cons (kind/hiccup
+                [:p (str "empirical example #" i)]))
          kind/fragment)))
 
-
-#_(delay
-    (show-empirical-example 9))
+^:kindly/hide-code
+(delay
+  (show-empirical-example 9))
 
 ;; ## Comparing synthetic with empirical <- Daniel
 ;; ::: {.notes}
