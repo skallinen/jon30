@@ -1873,20 +1873,23 @@ model {
                                  :x (tcc/- x min-angle)
                                  :y (tcc/- y min-wind)
                                  :z z}))))
-      :layout {:width 600
-               :height 700}})
+      :layout {:width 900
+               :height 600}})
     (kind/fragment
      (for [k [:a0
               :a1_angle :a2_angle :a3_angle ;; :a4_angle
               :a1_wind :a2_wind :a3_wind ;; :a4_wind
               :sigma]]
        (-> samples
-           (ploclo/layer-point (merge {:=x :i
+           (ploclo/layer-line (merge {:=x :i
                                        :=y k}
                                       (when (:chain samples)
                                         {:=color :chain
                                          :=color-type :nominal})))
-           ploclo/plot)))]))
+
+           ploclo/plot
+           (assoc-in [:layout :width]  900)
+           (assoc-in [:layout :height]  450))))]))
 
 
 

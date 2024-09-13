@@ -8,7 +8,8 @@
                   :fontsize "2em"
                   :mainfont "Helvetica"
                   :monofont "Roboto Mono"}
-         :hide-info-line true}}
+         :hide-info-line true
+         :hide-ui-header true}}
 (ns slides
   (:require [clojure.math :as math]
             [clojure.string :as str]
@@ -68,7 +69,7 @@
 ;; :::
 
 
-;; # {background-color="white" background-image="src/resources/slide-6.png" background-size="cover"}
+;; # {background-color="black" background-image="src/resources/slide-6.png" background-size="cover"}
 ;; ::: {.notes}
 ;; 
 ;; :::
@@ -136,18 +137,13 @@
 
 ;; # {background-video="src/resources/atlantic.mp4" background-video-loop="true" background-video-muted="true"}
 ;; ::: {.notes}
-;; Aside from the Baltic Sea where I usually sail, I have also sailed in the Mediterranean and the Atlantic.
+;; Since then, besides the Baltic Sea where I usually sail, I have also sailed in the Mediterranean and the Atlantic.
 ;; :::
 ;;
 
 ;; # {background-color="black" background-image="src/resources/slide-20.png" background-size="cover"}
 ;; ::: {.notes}
-;; This summer, I acquired my third boat. It's still quite small, almost like a miniature version of a Sparkman & Stephens Swan. Despite its size, it's robust and reliable, even if it may not be the fastest in modern races.
-;; :::
-
-;; # {background-color="black" background-image="src/resources/slide-20.png" background-size="cover"}
-;; ::: {.notes}
-;; 
+;; This summer, I acquired my third boat. It's still quite small, but it is almost like a miniature version of a Sparkman & Stephens Swan, which sailors here might appreciate. Despite its size, it's robust and reliable, even if it may not be the fastest in modern races.
 ;; :::
 
 ;; # {background-color="black" background-image="src/resources/slide-21.png" background-size="cover"}
@@ -178,12 +174,12 @@
 
 ;; # {background-color="black" background-image="src/resources/slide-25.png" background-size="cover"}
 ;; ::: {.notes}
-;; 
+;;Enough of this, let's dive into the project. 
 ;; :::
 
 ;; # {background-color="black" background-image="src/resources/slide-27.png" background-size="cover"}
 ;; ::: {.notes}
-;;Enough of that, let's dive into the project.
+;;
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-28.png" background-size="cover"}
@@ -1035,12 +1031,12 @@
 
 ;; ## STAN in the house
 ;; ::: {.notes}
-;; We can use STAN from Clojure with the library called cmdstan-clj
+;; STAN is a probabilistic programming language that enables users to create intricate statistical models and conduct Bayesian inference on them. It boasts some of the most efficient algorithms for modeling. STAN can be utilized in Clojure with the Scicloj library known as cmdstan-clj.
 ;; :::
-;;STAN is a probabilistic programming language that enables users to create intricate statistical models and conduct Bayesian inference on them. It boasts some of the most efficient algorithms for modeling. STAN can be utilized in Clojure with the Scicloj library known as cmdstan-clj.
+;;
 
 
-;; ## Modelling with STAN
+;; ## Modelling with STANS
 ;; ::: {.notes}
 ;; Follows simple C syntax. in the data block you define the observed data. in the parameters block we define what the unknown quantities ie. parameters are, in the transformed parameters you create a new parameter based on the parameters you set previously. the model is specified in the model block, at the end we define sk priors for our paramters. that is
 ;; :::
@@ -1119,7 +1115,7 @@ model {
 ```")
 
 
-;; ## Creating plots for diagnostics
+;; ## Creating plots for diagnostics {.scrollable}
 ^:kindly/hide-code
 (kind/md
  "```clojure
@@ -1141,8 +1137,20 @@ model {
 
 ^:kindly/hide-code
 (delay
-  (core/plot-one-run @core/results-without-empirical
-                {:colorscale "Greys"}))
+  (first (core/plot-one-run @core/results-without-empirical
+                      {:colorscale "Greys"}))
+  )
+
+;; ## Doing the modelling {.scrollable}
+;; ::: {.notes}
+;; To keep track of our modeling process, we also include some plots to ensure that everything is progressing as we expect. These look good!
+;; :::
+
+^:kindly/hide-code
+(delay
+  (kind/fragment
+   (rest (core/plot-one-run @core/results-without-empirical
+                            {:colorscale "Greys"}))))
 
 ;; ## Real measurements + syntethetic data
 ;; ::: {.notes}
@@ -1176,7 +1184,7 @@ model {
       :layout {:width 1200
                :height 600}})))
 
-;; ## Updating the synthetic model with the measurements
+;; ## Updating the synthetic model with the measurements  {.scrollable}
 ;; ::: {.notes}
 ;; We want to update the theoretical model with our real measured data
 ;; :::
@@ -1184,8 +1192,18 @@ model {
 
 ^:kindly/hide-code
 (delay
-  (core/plot-one-run @core/results-with-empirical
-                     {:colorscale "Greens"}))
+  (first (core/plot-one-run @core/results-with-empirical
+                      {:colorscale "Greens"})))
+
+;; ## Updating the synthetic model with the measurements  {.scrollable}
+;; ::: {.notes}
+;; We want to update the theoretical model with our real measured data
+;; :::
+
+^:kindly/hide-code
+(delay
+  (kind/fragment (rest (core/plot-one-run @core/results-with-empirical
+                             {:colorscale "Greens"}))))
 
 ;; ## Comparing synthetic with empirical
 ;; ::: {.notes}
@@ -1194,7 +1212,7 @@ model {
 ;; Here are some numbers comparing the optimal performance and the actual performance of the two different distributions.
 
 
-;; ## Comparing synthetic with empirical <- Daniel
+;; ## Comparing synthetic with empirical  {.scrollable}
 ;; ::: {.notes}
 ;; Fin
 ;; :::
@@ -1248,7 +1266,9 @@ model {
                                            :y [0 15]})))
                     (ploclo/layer-line {:=mark-size 4
                                         :=mark-color "red"})
-                    ploclo/plot)))
+                    ploclo/plot
+                    (assoc-in [:layout :width]  900)
+                    (assoc-in [:layout :height]  450))))
          (cons (kind/hiccup
                 [:h3 (str "empirical example #" i)]))
          kind/fragment)))
@@ -1257,7 +1277,7 @@ model {
 (delay
   (show-empirical-example 9))
 
-;; ## Comparing synthetic with empirical <- Daniel
+;; ## Comparing synthetic with empirical
 ;; ::: {.notes}
 ;; Fin
 ;; :::
@@ -1304,7 +1324,9 @@ model {
 
                   {:angularaxis {:tickfont {:size 16}
                                  :direction "clockwise"}
-                   :sector [-90 90]}))))
+                   :sector [-90 90]})
+        (assoc-in [:layout :width]  1200)
+        (assoc-in [:layout :height]  600))))
 
 
 ;; Polars, two polars with 6 knots and 12 knots. With credible intervals. Maybe next to each oter one for sythetic and one for posteriors
@@ -1351,3 +1373,8 @@ model {
 
 ;; ## Opportunities to take advantage of
 ;; There are numerous opportunities here. If you are eager to learn, there are plenty of chances for you. You can explore Clojure, Data Science, or Open Source projects. Scicloj provides an excellent program for mentoring open source developers. Check out the website to learn more; it's a fantastic resource.
+
+;; ## Comparing synthetic with empirical
+
+;; ## Todo
+;; [ ] Stan in the house slide
