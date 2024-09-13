@@ -1456,12 +1456,12 @@ model {
                     (tc/select-columns :posterior-velocity)
                     (ploclo/base {:=title title})
                     (ploclo/layer-histogram {:=x :posterior-velocity
-                                             :=histogram-nbins 30
+               ;;                              :=histogram-nbins 30
                                              :=mark-color color})
                     (ploclo/update-data (constantly
                                          (tc/dataset
-                                          {:x [10 10]
-                                           :y [0 15]})))
+                                          {:x [velocity velocity]
+                                           :y [0 40]})))
                     (ploclo/layer-line {:=mark-size 4
                                         :=mark-color "red"})
                     ploclo/plot
@@ -1478,11 +1478,6 @@ model {
 (delay
   (show-empirical-example (rand-int 230)))
 
-;; ## Some single numbers
-;; ::: {.notes}
-;; Fin
-;; :::
-;; Some point estimates. Take one empirical value show how it realates to the syntehtic distribution and how it relates to the posterior distributin
 
 ;; ## drumroll.. Polars
 ;; ::: {.notes}
