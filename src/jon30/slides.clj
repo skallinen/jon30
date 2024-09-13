@@ -1465,7 +1465,9 @@ model {
                                         :=mark-color "red"})
                     ploclo/plot
                     (assoc-in [:layout :width]  900)
-                    (assoc-in [:layout :height]  450))))
+                    (assoc-in [:layout :height]  450)
+                    (assoc-in [:layout :margin] {:l 0 :r 0 :b 150 :t 0
+                                                 :pad 4}))))
          (cons (kind/hiccup
                 [:h4 (str "empirical example #" i
                           " angle:" angle
@@ -1476,8 +1478,6 @@ model {
 ^:kindly/hide-code
 (delay
   (show-empirical-example 151))
-
-
 
 ;; ## drumroll.. Polars
 ;; ::: {.notes}
