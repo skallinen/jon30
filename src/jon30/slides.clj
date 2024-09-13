@@ -1475,7 +1475,7 @@ model {
 (delay
   (show-empirical-example 9))
 
-;; ## Comparing synthetic with empirical
+;; ## Some single numbers
 ;; ::: {.notes}
 ;; Fin
 ;; :::
@@ -1544,6 +1544,8 @@ model {
 
 ;; - Chris Nuernberger's work on fast data science on Clojure
 
+;; - Chris Nuernberger's work on fast data science on Clojure
+
 ;; - "Hanami" by Jon Anthonys
 
 ;; - "Metamorph"etc, Carsten Behring's contributions in modeling, predictions, and designing matrices
@@ -1575,4 +1577,7 @@ model {
 ;; ## Comparing synthetic with empirical
 
 ;; ## Todo
-;; [ ] Stan in the house slide
+;; [x] Stan in the house slide
+;; [ ] Do the equation slides
+;; [ ] Restructure the beginning
+;; [ ] Redo the intro slide with simplicity
