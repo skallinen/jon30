@@ -58,332 +58,336 @@
 
 ;; # {background-color="black" background-image="src/resources/slide-4.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; 
 ;; :::
 
 
 ;; # {background-color="white" background-image="src/resources/slide-5.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; Why are we here today? (pause) I presume most of you know what we are taling about?
 ;; :::
 
 
+;; # {background-color="white" background-image="src/resources/slide-6.png" background-size="cover"}
+;; ::: {.notes}
+;; 
+;; :::
+
 ;; # {background-color="white" background-image="src/resources/slide-7.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; Thanks to the hard work of Arne and the community, we are also here thanks to Clojure, not just Bayesian statistics.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-8.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; But I am also here because of Scicloj, a community that develops data science tools and libraries for Clojure.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-9.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; This project has been done in collaboration with Daniel Slutsky a few months ago.
+;; A few monthjs back I had a conversation with Daniel, a driving force in the community, about submittin a proposal to the heart of Clojure showcasing the Scicloj tools.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-10.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; To showcase the tools effectively, you'll need a real-world data problem. How about combining your two passions: Clojure and Sailing? You could even sail down to Belgium to give the talk.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-11.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; A few words about my sailing. If someone had told me five years ago that I would become a sailor, I would have laughed in their face. I used to think sailing was only for wealthy and prominent yachtsmen with lots of status and resources.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-12.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; But then this happened. Without going into all the details, suddenly I couldn't stay with my family due to no vaccines, so I had to find a place nearby. I searched the internet and ended up buying a boat for the price of a fancy laptop.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-13.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; I've also learned that anyone can take up sailing. Meet Moxy Marlinspike and his gang of anarchists who sailed the Caribbean more or less for free.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-14.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; If you're interested, they've made a documentary about their adventures.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-15.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; So I moved in. It was small, the size of a luxurious dog house.
 ;; :::
 
 ;; # {background-color="black" background-image="src/resources/slide-16.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; I lived and worked there for 6 months.
 ;; :::
 
 ;; # {background-color="black" background-image="src/resources/slide-17.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; 
 ;; :::
 
 ;; # {background-color="black" background-image="src/resources/slide-18.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; Since I had a boat, I decided to learn how to sail it. However, this was during the pandemic, so there were no courses available. I had to figure it out on my own. My teachers were my friends Valantina and Makko via Facebook Messenger, as they were stuck in the Caribbean with their boat. I'm not sure I would recommend this approach. The first time I went out as the captain of the boat, I hit a rock, which was not fun.
 ;; :::
 
 ;; # {background-video="src/resources/atlantic.mp4" background-video-loop="true" background-video-muted="true"}
 ;; ::: {.notes}
-;; Not working very well
+;; Aside from the Baltic Sea where I usually sail, I have also sailed in the Mediterranean and the Atlantic.
 ;; :::
 ;;
 
 ;; # {background-color="black" background-image="src/resources/slide-20.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; This summer, I acquired my third boat. It's still quite small, almost like a miniature version of a Sparkman & Stephens Swan. Despite its size, it's robust and reliable, even if it may not be the fastest in modern races.
 ;; :::
 
 ;; # {background-color="black" background-image="src/resources/slide-20.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; 
 ;; :::
 
 ;; # {background-color="black" background-image="src/resources/slide-21.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; I thought I would be sailing all summer, perhaps to Belgium, but it is an old boat.
 ;; :::
 
 ;; # {background-color="black" background-image="src/resources/slide-22.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
-;; :::
-
-;; # {background-color="black" background-image="src/resources/slide-23.png" background-size="cover"}
-;; ::: {.notes}
-;; Not working very well
-;; :::
-
-;; # {background-color="black" background-image="src/resources/slide-24.png" background-size="cover"}
-;; ::: {.notes}
-;; Not working very well
-;; :::
-
-;; # {background-color="black" background-image="src/resources/slide-25.png" background-size="cover"}
-;; ::: {.notes}
-;; Not working very well
+;; Not just about Instagram and swimsuits, but actually quite a bit of upkeep.
 ;; :::
 
 ;; # {background-color="black" background-image="src/resources/slide-26.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; I've also installed some tools that track and log the boat's performance while sailing.
+;; :::
+
+
+;; # {background-color="black" background-image="src/resources/slide-23.png" background-size="cover"}
+;; ::: {.notes}
+;; But fortunately, we were able to enjoy some of the beautiful Baltic archipelago along the southern coastline of Finland.
+;; :::
+
+;; # {background-color="black" background-image="src/resources/slide-24.png" background-size="cover"}
+;; ::: {.notes}
+;; 
+;; :::
+
+;; # {background-color="black" background-image="src/resources/slide-25.png" background-size="cover"}
+;; ::: {.notes}
+;; 
 ;; :::
 
 ;; # {background-color="black" background-image="src/resources/slide-27.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;;Enough of that, let's dive into the project.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-28.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; Why do we want to do that? To create these, namely polar charts. Don't worry about how to read them now, it will become clear later.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-29.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; What should we do with polar diagrams? We need them if we race, weather routing, and what I refer to as quantified sailing.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-30.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; Here is an example of a commercial weather routing app that utilizes polar data to help you plan your voyage while considering the varying weather conditions along your route. The app requires information on how your boat performs under different weather scenarios in order to determine your position at a given time.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-31.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; What makes the boat move? Essentially, two things: water and wind.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-32.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; Or the way the wind affects the sails and the water impacts the hull.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-33.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
-;; :::
-
-;; # {background-color="white" background-image="src/resources/slide-33.png" background-size="cover"}
-;; ::: {.notes}
-;; Not working very well
+;; That's an oversimplification. In actuality, there are numerous variables. Here is a non-exhaustive list resulting from a short brainstorm of what they could be.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-34.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; But let's keep it simple. For this discussion, let's focus on the wind speed and wind direction.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-35.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; Or actually, let's make it even simpler and only focus on the wind angle.
 ;; :::
 
 ;; # {background-color="black" background-image="src/resources/slide-36.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;;Imagine for a moment that on earth we only had one constant wind strength and that it never changes.
 ;; :::
 
 
 ;; # {background-color="black" background-image="src/resources/slide-37.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;;  And lets agree that the strength is 6 knots. What is 6 knots?
 ;; :::
 
 ;; # {background-color="black" background-image="src/resources/slide-38.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; Its 6.9 mph. What is that?
 ;; :::
 
 ;; # {background-color="black" background-image="src/resources/slide-39.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; It's 11 km/h
 ;; :::
 
 ;; # {background-color="black" background-image="src/resources/slide-40.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; Which is 3 m/s.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-41.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
-;; :::
-
-;; # {background-color="white" background-image="src/resources/slide-41.png" background-size="cover"}
-;; ::: {.notes}
-;; Not working very well
+;; So now we need some data. Let's begin with some synthetic data. We prefer synthetic data when we start modeling because it is usually not very noisy and we are familiar with its behavior when we debug our models.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-42.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; We begin with data generated by a so called VPP. This data serves as the basis for the model we will attempt to build, and it pertains to a boat that is expected to be quite similar to ours.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-43.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; This is how the looks. Notice how easy it is to make a simple plot with hanamicloth.
+
+;; On the y axis we see the vessel speed.
+
+;; On the x-axis, we have the wind angles. This indicates the angle at which the wind strikes the boat in relation to our direction of the bow, ie. the direction of travel.
+
+;; At 0 angle we get 0 speed, because you cannot sail straight into the wind
+
+;; You just need to bear off a bit and we're already sailing pretty fast.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-44.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; But what is this slump here? Glad you asked.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-45.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; Normally, the sail of a boat functions similar to an airplane wing, generating lift as air passes over it. This explains why boats can sometimes move faster than the wind.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-46.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; I'll give you a moment to digest this, there will be a test at the end.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-47.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; But in the case of a slump, when the wind is coming from behind, around 180 degrees, we are sailing downwind and the sails no longer function like airplane wings; they act more like parachutes. This can restrict the maximum speed and accounts for the slump.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-48.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; 
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-49.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; So lets get busy modelling. Regression is a statistical tool used to uncover the relationship between two variables.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-50.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; In our scenario, it aims to determine the vessel's velocity given a specific wind angle.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-51.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; Another way to communicate this is by using an equation like this one. Some of you may recognize that this forms a straight line. The betas represent the parameters or weights, if you prefer. We will attempt to find parameters that produce a line that best fits the data.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-52.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; Here is the code that builds the model and plots it.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-53.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;;  The function where we model the data is not actually needed as we could pass some flags to hanamicloth that would hten result in a regression line, but we have the more explicit version here to have control and to show how we do more complex versions later. Lets run through what the modelling function does.  
+;; First off we take the data with the wind-strength function.
+;; We then shape and manipulate the data to fit the requirements of our equation. This process can be smoothly executed with a design matrix, which I will explain in the upcoming slides. It should be noted that in this scenario, it is not actually necessary. Subsequently, we send the matrix to be trained in the model. We utilize the model to forecast new velocity values using a variety of angles provided. After obtaining the predictions, we include additional columns in the dataset and make some adjustments before visualization.
+
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-54.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; Here we have it. We are not surprices, perhaps, but it is safe to say that this model sucks.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-55.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; So let's play with polynomials! They provide us with greater flexibility when fitting the curve.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-56.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; So this is a bit more complicated formula, we call it a cubic polynomial.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-57.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; And once again, here is the equation. "Fitting" refers to the process of attempting to identify the beta parameter combination that best aligns the curve with the data. But to do that our model needs the angle in different forms as we can se in the terms of the equation.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-58.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; We can easily manipulate the data to meet these requirements using the design matrix. Those familiar with R will recognize this as essentially the same as the beloved formula in R. Perhaps not as elegant, but maybe a bit clearer.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-59.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; We generate the plot in the same way as before, but now we have a helper function for the modeling thread.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-60.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; Looks great. Even if we're just eyeballing it, it's fitting quite well!
 ;; :::
 
 ;; # {background-color="black" background-image="src/resources/slide-61.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; If we examine the model, it contains metrics that show the model's performance. An R-squared value of 0.97 is almost perfect. A value of 0 suggests the model doesn't explain any variation in the data, while 1 would indicate the model can explain all the variation in the data.
 ;; :::
 
 ;; # {background-color="black" background-image="src/resources/slide-62.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; But unfortunately, or perhaps fortunately, the wind varies on Earth. Therefore, we need to introduce another variable, which includes the wind strength. That means we are testing a multivariate regression.
 ;; :::
 
 ;; # {background-color="white" background-image="src/resources/slide-63.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; So we include the wind strength and its parameters, alpha, in the model.
 ;; :::
 
 ;; # {background-color="black" background-image="src/resources/slide-64.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; We will also update the design matrix to reflect this change.
 ;; :::
 
 ;; # {background-color="black" background-image="src/resources/slide-65.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; We will also update our code to generate the plot since we now need to examine the model as a three-dimensional surface.
 ;; :::
 
-;; # {background-color="black" background-image="src/resources/slide-65.png" background-size="cover"}
-;; ::: {.notes}
-;; Not working very well
-;; :::
 
 
 
