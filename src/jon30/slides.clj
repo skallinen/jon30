@@ -126,7 +126,7 @@
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; # {background-color="white" background-image="src/resources/slide-11.png" background-size="cover"}
+;; # {background-color="white" background-image="src/resources/slide-11.png" background-size="cover"  visibility="hidden"}
 ;; ::: {.notes}
 ;; A few words about my sailing. If someone had told me five years ago that I would become a sailor, I would have laughed in their face. I used to think sailing was only for wealthy and prominent yachtsmen with lots of status and resources.
 ;; :::
@@ -134,7 +134,7 @@
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="white" background-image="src/resources/slide-12.png" background-size="cover"}
+;; ## {background-color="white" background-image="src/resources/slide-12.png" background-size="cover"  visibility="hidden"}
 ;; ::: {.notes}
 ;; But then this happened. Without going into all the details, suddenly I couldn't stay with my family due to no vaccines, so I had to find a place nearby. I searched the internet and ended up buying a boat for the price of a fancy laptop.
 ;; :::
@@ -142,7 +142,7 @@
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="white" background-image="src/resources/slide-13.png" background-size="cover"}
+;; ## {background-color="white" background-image="src/resources/slide-13.png" background-size="cover"  visibility="hidden"}
 ;; ::: {.notes}
 ;; I've also learned that anyone can take up sailing. Meet Moxy Marlinspike and his gang of anarchists who sailed the Caribbean more or less for free.
 ;; :::
@@ -150,7 +150,7 @@
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="white" background-image="src/resources/slide-14.png" background-size="cover"}
+;; ## {background-color="white" background-image="src/resources/slide-14.png" background-size="cover"  visibility="hidden"}
 ;; ::: {.notes}
 ;; If you're interested, they've made a documentary about their adventures.
 ;; :::
@@ -158,7 +158,7 @@
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="white" background-image="src/resources/slide-15.png" background-size="cover"}
+;; ## {background-color="white" background-image="src/resources/slide-15.png" background-size="cover"  visibility="hidden"}
 ;; ::: {.notes}
 ;; So I moved in. It was small, the size of a luxurious dog house.
 ;; :::
@@ -166,7 +166,7 @@
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="black" background-image="src/resources/slide-16.png" background-size="cover"}
+;; ## {background-color="black" background-image="src/resources/slide-16.png" background-size="cover"  visibility="hidden"}
 ;; ::: {.notes}
 ;; I lived and worked there for 6 months.
 ;; :::
@@ -174,27 +174,11 @@
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="black" background-image="src/resources/slide-17.png" background-size="cover"}
+;; ## {background-color="black" background-image="src/resources/slide-17.png" background-size="cover"  visibility="hidden"}
 ;; ::: {.notes}
 ;; 
 ;; :::
 
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="black" background-image="src/resources/slide-18.png" background-size="cover"}
-;; ::: {.notes}
-;; Since I had a boat, I decided to learn how to sail it. However, this was during the pandemic, so there were no courses available. I had to figure it out on my own. My teachers were my friends Valantina and Makko via Facebook Messenger, as they were stuck in the Caribbean with their boat. I'm not sure I would recommend this approach. The first time I went out as the captain of the boat, I hit a rock, which was not fun.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-video="src/resources/atlantic.mp4" background-video-loop="true" background-video-muted="true"}
-;; ::: {.notes}
-;; Since then, besides the Baltic Sea where I usually sail, I have also sailed in the Mediterranean and the Atlantic.
-;; :::
-;;
 ^:kindly/hide-code
 (kind/fragment [])
 
@@ -227,22 +211,14 @@
 ;; I've also installed some tools that track and log the boat's performance while sailing.
 ;; :::
 
-
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="black" background-image="src/resources/slide-23.png" background-size="cover"}
+;; ## {background-color="black" background-image="src/resources/ydwg_drawing.png" background-size="cover"}
 ;; ::: {.notes}
-;; But fortunately, we were able to enjoy some of the beautiful Baltic archipelago along the southern coastline of Finland.
+;;
 ;; :::
 
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="black" background-image="src/resources/slide-24.png" background-size="cover"}
-;; ::: {.notes}
-;; 
-;; :::
 
 ^:kindly/hide-code
 (kind/fragment [])
@@ -326,6 +302,15 @@
 
 ^:kindly/hide-code
 (kind/fragment [])
+
+;; ## {background-color="black" background-image="src/resources/slide-18.png" background-size="cover"}
+;; ::: {.notes}
+;; 
+;; :::
+
+^:kindly/hide-code
+(kind/fragment [])
+
 
 ;; # {background-color="black" background-image="src/resources/slide-36.png" background-size="cover"}
 ;; ::: {.notes}
@@ -439,7 +424,16 @@
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="white" background-image="src/resources/slide-49.png" background-size="cover"}
+;; ## {background-color="black" background-image="src/resources/slide-23.png" background-size="cover"}
+;; ::: {.notes}
+;; But fortunately, we were able to enjoy some of the beautiful Baltic archipelago along the southern coastline of Finland.
+;; :::
+
+^:kindly/hide-code
+(kind/fragment [])
+
+
+;; # {background-color="white" background-image="src/resources/slide-49.png" background-size="cover"}
 ;; ::: {.notes}
 ;; So lets get busy modelling. Regression is a statistical tool used to uncover the relationship between two variables.
 ;; :::
@@ -546,7 +540,16 @@
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="black" background-image="src/resources/slide-62.png" background-size="cover"}
+;; ## {background-color="black" background-image="src/resources/slide-24.png" background-size="cover"}
+;; ::: {.notes}
+;; 
+;; :::
+
+
+^:kindly/hide-code
+(kind/fragment [])
+
+;; # {background-color="black" background-image="src/resources/slide-62.png" background-size="cover"}
 ;; ::: {.notes}
 ;; But unfortunately, or perhaps fortunately, the wind varies on Earth. Therefore, we need to introduce another variable, which includes the wind strength. That means we are testing a multivariate regression.
 ;; :::
@@ -572,6 +575,14 @@
 ;; ## {background-color="black" background-image="src/resources/slide-65.png" background-size="cover"}
 ;; ::: {.notes}
 ;; We will also update our code to generate the plot since we now need to examine the model as a three-dimensional surface.
+;; :::
+
+^:kindly/hide-code
+(kind/fragment [])
+
+;; ## {background-color="black" background-image="src/resources/slide-23.png" background-size="cover"}
+;; ::: {.notes}
+;; But fortunately, we were able to enjoy some of the beautiful Baltic archipelago along the southern coastline of Finland.
 ;; :::
 
 ^:kindly/hide-code
@@ -1172,7 +1183,15 @@
       :layout {:width 1200
                :height 600}})))
 
-;; # Bayesian Statistics
+;; ## {background-video="src/resources/atlantic.mp4" background-video-loop="true" background-video-muted="true"}
+;; ::: {.notes}
+;; Since then, besides the Baltic Sea where I usually sail, I have also sailed in the Mediterranean and the Atlantic.
+;; :::
+;;
+^:kindly/hide-code
+(kind/fragment [])
+
+;; # {background-color="black" background-image="src/resources/bayesian.png" background-size="cover"}
 ;; ::: {.notes}
 ;; Now we aim to get into Bayesian Statistics. There are various reasons I mentioned earlier in the presentation, but now we have some more practical reasons for wanting to pursue it.
 ;; :::
@@ -1195,51 +1214,15 @@
 
 ;; Using synthetic data as a benchmark for our boat's optimal performance, and through a Bayesian approach, we plan to compare and update this with real-world measurements to assess and enhance our actual performance.
 
-
-;; ## Parameters
+;; ## {background-color="black" background-image="src/resources/cubic-equation.png" background-size="cover"}
 ;; ::: {.notes}
 ;; In Bayesian analysis, we view the parameters not as a single fitted value, but as random variables with uncertainty. This means that all the alphas and betas have distributions, allowing us to reason about the likelihood of various parameters and, ultimately, different predicted values.
 ;; :::
 
-;;
-
-;; Velocity =
-
-;; α₀ +
-
-;; α₁ * Wind +
-
-;; α₂ * Wind² +
-
-;; α₃ * Wind³
-
-;; β₀ +
-
-;; β₁ * Angle +
-
-;; β₂ * Angle² +
-
-;; β₃ * Angle³
-
-;; ## STAN in the house {.v-center-conteiner}
-;; ::: {.notes}
-;; STAN is a probabilistic programming language that enables users to create intricate statistical models and conduct Bayesian inference on them. It boasts some of the most efficient algorithms for modeling. STAN can be utilized in Clojure with the Scicloj library known as cmdstan-clj.
-;; :::
-
-;;::: {layout="[[-1], [1], [-1]]"}
-
-;; ![](src/resources/stan_logo.png){fig-align="center"}
-
-;;:::
-
-
-
-;; ## Modelling with STANS
-;; ::: {.notes}
-;; Follows simple C syntax. in the data block you define the observed data. in the parameters block we define what the unknown quantities ie. parameters are, in the transformed parameters you create a new parameter based on the parameters you set previously. the model is specified in the model block, at the end we define sk priors for our paramters. that is
-;; :::
-
 ^:kindly/hide-code
+(kind/fragment [])
+
+;; ## 
 (kind/md
  "```stan
 data {
@@ -1403,12 +1386,6 @@ model {
   (kind/fragment (rest (core/plot-one-run @core/results-with-empirical
                              {:colorscale "Greens"}))))
 
-;; ## Comparing synthetic with empirical
-;; ::: {.notes}
-;; We want to update the theoretical model with our real measured data
-;; :::
-;; Here are some numbers comparing the optimal performance and the actual performance of the two different distributions.
-
 
 ;; ## Comparing synthetic with empirical  {.scrollable}
 ;; ::: {.notes}
@@ -1524,39 +1501,39 @@ model {
         (assoc-in [:layout :width]  1200)
         (assoc-in [:layout :height]  600))))
 
+;; ## {background-color="black" background-image="src/resources/ship-baltic2024.jpg" background-size="cover"}
+;; ::: {.notes}
+;; But fortunately, we were able to enjoy some of the beautiful Baltic archipelago along the southern coastline of Finland.
+;; :::
 
-;; Polars, two polars with 6 knots and 12 knots. With credible intervals. Maybe next to each oter one for sythetic and one for posteriors
+^:kindly/hide-code
+(kind/fragment [])
+
+;; # {background-color="black" background-image="src/resources/slide-67.png" background-size="cover"}
+;; ::: {.notes}
+;; 
+;; :::
 
 
-;; # Conclusion
+;; ## Conclusion
 ;; We've made good progress. We can and will keep working on the actual model.
 
 ;; The tools Scicloj tools are there. We can work on pretty advanced problems with Clojure data science tools.
 
 ;; ## Selected Dependencies
 ;; ::: {.notes}
-;; To tackle this issue, we made extensive use of several libraries within the Scicloj ecosystem. We heavily relied on tablecloth by Tomasz Sulej, which is akin to dplyr or Pandas in Clojure. Tablecloth builds upon the work of Chris Nuernberger in facilitating quick data analysis in Clojure. Visualization tools made use of Jon Anthonys' Hanami, a valuable resource for creating vega-lite templates. Carsten Behring's contributions were instrumental in modeling, predictions, and designing matrices. For mathematical models, fastmath by Tomasz Sulej was frequently utilized. Easy-to-use visualization tools like hanamicloth and plotlycloth were provided by Daniel Slustky and Kira McLean. All this work was carried out in Clay by Daniel Slutsky and others. However, you need not remember these individually since they have been consolidated into the meta-library known as Noj.
+;; 
 ;; :::
 ;;
-;; - "Tablecloth" by Tomasz Sulej
-
-;; - Chris Nuernberger's work on fast data science on Clojure
-
-;; - Chris Nuernberger's work on fast data science on Clojure
-
-;; - "Hanami" by Jon Anthonys
-
-;; - "Metamorph"etc, Carsten Behring's contributions in modeling, predictions, and designing matrices
-
-;; - "Fastmath" by Tomasz Sulej
-
-;; - "Hanamicloth and Plotlycloth" by Daniel Slustky and Kira McLean
-
-;; - "Clay" by Daniel Slutsky and others
-
-;; - "Noj" which consolidated all the above libraries
-
-;; - The Scicloj Community!
+;; - Tablecloth
+;; - Tech.ml
+;; - Metamorph
+;; - Fastmath
+;; - Hanami
+;; - Hanamicloth and Plotlycloth
+;; - Cmdstan-clj
+;; - Clay
+;; - Noj
 
 
 ;; ## Noj
@@ -1572,7 +1549,26 @@ model {
 ;; ## Opportunities to take advantage of
 ;; There are numerous opportunities here. If you are eager to learn, there are plenty of chances for you. You can explore Clojure, Data Science, or Open Source projects. Scicloj provides an excellent program for mentoring open source developers. Check out the website to learn more; it's a fantastic resource.
 
-;; ## Comparing synthetic with empirical
+;; ## Some heroes
+;; ::: {.notes}
+;; 
+;; :::
+;;
+;; 1. Generateme
+;; 2. Chris Nuernberger
+;; 3. Jon Anthony
+;; 4. Carsten Behring
+;; 5. Generateme
+;; 6. Daniel Slustky
+;; 7. Kira McLean
+;; 8. Daniel Slutsky
+;; - The Scicloj Community!
+
+;; ## Thank you
+;; ::: {.notes}
+;; 
+;; :::
+
 
 ;; ## Todo
 ;; [x] Stan in the house slide
