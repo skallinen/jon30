@@ -87,7 +87,7 @@
 
 ;; ## {background-color="black" background-image="src/resources/slide-6.png" background-size="cover"}
 ;; ::: {.notes}
-;; 
+;;
 ;; :::
 
 ^:kindly/hide-code
@@ -176,7 +176,7 @@
 
 ;; ## {background-color="black" background-image="src/resources/slide-17.png" background-size="cover"  visibility="hidden"}
 ;; ::: {.notes}
-;; 
+;;
 ;; :::
 
 ^:kindly/hide-code
@@ -225,7 +225,7 @@
 
 ;; ## {background-color="black" background-image="src/resources/slide-25.png" background-size="cover"}
 ;; ::: {.notes}
-;;Enough of this, let's dive into the project. 
+;;Enough of this, let's dive into the project.
 ;; :::
 
 ^:kindly/hide-code
@@ -305,7 +305,7 @@
 
 ;; ## {background-color="black" background-image="src/resources/slide-18.png" background-size="cover"}
 ;; ::: {.notes}
-;; 
+;;
 ;; :::
 
 ^:kindly/hide-code
@@ -418,7 +418,7 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-48.png" background-size="cover"}
 ;; ::: {.notes}
-;; 
+;;
 ;; :::
 
 ^:kindly/hide-code
@@ -467,7 +467,7 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-53.png" background-size="cover"}
 ;; ::: {.notes}
-;;  The function where we model the data is not actually needed as we could pass some flags to hanamicloth that would hten result in a regression line, but we have the more explicit version here to have control and to show how we do more complex versions later. Lets run through what the modelling function does.  
+;;  The function where we model the data is not actually needed as we could pass some flags to hanamicloth that would hten result in a regression line, but we have the more explicit version here to have control and to show how we do more complex versions later. Lets run through what the modelling function does.
 ;; First off we take the data with the wind-strength function.
 ;; We then shape and manipulate the data to fit the requirements of our equation. This process can be smoothly executed with a design matrix, which I will explain in the upcoming slides. It should be noted that in this scenario, it is not actually necessary. Subsequently, we send the matrix to be trained in the model. We utilize the model to forecast new velocity values using a variety of angles provided. After obtaining the predictions, we include additional columns in the dataset and make some adjustments before visualization.
 
@@ -542,7 +542,7 @@
 
 ;; ## {background-color="black" background-image="src/resources/slide-24.png" background-size="cover"}
 ;; ::: {.notes}
-;; 
+;;
 ;; :::
 
 
@@ -1238,7 +1238,7 @@
 (kind/fragment [])
 
 
-;; ## 
+;; ##
 (kind/md
  "```stan
 data {
@@ -1335,7 +1335,7 @@ model {
 ;; - The values should remain consistent around similar numbers, as shown here.
 ;; - We conducted the simulation four times, each represented by a different color.
 ;; - These results appear favorable, as the values are consistent across iterations, and the different attempts show similarities.;; :::
-;; ::: 
+;; :::
 
 ^:kindly/hide-code
 (delay
@@ -1447,20 +1447,20 @@ model {
                 (-> results
                     :samples
 
-                    (tc/rename-columns {(keyword (str "mu." (+ n-vpp-examples
-                                                               i
-                                                               1)))
+                    (tc/rename-columns {(keyword (str "velocity_rep." (+ n-vpp-examples
+                                                                         i
+                                                                         1)))
                                         :posterior-velocity})
 
                     (tc/select-columns :posterior-velocity)
                     (ploclo/base {:=title title})
                     (ploclo/layer-histogram {:=x :posterior-velocity
-                                           ;;  :=histogram-nbins 30
+                                             ;;  :=histogram-nbins 30
                                              :=mark-color color})
                     (ploclo/update-data (constantly
                                          (tc/dataset
                                           {:x [velocity velocity]
-                                           :y [0 40]})))
+                                           :y [0 500]})))
                     (ploclo/layer-line {:=mark-size 4
                                         :=mark-color "red"})
                     ploclo/plot
@@ -1475,7 +1475,8 @@ model {
 
 ^:kindly/hide-code
 (delay
-  (show-empirical-example (rand-int 230)))
+  (show-empirical-example 151))
+
 
 
 ;; ## drumroll.. Polars
@@ -1533,7 +1534,7 @@ model {
 
 ;; # {background-color="black" background-image="src/resources/slide-67.png" background-size="cover"}
 ;; ::: {.notes}
-;; 
+;;
 ;; :::
 
 ^:kindly/hide-code
@@ -1550,7 +1551,7 @@ model {
 
 ;; ## Selected Dependencies for this project
 ;; ::: {.notes}
-;; 
+;;
 ;; :::
 ;;
 ;; - Tablecloth
@@ -1586,7 +1587,7 @@ model {
 
 ;; ## Some heroes
 ;; ::: {.notes}
-;; 
+;;
 ;; :::
 ;;
 ;; - Generateme
@@ -1602,7 +1603,7 @@ model {
 
 ;; ##  Thank you! {background-video="src/resources/sailing-downwind.mp4" background-video-loop="true" background-video-muted="true"}
 ;; ::: {.notes}
-;; 
+;;
 ;; :::
 ;;
 
@@ -1617,13 +1618,13 @@ model {
 ;; [ ] add names to axis
 ;; [ ] not all symbols are defined
 ;; [ ] whortex shedding?
-;; [ ] 
+;; [ ]
 ;; [ ] introduce the experimental data more cleverly, differentiate between make more clear.
-;; [ ] spike problem just probably a numercial problen, external library is a huge blob of stateful OOP code. 
+;; [ ] spike problem just probably a numercial problen, external library is a huge blob of stateful OOP code.
 ;; [ ] Do the equation slides
 ;; [ ] Restructure the beginning
 ;; [ ] Redo the intro slide with simplicity
-;; [ ] 
+;; [ ]
 ;; ** nice slides
 ;; is it a custom reveal theme?
 ;; ** nice joke (Clojure -> Bayesian statistics)
@@ -1662,4 +1663,4 @@ model {
 ;; ** really nice theme
 ;; ** is the code available?:
 ;; expected velosity given angle and wind
-;; 
+;;
