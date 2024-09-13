@@ -2,7 +2,7 @@
                                                   :kind/md
                                                   :kind/html}}
          :quarto {:format {:revealjs {:theme :white
-                                      :transition :fade
+                                      :transition :none
                                       :transition-speed :fast}}
 
                   :fontsize "2em"
@@ -34,24 +34,26 @@
             [tech.v3.datatype.functional :as fun]
             [tech.v3.tensor :as tensor]))
 
-;; # {background-color="black" background-image="src/resources/slide-0.png" background-size="cover"}r
+;; # {background-color="black" background-image="src/resources/slide-0.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; Hi I’m Sami Kallinen
 ;; :::
 
 ;; # {background-color="pblack" background-image="src/resources/slide-1.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; I’ve done all kinds of things, but around three or four years ago, I shifted towards almost full-time development. Thus, in many respects, I am indeed, still an old novice.
 ;; :::
 
 ;; # {background-color="black" background-image="src/resources/slide-2.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; I am with with 8-bit-sheep, a consultancy that I co-founded with some other sheep about 7 years ago. We specialize in building tech stuff and especially building data stuff.
 ;; :::
 
 ;; # {background-color="black" background-image="src/resources/slide-3.png" background-size="cover"}
 ;; ::: {.notes}
-;; Not working very well
+;; I should also give a shout out to KP System, which was recently acquired by Geomatikk.
+;;
+;; I have been working for them for three years, developing a full-stack Clojure application that is used by Swedish municipalities. We have a small but exceptional team of four Clojure developers who are a joy to work with. It's an excellent opportunity for remote work with Clojure, so keep an eye out for any open positions if you're interested.
 ;; :::
 
 ;; # {background-color="black" background-image="src/resources/slide-4.png" background-size="cover"}
@@ -81,10 +83,308 @@
 ;; Not working very well
 ;; :::
 
-;; # {background-color="white" background-image="src/resources/slide-9.png" background-size="cover"}
+;; # {background-color="white" background-image="src/resources/slide-10.png" background-size="cover"}
 ;; ::: {.notes}
 ;; Not working very well
 ;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-11.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-12.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-13.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-14.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-15.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="black" background-image="src/resources/slide-16.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="black" background-image="src/resources/slide-17.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="black" background-image="src/resources/slide-18.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-video="src/resources/atlantic.mp4" background-video-loop="true" background-video-muted="true"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+;;
+
+;; # {background-color="black" background-image="src/resources/slide-20.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="black" background-image="src/resources/slide-20.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="black" background-image="src/resources/slide-21.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="black" background-image="src/resources/slide-22.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="black" background-image="src/resources/slide-23.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="black" background-image="src/resources/slide-24.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="black" background-image="src/resources/slide-25.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="black" background-image="src/resources/slide-26.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="black" background-image="src/resources/slide-27.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-28.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-29.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-30.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-31.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-32.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-33.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-33.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-34.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-35.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="black" background-image="src/resources/slide-36.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+
+;; # {background-color="black" background-image="src/resources/slide-37.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="black" background-image="src/resources/slide-38.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="black" background-image="src/resources/slide-39.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="black" background-image="src/resources/slide-40.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-41.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-41.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-42.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-43.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-44.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-45.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-46.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-47.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-48.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-49.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-50.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-51.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-52.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-53.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-54.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-55.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-56.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-57.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-58.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-59.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-60.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="black" background-image="src/resources/slide-61.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="black" background-image="src/resources/slide-62.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="white" background-image="src/resources/slide-63.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="black" background-image="src/resources/slide-64.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="black" background-image="src/resources/slide-65.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
+;; # {background-color="black" background-image="src/resources/slide-65.png" background-size="cover"}
+;; ::: {.notes}
+;; Not working very well
+;; :::
+
 
 
 ;; # Multivariate regression
