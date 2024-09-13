@@ -1414,7 +1414,7 @@ model {
 ;; ::: {.notes}
 ;; Fin
 ;; :::
-;; We want to show the two surfaces only synthetic and after adding the empirical
+
 
 ^:kindly/hide-code
 (def empirical-example-idx
@@ -1437,7 +1437,7 @@ model {
 ^:kindly/hide-code
 (defn show-empirical-example [i]
   (let [{:as example
-         :keys [velocity]} (empirical-example i)]
+         :keys [velocity angle wind]} (empirical-example i)]
     (->> [{:results @core/results-without-empirical
            :color "grey"
            :title "posterior without empirical"}
@@ -1468,12 +1468,15 @@ model {
                     (assoc-in [:layout :width]  900)
                     (assoc-in [:layout :height]  450))))
          (cons (kind/hiccup
-                [:h3 (str "empirical example #" i)]))
+                [:h4 (str "empirical example #" i
+                          " angle:" angle
+                          " wind: " wind
+                          " velocity:" velocity )]))
          kind/fragment)))
 
 ^:kindly/hide-code
 (delay
-  (show-empirical-example 9))
+  (show-empirical-example (rand-int 230)))
 
 ;; ## Some single numbers
 ;; ::: {.notes}
