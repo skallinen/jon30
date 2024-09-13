@@ -111,8 +111,9 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-9.png" background-size="cover"}
 ;; ::: {.notes}
-;; This project has been done in collaboration with Daniel Slutsky a few months ago.
-;; A few monthjs back I had a conversation with Daniel, a driving force in the community, about submittin a proposal to the heart of Clojure showcasing the Scicloj tools.
+;; - This project has been done in collaboration with Daniel Slusky, who is a driving forse in the community.
+;; - A few months back I had a conversation with him, about submittin a proposal to the heart of Clojure showcasing the Scicloj tools.
+;; - To showcase the tools effectively, you'll need a real-world data problem. How about combining your two passions: Clojure and Sailing?
 ;; :::
 
 ^:kindly/hide-code
@@ -120,13 +121,13 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-10.png" background-size="cover"}
 ;; ::: {.notes}
-;; To showcase the tools effectively, you'll need a real-world data problem. How about combining your two passions: Clojure and Sailing? You could even sail down to Belgium to give the talk.
+;;  One could even sail down to Belgium to give the talk.
 ;; :::
 
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; # {background-color="white" background-image="src/resources/slide-11.png" background-size="cover"  visibility="hidden"}
+;; ## {background-color="white" background-image="src/resources/slide-11.png" background-size="cover"  visibility="hidden"}
 ;; ::: {.notes}
 ;; A few words about my sailing. If someone had told me five years ago that I would become a sailor, I would have laughed in their face. I used to think sailing was only for wealthy and prominent yachtsmen with lots of status and resources.
 ;; :::
@@ -184,7 +185,7 @@
 
 ;; ## {background-color="black" background-image="src/resources/slide-20.png" background-size="cover"}
 ;; ::: {.notes}
-;; This summer, I acquired my third boat. It's still quite small, but it is almost like a miniature version of a Sparkman & Stephens Swan, which sailors here might appreciate. Despite its size, it's robust and reliable, even if it may not be the fastest in modern races.
+;; This summer, I acquired my third boat. Despite its size, it's robust and reliable, even if it may not be the fastest in modern races.
 ;; :::
 
 ^:kindly/hide-code
@@ -370,7 +371,7 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-43.png" background-size="cover"}
 ;; ::: {.notes}
-;; This is how the looks. Notice how easy it is to make a simple plot with hanamicloth.
+;; This is how the data looks. Notice how easy it is to make a simple plot with hanamicloth.
 
 ;; On the y axis we see the vessel speed.
 
@@ -386,15 +387,17 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-44.png" background-size="cover"}
 ;; ::: {.notes}
-;; But what is this slump here? Glad you asked.
+;; - But what is this slump here? Glad you asked.
+;; - In these parts, when the wind comes slightly from the front or the side, the sail acts as an airplane wing that creates lift. This is why some boats can sail faster than the wind in certain conditions.
+;; - When sailing downwind in these parts, the wind coming from behind makes the sail act like a parachute.
 ;; :::
 
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="white" background-image="src/resources/slide-45.png" background-size="cover"}
+;; ## {background-color="white" background-image="src/resources/slide-45.png" background-size="cover" visibility="hidden"}
 ;; ::: {.notes}
-;; Normally, the sail of a boat functions similar to an airplane wing, generating lift as air passes over it. This explains why boats can sometimes move faster than the wind.
+;; Todo. Change pictureNormally, the sail of a boat functions similar to an airplane wing, generating lift as air passes over it. This explains why boats can sometimes move faster than the wind.
 ;; :::
 
 ^:kindly/hide-code
@@ -408,7 +411,7 @@
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="white" background-image="src/resources/slide-47.png" background-size="cover"}
+;; ## {background-color="white" background-image="src/resources/slide-47.png" background-size="cover" visibility="hidden"}
 ;; ::: {.notes}
 ;; But in the case of a slump, when the wind is coming from behind, around 180 degrees, we are sailing downwind and the sails no longer function like airplane wings; they act more like parachutes. This can restrict the maximum speed and accounts for the slump.
 ;; :::
@@ -416,7 +419,7 @@
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="white" background-image="src/resources/slide-48.png" background-size="cover"}
+;; ## {background-color="white" background-image="src/resources/slide-48.png" background-size="cover" visibility="hidden"}
 ;; ::: {.notes}
 ;;
 ;; :::
@@ -426,7 +429,7 @@
 
 ;; ## {background-color="black" background-image="src/resources/slide-23.png" background-size="cover"}
 ;; ::: {.notes}
-;; But fortunately, we were able to enjoy some of the beautiful Baltic archipelago along the southern coastline of Finland.
+;; Sailing boat pic change this? Fuzzy
 ;; :::
 
 ^:kindly/hide-code
@@ -467,10 +470,16 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-53.png" background-size="cover"}
 ;; ::: {.notes}
-;;  The function where we model the data is not actually needed as we could pass some flags to hanamicloth that would hten result in a regression line, but we have the more explicit version here to have control and to show how we do more complex versions later. Lets run through what the modelling function does.
-;; First off we take the data with the wind-strength function.
-;; We then shape and manipulate the data to fit the requirements of our equation. This process can be smoothly executed with a design matrix, which I will explain in the upcoming slides. It should be noted that in this scenario, it is not actually necessary. Subsequently, we send the matrix to be trained in the model. We utilize the model to forecast new velocity values using a variety of angles provided. After obtaining the predictions, we include additional columns in the dataset and make some adjustments before visualization.
-
+;; - The function where we model the data is not actually needed as we could pass some flags to hanamicloth that would then result in a regression line.
+;; - We have the more explicit version here to have more control and to show how we do more complex versions later.
+;; - Let's run through what the modelling function does.  
+;; - First off, we take the data with the wind-strength function.
+;; - We then shape and manipulate the data to fit the requirements of our equation. 
+;; - This process can be easily done with a design matrix, which I will explain in the upcoming slides.
+;; - It should be noted that in this scenario, it is not actually necessary. 
+;; - Subsequently, we send the matrix to be trained in the model. 
+;; - We utilize the model to forecast new velocity values using a variety of angles provided. 
+;; - After obtaining the predictions, we include additional columns in the dataset and make some adjustments before visualization
 ;; :::
 
 ^:kindly/hide-code
@@ -534,7 +543,7 @@
 
 ;; ## {background-color="black" background-image="src/resources/slide-61.png" background-size="cover"}
 ;; ::: {.notes}
-;; If we examine the model, it contains metrics that show the model's performance. An R-squared value of 0.97 is almost perfect. A value of 0 suggests the model doesn't explain any variation in the data, while 1 would indicate the model can explain all the variation in the data.
+;; If we inspect the model, it also metrics that show the model's performance. An R-squared value of 0.97 is almost perfect. A value of 0 suggests the model doesn't explain any variation in the data, while 1 would indicate the model can explain all the variation in the data.
 ;; :::
 
 ^:kindly/hide-code
@@ -551,7 +560,7 @@
 
 ;; # {background-color="black" background-image="src/resources/slide-62.png" background-size="cover"}
 ;; ::: {.notes}
-;; But unfortunately, or perhaps fortunately, the wind varies on Earth. Therefore, we need to introduce another variable, which includes the wind strength. That means we are testing a multivariate regression.
+;; But unfortunately, or perhaps fortunately, the wind varies on Earth. Therefore, we need to introduce another variable, which includes the wind strength. That means we are now going to attempt multivariate regression.
 ;; :::
 
 ^:kindly/hide-code
@@ -567,7 +576,7 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-63.png" background-size="cover"}
 ;; ::: {.notes}
-;; So we include the wind strength and its parameters, alpha, in the model.
+;; We will now incorporate the wind intensity and its parameters, alpha, into the model.
 ;; :::
 
 ^:kindly/hide-code
@@ -590,7 +599,7 @@
 
 ;; ## Multivariate regression
 ;; ::: {.notes}
-;; Not working very well
+;; 
 ;; :::
 ^:kindly/hide-code
 (delay
@@ -756,44 +765,15 @@
       :layout {:width 1200
                :height 600}})))
 
-;; ## velocity ~ angle + angle<sup>2</sup>  + angle<sup>3</sup>  TODO! Parabola
+;; ## {background-color="black" background-image="src/resources/cubic-formula.png" background-size="cover"}
 ;; ::: {.notes}
 ;; Cubic polynomial
 ;; :::
-^:kindly/hide-code
-[[:velocity]
- [[:angle '(identity angle)]
-  [:angle2 '(* angle angle)]
-  [:angle3 '(* angle angle)]
-  [:wind '(identity wind)]
-  [:wind2 '(* wind wind)]
-  [:wind3 '(* wind wind wind)]]]
 
-;; ## Parameters
+;; ## {background-color="black" background-image="src/resources/cubic-equation.png" background-size="cover"}
 ;; ::: {.notes}
 ;; If you recall the equation we examined earlier for the cubic polynomial, we will now utilize the same one but also incorporate a cubic polynomial for the wind values.
 ;; :::
-
-
-;; Velocity =
-
-;; α₀ +
-
-;; α₁ * Wind +
-
-;; α₂ * Wind² +
-
-;; α₃ * Wind³
-
-;; β₀ +
-
-;; β₁ * Angle +
-
-;; β₂ * Angle² +
-
-;; β₃ * Angle³
-
-
 
 ;; ## Cubic polynomial
 ;; ::: {.notes}
@@ -1624,7 +1604,10 @@ model {
 ;; [ ] Do the equation slides
 ;; [ ] Restructure the beginning
 ;; [ ] Redo the intro slide with simplicity
-;; [ ]
+;; [ ] Change the wing-image
+
+
+
 ;; ** nice slides
 ;; is it a custom reveal theme?
 ;; ** nice joke (Clojure -> Bayesian statistics)
@@ -1664,3 +1647,5 @@ model {
 ;; ** is the code available?:
 ;; expected velosity given angle and wind
 ;;
+;; 
+;; our parameters are very few. they are the unknowns. other things are derived from them. in our cse everythin gis derived plus noise.
