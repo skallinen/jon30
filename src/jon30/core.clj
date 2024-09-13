@@ -1598,7 +1598,11 @@ model {
     a1_wind ~ normal(0,10);
     a2_wind ~ normal(0,10);
     a3_wind ~ normal(0,10);
-}")
+}
+generated quantities {
+    array[n] real velocity_rep = normal_rng(mu, sigma);
+}
+")
 
 (def jon-polynomial-model
   (delay
@@ -1815,7 +1819,7 @@ model {
                     (#(stan/sample @jon-polynomial-model
                                    %
                                    {:num-warmup 400
-                                    :num-samples 50
+                                    :num-samples 400
                                     :num-chains 4
                                     :num-threads 4}))
                     :samples)
@@ -1823,7 +1827,7 @@ model {
                                   (map (fn [f]
                                          (-> samples
                                              (tc/select-columns (comp
-                                                                 (partial re-find #"mu")
+                                                                 (partial re-find #"velocity_rep")
                                                                  name))
                                              (->> (map (fn [[k column]]
                                                          (f column)))
@@ -1869,12 +1873,18 @@ model {
                                  :mode :markers
                                  :name part
                                  :marker {:size 3
-                                          :opacity 0.8}
+                                          :opacity 0.8
+                                          :color (case (first part)
+                                                   :vpp :purple
+                                                   :empirical :red)}
                                  :x (tcc/- x min-angle)
                                  :y (tcc/- y min-wind)
                                  :z z}))))
-      :layout {:width 900
-               :height 600}})
+      :layout {:autosize false
+               :width 900
+               :height 600
+               :margin {:l 0 :r 0 :b 0 :t 0
+                        :pad 4}}})
     (kind/fragment
      (for [k [:a0
               :a1_angle :a2_angle :a3_angle ;; :a4_angle
@@ -1882,10 +1892,10 @@ model {
               :sigma]]
        (-> samples
            (ploclo/layer-line (merge {:=x :i
-                                       :=y k}
-                                      (when (:chain samples)
-                                        {:=color :chain
-                                         :=color-type :nominal})))
+                                      :=y k}
+                                     (when (:chain samples)
+                                       {:=color :chain
+                                        :=color-type :nominal})))
 
            ploclo/plot
            (assoc-in [:layout :width]  900)
