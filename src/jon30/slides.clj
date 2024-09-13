@@ -400,7 +400,7 @@
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="white" background-image="src/resources/slide-46.png" background-size="cover"}
+;; ## {background-color="white" background-image="src/resources/slide-46.png" background-size="cover" visibility="hidden"}
 ;; ::: {.notes}
 ;; I'll give you a moment to digest this, there will be a test at the end.
 ;; :::
@@ -557,6 +557,14 @@
 ^:kindly/hide-code
 (kind/fragment [])
 
+;; ## {background-color="black" background-image="src/resources/multivariate.png" background-size="cover"}
+;; ::: {.notes}
+;; Multivariate
+;; :::
+
+^:kindly/hide-code
+(kind/fragment [])
+
 ;; ## {background-color="white" background-image="src/resources/slide-63.png" background-size="cover"}
 ;; ::: {.notes}
 ;; So we include the wind strength and its parameters, alpha, in the model.
@@ -580,17 +588,7 @@
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="black" background-image="src/resources/slide-23.png" background-size="cover"}
-;; ::: {.notes}
-;; But fortunately, we were able to enjoy some of the beautiful Baltic archipelago along the southern coastline of Finland.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-
-
-;; # Multivariate regression
+;; ## Multivariate regression
 ;; ::: {.notes}
 ;; Not working very well
 ;; :::
@@ -1193,7 +1191,7 @@
 
 ;; # {background-color="black" background-image="src/resources/bayesian.png" background-size="cover"}
 ;; ::: {.notes}
-;; Now we aim to get into Bayesian Statistics. There are various reasons I mentioned earlier in the presentation, but now we have some more practical reasons for wanting to pursue it.
+;; So now we come to Bayesian Statistics. In addition to the reasons mentioned earlier, there are particular reasons for why we are choosing it.
 ;; :::
 
 
@@ -1214,6 +1212,9 @@
 
 ;; Using synthetic data as a benchmark for our boat's optimal performance, and through a Bayesian approach, we plan to compare and update this with real-world measurements to assess and enhance our actual performance.
 
+^:kindly/hide-code
+(kind/fragment [])
+
 ;; ## {background-color="black" background-image="src/resources/cubic-equation.png" background-size="cover"}
 ;; ::: {.notes}
 ;; In Bayesian analysis, we view the parameters not as a single fitted value, but as random variables with uncertainty. This means that all the alphas and betas have distributions, allowing us to reason about the likelihood of various parameters and, ultimately, different predicted values.
@@ -1221,6 +1222,21 @@
 
 ^:kindly/hide-code
 (kind/fragment [])
+
+;; ## STAN in the house {.v-center-conteiner}
+;; ::: {.notes}
+;; STAN is a probabilistic programming language that enables users to create intricate statistical models and conduct Bayesian inference on them. It boasts some of the most efficient algorithms for modeling. STAN can be utilized in Clojure with the Scicloj library known as cmdstan-clj.
+;; :::
+
+;;::: {layout="[[-1], [1], [-1]]"}
+
+;; ![](src/resources/stan_logo.png){fig-align="center"}
+
+;;:::
+
+^:kindly/hide-code
+(kind/fragment [])
+
 
 ;; ## 
 (kind/md
@@ -1313,25 +1329,31 @@ model {
 ```")
 ;; ## Doing the modelling {.scrollable}
 ;; ::: {.notes}
-;; To keep track of our modeling process, we also include some plots to ensure that everything is progressing as we expect. These look good!
-;; :::
-
-^:kindly/hide-code
-(delay
-  (first (core/plot-one-run @core/results-without-empirical
-                      {:colorscale "Greys"}))
-  )
-
-;; ## Doing the modelling {.scrollable}
-;; ::: {.notes}
-;; To keep track of our modeling process, we also include some plots to ensure that everything is progressing as we expect. These look good!
-;; :::
+;; - Before reviewing the results, we must verify that our modeling is functioning correctly.
+;; - Bayesian methods construct models through simulation.
+;; - In this display, we can observe the parameter values for each iteration of the simulation.
+;; - The values should remain consistent around similar numbers, as shown here.
+;; - We conducted the simulation four times, each represented by a different color.
+;; - These results appear favorable, as the values are consistent across iterations, and the different attempts show similarities.;; :::
+;; ::: 
 
 ^:kindly/hide-code
 (delay
   (kind/fragment
    (rest (core/plot-one-run @core/results-without-empirical
                             {:colorscale "Greys"}))))
+
+;; ## Doing the modelling {.scrollable}
+;; ::: {.notes}
+;; - We are modeling the same data as before.
+;; - Now we have introduced two surfaces, and the gap between them is where our anticipated values should lie with a 95% probability. This is the true interpretation. You might have come across confidence intervals in conventional statistics, and most people think they refer to this exact concept. However, in Bayesian statistics, it is quite straightforward to pose such questions to our model.
+;; :::
+^:kindly/hide-code
+(delay
+  (first (core/plot-one-run @core/results-without-empirical
+                      {:colorscale "Greys"}))
+  )
+
 
 ;; ## Real measurements + syntethetic data
 ;; ::: {.notes}
@@ -1433,7 +1455,7 @@ model {
                     (tc/select-columns :posterior-velocity)
                     (ploclo/base {:=title title})
                     (ploclo/layer-histogram {:=x :posterior-velocity
-               ;;                              :=histogram-nbins 30
+                                           ;;  :=histogram-nbins 30
                                              :=mark-color color})
                     (ploclo/update-data (constantly
                                          (tc/dataset
@@ -1514,13 +1536,19 @@ model {
 ;; 
 ;; :::
 
+^:kindly/hide-code
+(kind/fragment [])
+
 
 ;; ## Conclusion
-;; We've made good progress. We can and will keep working on the actual model.
+;; - We've made good progress. We can and will keep working on the actual model.
 
-;; The tools Scicloj tools are there. We can work on pretty advanced problems with Clojure data science tools.
+;; - The tools Scicloj tools are there. We can work on pretty advanced problems with Clojure data science tools.
 
-;; ## Selected Dependencies
+^:kindly/hide-code
+(kind/fragment [])
+
+;; ## Selected Dependencies for this project
 ;; ::: {.notes}
 ;; 
 ;; :::
@@ -1533,45 +1561,105 @@ model {
 ;; - Hanamicloth and Plotlycloth
 ;; - Cmdstan-clj
 ;; - Clay
-;; - Noj
+;; - Noj, released today!
 
+
+^:kindly/hide-code
+(kind/fragment [])
 
 ;; ## Noj
-;;"Noj" brings together essential Clojure libraries for data science purposes and provides documentation on how to effectively utilize them in tandem.
+;; - "Noj" brings together essential Clojure libraries for data science purposes and provides documentation on how to effectively utilize them in tandem.
+;; - Forget about version compatibility issues - "Noj" has your back.
+;; - Unsure about which tool is optimal for a specific task? "Noj" has thought about that already!
+;; - https://github.com/scicloj/noj
+;; - Released today! Noj v2 alpha FTW!
 
-;; Forget about version compatibility issues - "Noj" has your back.
 
-;; Unsure about which tool is optimal for a specific task? "Noj" has thought about that already!
-
-;; https://github.com/scicloj/noj
-
+^:kindly/hide-code
+(kind/fragment [])
 
 ;; ## Opportunities to take advantage of
 ;; There are numerous opportunities here. If you are eager to learn, there are plenty of chances for you. You can explore Clojure, Data Science, or Open Source projects. Scicloj provides an excellent program for mentoring open source developers. Check out the website to learn more; it's a fantastic resource.
+
+^:kindly/hide-code
+(kind/fragment [])
 
 ;; ## Some heroes
 ;; ::: {.notes}
 ;; 
 ;; :::
 ;;
-;; 1. Generateme
-;; 2. Chris Nuernberger
-;; 3. Jon Anthony
-;; 4. Carsten Behring
-;; 5. Generateme
-;; 6. Daniel Slustky
-;; 7. Kira McLean
-;; 8. Daniel Slutsky
+;; - Generateme
+;; - Chris Nuernberger
+;; - Jon Anthony
+;; - Carsten Behring
+;; - Generateme
+;; - Kira McLean
+;; - Daniel Slutsky
 ;; - The Scicloj Community!
 
-;; ## Thank you
+
+
+;; ##  Thank you! {background-video="src/resources/sailing-downwind.mp4" background-video-loop="true" background-video-muted="true"}
 ;; ::: {.notes}
 ;; 
 ;; :::
+;;
 
 
-;; ## Todo
+^:kindly/hide-code
+(kind/fragment [])
+
+
+;; ## Todo {visibility="hidden"}
 ;; [x] Stan in the house slide
+;; [ ] Fix the structure of the slides
+;; [ ] add names to axis
+;; [ ] not all symbols are defined
+;; [ ] whortex shedding?
+;; [ ] 
+;; [ ] introduce the experimental data more cleverly, differentiate between make more clear.
+;; [ ] spike problem just probably a numercial problen, external library is a huge blob of stateful OOP code. 
 ;; [ ] Do the equation slides
 ;; [ ] Restructure the beginning
 ;; [ ] Redo the intro slide with simplicity
+;; [ ] 
+;; ** nice slides
+;; is it a custom reveal theme?
+;; ** nice joke (Clojure -> Bayesian statistics)
+;; ** good pace
+;; ** pitched well (assumed background knowledge)
+;; ** clear delivery
+;; ** not all of the symbols were defined
+;; might be better to replace the symbols with words
+;; ** vortex shedding?
+;; is it a necessary phrase?
+;; ** how did you do the regression?
+;; did it come from fastmath?
+;; ** what (conceptually) do the betas mean?
+;; maybe better to say offset and gradient (of the line) for the 2D case, before the intuition is lost at higher dimensions
+
+;; ** what is dm?
+;; ** haclo/layer-line?
+;; ** I like the resting slide :)
+;; ** didn't understand how you added terms to the model
+;; looked efficient though!
+;; ** plotly?
+;; did you reach out to python or is 3D plotly now part of Hanamicloth?
+;; ** x y z axes cold have more descriptive names
+;; I'd forgotten what each represented!
+;; ** Bayesian plots don't have a visible x-axis
+;; (until you scroll down)
+
+;; ** there is more emphasis on the topic (goodness of the model etc.) than on the implementation
+;; if you're looking for areas to save time then you could do less 'real' analysis of the plots and model.
+
+;; ** how were the polar plots plotted?
+;; plotly or Hanami etc.?
+
+;; ** tools Scicloj tools is a typo? (Conclusion slide)
+
+;; ** really nice theme
+;; ** is the code available?:
+;; expected velosity given angle and wind
+;; 
