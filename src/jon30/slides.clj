@@ -1221,11 +1221,17 @@
 
 ;; β₃ * Angle³
 
-;; ## STAN in the house
+;; ## STAN in the house {.v-center-conteiner}
 ;; ::: {.notes}
 ;; STAN is a probabilistic programming language that enables users to create intricate statistical models and conduct Bayesian inference on them. It boasts some of the most efficient algorithms for modeling. STAN can be utilized in Clojure with the Scicloj library known as cmdstan-clj.
 ;; :::
-;;
+
+;;::: {layout="[[-1], [1], [-1]]"}
+
+;; ![](src/resources/stan_logo.png){fig-align="center"}
+
+;;:::
+
 
 
 ;; ## Modelling with STANS
