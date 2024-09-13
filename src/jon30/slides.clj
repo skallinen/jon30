@@ -1493,7 +1493,7 @@ model {
              tensor/->tensor
              (map-indexed
               (fn [i-stat stat-surfaces]
-                (->> [6 12 18 24]
+                (->> [6 18]
                      (map (fn [wind]
                             (let [velocities-by-angle (-> wind
                                                           (- 4)
