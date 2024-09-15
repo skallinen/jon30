@@ -676,7 +676,8 @@
                   :mode :markers
                   :marker {:size 6
                            :line {:width 0.5
-                                  :opacity 0.8}}
+                                  :opacity 0.8}
+                           :color :purple}
                   :x (tcc/- (:x training-data-trace)
                             min-angle)
                   :y (tcc/- (:y training-data-trace)
@@ -783,7 +784,8 @@
                   :mode :markers
                   :marker {:size 6
                            :line {:width 0.5
-                                  :opacity 0.8}}
+                                  :opacity 0.8}
+                           :color :purple}
                   :x (tcc/- (:x training-data-trace)
                             min-angle)
                   :y (tcc/- (:y training-data-trace)
@@ -880,7 +882,8 @@
                   :mode :markers
                   :marker {:size 6
                            :line {:width 0.5
-                                  :opacity 0.8}}
+                                  :opacity 0.8}
+                           :color :purple}
                   :x (tcc/- (:x training-data-trace)
                             min-angle)
                   :y (tcc/- (:y training-data-trace)
@@ -975,7 +978,8 @@
                   :mode :markers
                   :marker {:size 6
                            :line {:width 0.5
-                                  :opacity 0.8}}
+                                  :opacity 0.8}
+                           :color :purple}
                   :x (tcc/- (:x training-data-trace)
                             min-angle)
                   :y (tcc/- (:y training-data-trace)
@@ -1065,7 +1069,8 @@
                   :mode :markers
                   :marker {:size 6
                            :line {:width 0.5
-                                  :opacity 0.8}}
+                                  :opacity 0.8}
+                           :color :purple}
                   :x (tcc/- (:x training-data-trace)
                             min-angle)
                   :y (tcc/- (:y training-data-trace)
@@ -1200,7 +1205,8 @@
                   :mode :markers
                   :marker {:size 6
                            :line {:width 0.5
-                                  :opacity 0.8}}
+                                  :opacity 0.8}
+                           :color :purple}
                   :x (tcc/- (:x training-data-trace)
                             min-angle)
                   :y (tcc/- (:y training-data-trace)
@@ -1419,7 +1425,10 @@ model {
                               :mode :markers
                               :name part
                               :marker {:size 5
-                                       :opacity 0.8}
+                                       :opacity 0.8
+                                       :color (case (first part)
+                                                :vpp :purple
+                                                :empirical :red)}
                               :x (tcc/- x min-angle)
                               :y (tcc/- y min-wind)
                               :z z}))))
