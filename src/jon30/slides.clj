@@ -1547,7 +1547,7 @@ model {
                 (->> [6 18]
                      (map (fn [wind]
                             (let [velocities-by-angle (-> wind
-                                                          (- 4)
+                                                          (- min-wind)
                                                           stat-surfaces)]
                               (-> {:stat i-stat
                                    :wind (str wind " knots")
