@@ -619,7 +619,7 @@
           [:wind '(identity wind)]]]
 
         predict-ds
-        (-> (for [a core/angles
+        (-> (for [a (range 181)
                   w (range 30)]
               {:angle a
                :wind w
@@ -679,10 +679,8 @@
                            :line {:width 0.5
                                   :opacity 0.8}
                            :color :purple}
-                  :x (tcc/- (:x training-data-trace)
-                            min-angle)
-                  :y (tcc/- (:y training-data-trace)
-                            min-wind)
+                  :x (:x training-data-trace)
+                  :y (:y training-data-trace)
                   :z (:z training-data-trace)})]
       :layout {:width 1000
                :height 600
@@ -727,7 +725,7 @@
           [:wind '(identity wind)]
           [:wind2 '(* wind wind)]]]
         predict-ds
-        (-> (for [a core/angles
+        (-> (for [a (range 181)
                   w (range 30)]
               {:angle a
                :wind w
@@ -787,10 +785,8 @@
                            :line {:width 0.5
                                   :opacity 0.8}
                            :color :purple}
-                  :x (tcc/- (:x training-data-trace)
-                            min-angle)
-                  :y (tcc/- (:y training-data-trace)
-                            min-wind)
+                  :x (:x training-data-trace)
+                  :y (:y training-data-trace)
                   :z (:z training-data-trace)})]
       :layout {:width 1000
                :height 600
@@ -825,7 +821,7 @@
           [:wind2 '(* wind wind)]
           [:wind3 '(* wind wind wind)]]]
         predict-ds
-        (-> (for [a core/angles
+        (-> (for [a (range 181)
                   w (range 30)]
               {:angle a
                :wind w
@@ -885,10 +881,8 @@
                            :line {:width 0.5
                                   :opacity 0.8}
                            :color :purple}
-                  :x (tcc/- (:x training-data-trace)
-                            min-angle)
-                  :y (tcc/- (:y training-data-trace)
-                            min-wind)
+                  :x (:x training-data-trace)
+                  :y (:y training-data-trace)
                   :z (:z training-data-trace)})]
       :layout {:width 1000
                :height 600
@@ -917,7 +911,7 @@
           [:wind2 '(* wind wind)]
           [:wind3 '(* wind wind wind)]]]
         predict-ds
-        (-> (for [a core/angles
+        (-> (for [a (range 181)
                   w (range 30)]
               {:angle a
                :wind w
@@ -927,20 +921,11 @@
         predict-matrix (-> predict-ds
                            (#(apply dm/create-design-matrix % formula)))
 
-        training-data (-> data/vpp-polar-01
-                          tc/dataset)
-        min-wind (-> training-data
-                     :wind
-                     tcc/reduce-min)
-
-        min-angle (-> training-data
-                      :angle
-                      tcc/reduce-min)
-
         training-data        (-> (tc/dataset "jon30vpp.csv" {:key-fn keyword})
                                  (tc/rename-columns {:twa :angle
                                                      :tws :wind
                                                      :vessel-speed :velocity}))
+
         training-design-matrix (-> training-data
                                    (#(apply dm/create-design-matrix % formula)))
 
@@ -981,15 +966,21 @@
                            :line {:width 0.5
                                   :opacity 0.8}
                            :color :purple}
-                  :x (tcc/- (:x training-data-trace)
-                            min-angle)
-                  :y (tcc/- (:y training-data-trace)
-                            min-wind)
+                  :x (:x training-data-trace)
+                  :y (:y training-data-trace)
                   :z (:z training-data-trace)})]
       :layout {:width 1000
                :height 600
-               :scene {:xaxis {:title "Wind"}
-                       :yaxis {:title "Angle"}
+               :scene {:xaxis {:title "Wind"
+                               :range (-> predict-ds
+                                          :wind
+                                          ((juxt tcc/reduce-min
+                                                 tcc/reduce-max)))}
+                       :yaxis {:title "Angle"
+                               :range (-> predict-ds
+                                          :angle
+                                          ((juxt tcc/reduce-min
+                                                 tcc/reduce-max)))}
                        :zaxis {:title "Velocity"}}}})))
 
 
@@ -1008,7 +999,7 @@
           [:wind2 '(* wind wind)]
           [:wind3 '(* wind wind wind)]]]
         predict-ds
-        (-> (for [a core/angles
+        (-> (for [a (range 181)
                   w (range 30)]
               {:angle a
                :wind w
@@ -1018,20 +1009,11 @@
         predict-matrix (-> predict-ds
                            (#(apply dm/create-design-matrix % formula)))
 
-        training-data (-> data/vpp-polar-01
-                          tc/dataset)
-        min-wind (-> training-data
-                     :wind
-                     tcc/reduce-min)
-
-        min-angle (-> training-data
-                      :angle
-                      tcc/reduce-min)
-
         training-data        (-> (tc/dataset "jon30vpp.csv" {:key-fn keyword})
                                  (tc/rename-columns {:twa :angle
                                                      :tws :wind
                                                      :vessel-speed :velocity}))
+
         training-design-matrix (-> training-data
                                    (#(apply dm/create-design-matrix % formula)))
 
@@ -1072,10 +1054,8 @@
                            :line {:width 0.5
                                   :opacity 0.8}
                            :color :purple}
-                  :x (tcc/- (:x training-data-trace)
-                            min-angle)
-                  :y (tcc/- (:y training-data-trace)
-                            min-wind)
+                  :x (:x training-data-trace)
+                  :y (:y training-data-trace)
                   :z (:z training-data-trace)})]
       :layout {:width 1000
                :height 600
@@ -1144,7 +1124,7 @@
           [:wind2 '(* wind wind)]
           [:wind3 '(* wind wind wind)]]]
         predict-ds
-        (-> (for [a core/angles
+        (-> (for [a (range 181)
                   w (range 30)]
               {:angle a
                :wind w
@@ -1153,16 +1133,6 @@
 
         predict-matrix (-> predict-ds
                            (#(apply dm/create-design-matrix % formula)))
-
-        training-data (-> data/vpp-polar-01
-                          tc/dataset)
-        min-wind (-> training-data
-                     :wind
-                     tcc/reduce-min)
-
-        min-angle (-> training-data
-                      :angle
-                      tcc/reduce-min)
 
         training-data        (-> (tc/dataset "jon30vpp.csv" {:key-fn keyword})
                                  (tc/rename-columns {:twa :angle
@@ -1208,10 +1178,8 @@
                            :line {:width 0.5
                                   :opacity 0.8}
                            :color :purple}
-                  :x (tcc/- (:x training-data-trace)
-                            min-angle)
-                  :y (tcc/- (:y training-data-trace)
-                            min-wind)
+                  :x (:x training-data-trace)
+                  :y (:y training-data-trace)
                   :z (:z training-data-trace)})]
       :layout {:width 1000
                :height 600
@@ -1416,8 +1384,8 @@ model {
                       tcc/reduce-min)]
      {:data  (-> core/vpp-and-empirical-data
                  (tc/select-rows (comp not neg? :velocity))
-                 (tc/rename-columns {:angle :x
-                                     :wind :y
+                 (tc/rename-columns {:angle :y
+                                     :wind :x
                                      :velocity :z})
                  (tc/group-by [:part] {:result-type :as-map})
                  vals
@@ -1430,14 +1398,19 @@ model {
                                        :color (case (first part)
                                                 :vpp :purple
                                                 :empirical :red)}
-                              :x (tcc/- x min-angle)
-                              :y (tcc/- y min-wind)
+                              :x x
+                              :y y
                               :z z}))))
       :layout {:width 1000
                :height 600
-               :scene {:xaxis {:title "Wind"}
-                       :yaxis {:title "Angle"}
-                       :zaxis {:title "Velocity"}}}})))
+               :scene {:xaxis {:title "Wind"
+                               :range [0 30]}
+                       :yaxis {:title "Angle"
+                               :range [0 181]}
+                       :zaxis {:title "Velocity"
+                               :range [0 (-> core/vpp-and-empirical-data
+                                             :velocity
+                                             tcc/reduce-max)]}}}})))
 
 ;; ## Updating the synthetic model with the measurements  {.scrollable}
 ;; ::: {.notes}
