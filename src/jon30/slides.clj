@@ -1541,7 +1541,7 @@ model {
                                                           (- 4)
                                                           stat-surfaces)]
                               (-> {:stat i-stat
-                                   :wind wind
+                                   :wind (str wind " knots")
                                    :angle (-> velocities-by-angle
                                               count
                                               range
@@ -1555,8 +1555,7 @@ model {
          {:=r :velocity
           :=theta :angle
           :=coordinates :polar
-          :=color :wind
-          :=color-type :nominal})
+          :=color :wind})
         ploclo/plot
         (assoc-in [:layout :polar]
 
