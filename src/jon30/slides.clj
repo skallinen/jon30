@@ -447,7 +447,7 @@
 
 ;; # {background-color="white" background-image="src/resources/slide-49.png" background-size="contain"}
 ;; ::: {.notes}
-;; So lets get busy modelling. Regression is a statistical tool used to un100% auto the relationship between two variables.
+;; So lets get busy modelling. Regression is a statistical tool used to uncover the relationship between two or more variables.
 ;; :::
 
 ^:kindly/hide-code
@@ -455,7 +455,7 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-50.png" background-size="contain"}
 ;; ::: {.notes}
-;; In our scenario, it aims to determine the vessel's velocity given a specific wind angle.
+;; In our scenario, we aim to determine the vessel's velocity given a specific wind angle.
 ;; :::
 
 ^:kindly/hide-code
@@ -483,12 +483,13 @@
 ;; - We have the more explicit version here to have more control and to show how we do more complex versions later.
 ;; - Let's run through what the modelling function does.  
 ;; - First off, we take the data with the wind-strength function.
-;; - We then shape and manipulate the data to fit the requirements of our equation. 
+;; - We then shape and process the data to fit the requirements of our equation. 
 ;; - This process can be easily done with a design matrix, which I will explain in the upcoming slides.
 ;; - It should be noted that in this scenario, it is not actually necessary. 
 ;; - Subsequently, we send the matrix to be trained in the model. 
-;; - We utilize the model to forecast new velocity values using a variety of angles provided. 
+;; - We utilize the model to forecast new velocity values using a range of angles provided in the angles var. 
 ;; - After obtaining the predictions, we include additional columns in the dataset and make some adjustments before visualization
+;; - This is how we will make the predictions throughout the presentation
 ;; :::
 
 ^:kindly/hide-code
@@ -699,7 +700,7 @@
 
 ;; ## A forumla for quadratic regression
 ;; ::: {.notes}
-;; If you recall the equation we examined earlier for the cubic polynomial, we will now utilize the same one but also incorporate a cubic polynomial for the wind values.
+;; TODO!
 ;; :::
 ;; This corresponds to something like `(velocity ~ angle + I(angle^2) + wind + I(wind^2))` in R.
 
@@ -1122,7 +1123,7 @@
 ;; ::: {.notes}
 ;; - We can now observe some shortcomings of this model. While it is a relatively good fit, as is common with polynomials, issues arise at the boundaries where the model becomes erratic.  
 ;; - The model performs poorly around the point (0, 0).  
-;; - Specifically, the orientation of the axis at 0 degrees regardless of wind strength is incorrect. It should ideally be a straight line representing 0 velocity at 0 angle.  
+;; - Specifically, the velocity values at angle 0 should all be 
 ;; - This is logical as a boat directly facing into the wind would not be able to sail, and the model accounts for this.  
 ;; - Another related issue is that towards 180 degrees, the velocity begins to increase again. This outcome is unrealistic in practice.  
 ;; - Nevertheless, we will proceed with this model for now. Why?  
@@ -1462,7 +1463,13 @@ model {
 
 ;; ## Comparing synthetic with empirical  {.scrollable}
 ;; ::: {.notes}
-;; Fin
+;; - We have one recorded value here.
+;; - I sailed at 175.5 degrees.
+;; - That was downwind.
+;; - The wind speed was 10.6 knots.
+;; - At that moment, our sailing speed was 4.1 knots.
+;; - Comparing our speed to the posterior distribution of the synthetic data, it is evident that I was quite far from the optimal speeds. I should have been sailing at over 5 knots. We are at the lower end of the distribution, which is very uncommon for us to sail so slowly.
+;; - Looking at the posterior distribution that includes the measured experimental data, the situation seems slightly better. Compared to our usual performance, we were not too far from the optimal speed. It was not our best day, but we were fairly close to the optimum.
 ;; :::
 
 
@@ -1506,19 +1513,20 @@ model {
                     (tc/select-columns :posterior-velocity)
                     (ploclo/base {:=title title})
                     (ploclo/layer-histogram {:=x :posterior-velocity
-                                             ;;  :=histogram-nbins 30
+                                             :=histogram-nbins 30
                                              :=mark-color color})
                     (ploclo/update-data (constantly
                                          (tc/dataset
                                           {:x [velocity velocity]
-                                           :y [0 500]})))
+                                           :y [0 150]})))
                     (ploclo/layer-line {:=mark-size 4
                                         :=mark-color "red"})
                     ploclo/plot
                     (assoc-in [:layout :width]  900)
-                    (assoc-in [:layout :height]  450)
-                    (assoc-in [:layout :margin] {:l 0 :r 0 :b 150 :t 0
-                                                 :pad 4}))))
+                    (assoc-in [:layout :height]  400)
+                    (assoc-in [:layout :margin] {:l 0 :r 0 :b 100 :t 100
+                                                 :pad 4})
+                    (assoc-in [:layout :xaxis :range]  [0 10]))))
          (cons (kind/hiccup
                 [:h4 (str "empirical example #" i
                           " angle:" angle
@@ -1532,7 +1540,14 @@ model {
 
 ;; ## drumroll.. Polars
 ;; ::: {.notes}
-;; Fin
+;; - Tada! Finally the polars!
+;; - This functions similarly to the 2D plots we previously examined, but now with angles represented in a polar coordinate system.
+;; - It may be a bit trickier to interpret, but for sailors, it's quite intuitive as it simulates the boat's direction. Imagine the boat moving forward and the wind angle indicating how it impacts you on the boat.
+;; - Once again, we observe the 95% credible interval.
+;; - We could narrow them down, perhaps plotting one standard deviation instead. Let's save that for another time.
+;; - Overall, this looks good, except for this curve here. Considering the boat's behavior within its domain, it shouldn't exhibit this pattern.
+;; - The horizontal line at the bottom should remain flat, even though it seems to be sloping downwards now. This behavior is characteristic of the cubic model.
+;; - To improve the model, we might delve deeper into exploring splines or Gaussian processes. While we experimented with them, in our tests they tended to overfit and incorporate errors from the source data into the model.
 ;; :::
 
 ^:kindly/hide-code
@@ -1646,6 +1661,7 @@ model {
 ;; - Carsten Behring
 ;; - Generateme
 ;; - Kira McLean
+;; - Timothy Pratley
 ;; - Daniel Slutsky
 ;; - The Scicloj Community!
 
@@ -1722,3 +1738,21 @@ model {
 ;;
 ;; 
 ;; our parameters are very few. they are the unknowns. other things are derived from them. in our cse everythin gis derived plus noise.
+;; - second run through.
+;; vincent.
+;; - what is sailing. 3d map.
+;; small graphic from wind direction
+;; overwhelming how to interpretet the 3d graphs. might explain it a bit more.
+;; teodor.
+;; had code examples dm/ create ml/ something. what require lines.
+;; fast
+;; why are we moving to bays
+;;
+;; was it clear why we want baysian modelling.
+;;
+;; converging.
+;; units on the legend 6 "knots"
+
+;; would be nice to see where you sailed.
+;;
+;; 
