@@ -1940,8 +1940,8 @@ generated quantities {
                                  :marker {:size 3
                                           :opacity 0.8
                                           :color (case (first part)
-                                                   :vpp :purple
-                                                   :empirical :red)}
+                                                   :vpp "#4f988e"
+                                                   :empirical "#a9431e")}
                                  :x (tcc/- x min-angle)
                                  :y (tcc/- y min-wind)
                                  :z z}))))

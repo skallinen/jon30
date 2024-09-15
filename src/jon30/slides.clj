@@ -37,7 +37,7 @@
 
 ;; # {background-color="black" background-image="src/resources/slide-0.png" background-size="contain"}
 ;; ::: {.notes}
-;; Hi I’m Sami Kallinen, super happy to be here
+;; Hi I’m Sami Kallinen, super happy to be here.
 ;; :::
 
 ^:kindly/hide-code
@@ -62,7 +62,7 @@
 ;; ::: {.notes}
 ;; I should also give a shout out to KP System, which was recently acquired by Geomatikk.
 ;;
-;; I have been working for them for three years, developing a full-stack Clojure application that is used by Swedish municipalities. We have a small but exceptional team of four Clojure developers who are a joy to work with. It's an excellent opportunity for remote work with Clojure, so keep an eye out for any open positions if you're interested.
+;; I work with them developing a full-stack Clojure application that is used by Swedish municipalities. We have a small gret team of four Clojure developers who are an absolute joy to work with. It's an excellent opportunity for remote work with Clojure, so keep an eye out for any open positions if you're interested.
 ;; :::
 
 ^:kindly/hide-code
@@ -79,9 +79,9 @@
 ;; ## {background-color="white" background-image="src/resources/slide-5.png" background-size="contain"}
 ;; ::: {.notes}
 ;; - Why are we here today?
-;; - Because we appreciate simplicity,
+;; - Because we appreciate simplicity
 ;; - clarity,
-;; - we love our REPL,
+;; - we love our REPL
 ;; - we delight in figuring out the data, and making everything into data.
 ; - So I suppose we are all here because we love...
 ;; :::
@@ -100,7 +100,7 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-7.png" background-size="contain"}
 ;; ::: {.notes}
-;; I guess we are here not only because of Bayesian statistics, but also to Clojure,
+;; I guess we are here not only because of Bayesian statistics, but also because of Clojure,
 ;; :::
 
 ^:kindly/hide-code
@@ -116,9 +116,9 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-9.png" background-size="contain"}
 ;; ::: {.notes}
-;; - Im also here because of this project, that has been done in collaboration with Daniel Slusky, who is a driving forse in the Scicloj community.
-;; - A few months ago, I had a conversation with him about submitting a proposal to test the current state of the tools in the Scicloj ecosystem with a fun data problem.
-;; - But where to get such a real-world data problem. How about sailing?
+;; - Furthermore I'm here because of this project, that has been done in collaboration with Daniel Slusky, who is a driving forse in the Scicloj community.
+;; - A few months ago, we had a conversation abou submitting a proposal to test the current state of the tools in the Scicloj ecosystem with a fun data problem. Not so much to show the implementations but just to have a real data problem we'll demo.
+;; - But where to get such a real-world data problem. How about sailing? Combining both passions of Clojure and Sailing.
 ;; :::
 
 ^:kindly/hide-code
@@ -126,7 +126,7 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-10.png" background-size="contain"}
 ;; ::: {.notes}
-;;  One could even sail down to Belgium to give the talk.
+;;  One could even sail down to Belgium to give the talk!
 ;; :::
 
 ^:kindly/hide-code
@@ -190,7 +190,7 @@
 
 ;; ## {background-color="black" background-image="src/resources/slide-20.png" background-size="contain"}
 ;; ::: {.notes}
-;; Speaking of that, this summer, I got my third boat. It's not large, it may not win modern races, but it's sturdy and dependable.
+;; Speaking of saling, this summer, I got my third boat. It's not large, it may not win modern races, but it's sturdy and dependable.
 ;; :::
 
 ^:kindly/hide-code
@@ -198,7 +198,7 @@
 
 ;; ## {background-color="black" background-image="src/resources/slide-21.png" background-size="contain"}
 ;; ::: {.notes}
-;; I thought I would be sailing all summer, like I said, perhaps to Belgium, but it is an old boat. So there was quite some maintenance.
+;; I thought I would be sailing all summer, like I said, perhaps to Belgium, but it is an old boat. We always plan to sail and end up doing maintenance..
 ;; :::
 
 ^:kindly/hide-code
@@ -206,7 +206,7 @@
 
 ;; ## {background-color="black" background-image="src/resources/slide-22.png" background-size="contain"}
 ;; ::: {.notes}
-;; Yup, maintenance and less sailing...
+;; Maintenance is fun too.
 ;; :::
 
 ^:kindly/hide-code
@@ -231,7 +231,7 @@
 
 ;; ## {background-color="black" background-image="src/resources/slide-25.png" background-size="contain"}
 ;; ::: {.notes}
-;; So I have a boat, I can collect some data. What could go wrong.
+;; So we have a boat, we can collect some data. All aboard?
 ;; :::
 
 ^:kindly/hide-code
@@ -239,7 +239,7 @@
 
 ;; # {background-color="black" background-image="src/resources/slide-27.png" background-size="contain"}
 ;; ::: {.notes}
-;;
+;; Predicting vessel speed based on the wind conditions
 ;; :::
 
 ^:kindly/hide-code
@@ -263,7 +263,7 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-30.png" background-size="contain"}
 ;; ::: {.notes}
-;; Here is an example of a commercial weather routing app that utilizes polar data to help you plan your voyage while considering the varying weather conditions along your route. The app requires information on how your boat performs under different weather scenarios in order to determine your position at a given time.
+;; Here is an example of a commercial weather routing app that utilizes polar data to help you plan your voyage while considering the varying weather conditions along your route. The different colors represent different models.
 ;; :::
 
 ^:kindly/hide-code
@@ -274,8 +274,7 @@
 ;; What makes the boat move? Essentially, two things: water and wind.
 ;; :::
 
-^:kindly/hide-code
-(kind/fragment [])
+^:kindly/hide-code(kind/fragment [])
 
 ;; ## {background-color="white" background-image="src/resources/slide-32.png" background-size="contain"}
 ;; ::: {.notes}
@@ -285,17 +284,17 @@
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="white" background-image="src/resources/slide-33.png" background-size="contain" visibility="hidden"}
+;; ## {background-color="white" background-image="src/resources/slide-34.png" background-size="contain"}
 ;; ::: {.notes}
-;; That's an oversimplification. In actuality, there are numerous variables. Here is a non-exhaustive list resulting from a short brainstorm of what they could be.
+;; This is let's keep it simple. For this discussion, let's focus on the wind speed and wind direction.
 ;; :::
 
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="white" background-image="src/resources/slide-34.png" background-size="contain"}
+;; ## {background-color="white" background-image="src/resources/vars.png" background-size="contain"}
 ;; ::: {.notes}
-;; That's an oversimplification, but let's keep it simple. For this discussion, let's focus on the wind speed and wind direction.
+;; As we are using wind strength and wind angle to predict velocity, ie how fast the boat moves throught the water!
 ;; :::
 
 ^:kindly/hide-code
@@ -309,9 +308,9 @@
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="black" background-image="src/resources/slide-18.png" background-size="contain"}
+;; ## Smooth sailing with the fam! {background-color="black" background-image="src/resources/slide-18.png" background-size="contain"}
 ;; ::: {.notes}
-;; Hey, we are sailing!
+;; 
 ;; :::
 
 ^:kindly/hide-code
@@ -371,7 +370,8 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-42.png" background-size="contain"}
 ;; ::: {.notes}
-;; This synthetic data has been generated by an external library. This data serves as the basis for the model we will attempt to build, and it assumes a boat that is expected to be quite similar to ours.
+;; - This synthetic data has been generated by an external library called PythonVPP.
+;; - We have given it some specs of our boat and it gives some theoretical figures how such a boat should sail.
 ;; :::
 
 ^:kindly/hide-code
@@ -380,9 +380,7 @@
 ;; ## {background-color="white" background-image="src/resources/slide-43.png" background-size="contain"}
 ;; ::: {.notes}
 ;; This is how the data looks. Notice how easy it is to make a simple plot with hanamicloth.
-
 ;; On the y axis we see the vessel speed.
-
 ;; On the x-axis, we have the wind angles. This indicates the angle at which the wind strikes the boat in relation to our direction of the bow, ie. the direction of travel.
 
 ;; At 0 angle we get 0 speed, because you cannot sail straight into the wind
@@ -403,51 +401,20 @@
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="white" background-image="src/resources/slide-45.png" background-size="contain" visibility="hidden"}
-;; ::: {.notes}
-;; Todo. Change pictureNormally, the sail of a boat functions similar to an airplane wing, generating lift as air passes over it. This explains why boats can sometimes move faster than the wind.
-;; :::
-
 ^:kindly/hide-code
 (kind/fragment [])
-
-;; ## {background-color="white" background-image="src/resources/slide-46.png" background-size="contain" visibility="hidden"}
+;; ## Plain sailing! {background-video="src/resources/gliding.mp4" background-video-loop="true" background-video-muted="true"}
 ;; ::: {.notes}
-;; I'll give you a moment to digest this, there will be a test at the end.
+;; 
 ;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="white" background-image="src/resources/slide-47.png" background-size="contain" visibility="hidden"}
-;; ::: {.notes}
-;; But in the case of a slump, when the wind is coming from behind, around 180 degrees, we are sailing downwind and the sails no longer function like airplane wings; they act more like parachutes. This can restrict the maximum speed and accounts for the slump.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="white" background-image="src/resources/slide-48.png" background-size="contain" visibility="hidden"}
-;; ::: {.notes}
 ;;
-;; :::
 
 ^:kindly/hide-code
 (kind/fragment [])
-
-;; ## So far so good {background-color="black" background-image="src/resources/slide-23.png" background-size="contain"}
-;; ::: {.notes}
-;; Sailing boat pic change this? Fuzzy
-;; - So far so good
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
 
 ;; # {background-color="white" background-image="src/resources/slide-49.png" background-size="contain"}
 ;; ::: {.notes}
-;; So lets get busy modelling. Regression is a statistical tool used to uncover the relationship between two or more variables.
+;; So lets learn the ropes here and get busy modelling. Regression is a statistical tool used to uncover the relationship between two or more variables.
 ;; :::
 
 ^:kindly/hide-code
@@ -463,7 +430,7 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-51.png" background-size="contain"}
 ;; ::: {.notes}
-;; Another way to communicate this is by using an equation like this one. Some of you may recognize that this forms a straight line. The betas represent the parameters or weights, if you prefer. We will attempt to find parameters that produce a line that best fits the data.
+;; Another way to communicate this is by using an equation like this one. The alphas represent the parameters or weights, if you prefer. We will attempt to find parameters that produce a line that best fits the data.
 ;; :::
 
 ^:kindly/hide-code
@@ -483,13 +450,11 @@
 ;; - We have the more explicit version here to have more control and to show how we do more complex versions later.
 ;; - Let's run through what the modelling function does.  
 ;; - First off, we take the data with the wind-strength function.
-;; - We then shape and process the data to fit the requirements of our equation. 
+;; - We then shape and process the data to fit the requirements of our equation.
 ;; - This process can be easily done with a design matrix, which I will explain in the upcoming slides.
-;; - It should be noted that in this scenario, it is not actually necessary. 
 ;; - Subsequently, we send the matrix to be trained in the model. 
-;; - We utilize the model to forecast new velocity values using a range of angles provided in the angles var. 
-;; - After obtaining the predictions, we include additional columns in the dataset and make some adjustments before visualization
-;; - This is how we will make the predictions throughout the presentation
+;; - We use the model to forecast new velocity values using a range of angles provided in the angles var. 
+;; - After getting the predictions, do some houskeeping before visualization.
 ;; :::
 
 ^:kindly/hide-code
@@ -497,73 +462,8 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-54.png" background-size="contain"}
 ;; ::: {.notes}
-;; Here we have it. We are not surprices, perhaps, but it is safe to say that this model is pretty terrible.
+;; Here we have it. No surprices, perhaps, but it is safe to say that this model is pretty terrible.
 ;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="white" background-image="src/resources/slide-55.png" background-size="contain" visibility="hidden"} 
-;; ::: {.notes}
-;; So let's play with polynomials! They provide us with greater flexibility when fitting the curve.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="white" background-image="src/resources/slide-56.png" background-size="contain" visibility="hidden"}
-;; ::: {.notes}
-;; So this is a bit more complicated formula, we call it a cubic polynomial.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="white" background-image="src/resources/slide-57.png" background-size="contain" visibility="hidden"}
-;; ::: {.notes}
-;; And once again, here is the equation. "Fitting" refers to the process of attempting to identify the beta parameter combination that best aligns the curve with the data. But to do that our model needs the angle variable in different forms as we can se in the terms of the equation.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="white" background-image="src/resources/slide-58.png" background-size="contain" visibility="hidden"}
-;; ::: {.notes}
-;; We can easily manipulate the data to meet these requirements using the design matrix. Those familiar with R will recognize this as essentially the same as the beloved formula in R. Perhaps not as elegant, but maybe a bit clearer.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="white" background-image="src/resources/slide-59.png" background-size="contain" visibility="hidden"}
-;; ::: {.notes}
-;; We generate the plot in the same way as before, but now we have a helper function for the modeling thread.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="white" background-image="src/resources/slide-60.png" background-size="contain" visibility="hidden"}
-;; ::: {.notes}
-;; Looks great. Even if we're just eyeballing it, it's fitting quite well!
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="black" background-image="src/resources/slide-61.png" background-size="contain" visibility="hidden"}
-;; ::: {.notes}
-;; If we inspect the model, it also metrics that show the model's performance. An R-squared value of 0.97 is almost perfect. 
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="black" background-image="src/resources/slide-24.png" background-size="contain" visibility="hidden"}
-;; ::: {.notes}
-;; Fair weather sailing
-;; :::
-
 
 ^:kindly/hide-code
 (kind/fragment [])
@@ -572,6 +472,16 @@
 ;; ::: {.notes}
 ;; Not only is it a bad model but the wind varies on Earth. Therefore, we need to introduce another variable, which includes the wind strength. That means we are now going to attempt multivariate regression.
 ;; :::
+
+^:kindly/hide-code
+(kind/fragment [])
+
+;; ## {background-color="white" background-image="src/resources/vars.png" background-size="contain"}
+;; ::: {.notes}
+;; As a reminder we are using wind strength and wind angle to predict velocity!
+;; :::
+
+
 
 ^:kindly/hide-code
 (kind/fragment [])
@@ -588,7 +498,7 @@
 ;; ::: {.notes}
 ;; We will now incorporate the wind intensity and its parameters, alpha, into the model.
 ;; :::
-
+;;
 ^:kindly/hide-code
 (kind/fragment [])
 
@@ -601,7 +511,7 @@
 (kind/fragment [])
 ;; ## {background-color="black" background-image="src/resources/slide-65.png" background-size="contain"}
 ;; ::: {.notes}
-;; We will also update our code to generate the plot since we now need to examine the model as a three-dimensional surface.
+;; Our code needs to change since we now need to examine the model as a three-dimensional surface.
 ;; :::
 
 ^:kindly/hide-code
@@ -678,7 +588,7 @@
                   :marker {:size 6
                            :line {:width 0.5
                                   :opacity 0.8}
-                           :color :purple}
+                           :color "#4f988e"}
                   :x (:x training-data-trace)
                   :y (:y training-data-trace)
                   :z (:z training-data-trace)})]
@@ -698,9 +608,14 @@
 
 ;; ## A forumla for quadratic regression
 ;; ::: {.notes}
-;; TODO!
+;; - This is how the design matrix functions. It is akin to the popular formula in R.
+;; - It is a nifty function that transforms your data into the data tha modelling function expect. Here it adds the squared columns.
+
 ;; :::
 ;; This corresponds to something like `(velocity ~ angle + I(angle^2) + wind + I(wind^2))` in R.
+
+(require '[scicloj.metamorph.ml :as ml]
+         '[scicloj.metamorph.ml.design-matrix :as dm])
 
 (-> data/vpp-polar-01
     tc/dataset
@@ -784,7 +699,7 @@
                   :marker {:size 6
                            :line {:width 0.5
                                   :opacity 0.8}
-                           :color :purple}
+                           :color "#4f988e"}
                   :x (:x training-data-trace)
                   :y (:y training-data-trace)
                   :z (:z training-data-trace)})]
@@ -807,7 +722,7 @@
 ;; ## Cubic polynomial
 ;; ::: {.notes}
 ;; - Cubic polynomial.
-;; - Again the cubic works.
+;; - Works pretty well, but we can do better.
 ;; - But lets add more data.
 ;; :::
 ^:kindly/hide-code
@@ -880,7 +795,7 @@
                   :marker {:size 6
                            :line {:width 0.5
                                   :opacity 0.8}
-                           :color :purple}
+                           :color "#4f988e"}
                   :x (:x training-data-trace)
                   :y (:y training-data-trace)
                   :z (:z training-data-trace)})]
@@ -893,10 +808,12 @@
 
 ;; ## Mo data, mo problems
 ;; ::: {.notes}
-;; - We now have additional data that will assist us in creating a more precise model. We are now 100% autoing everything from 4 knots to 30 knots of wind
+;; - We now have additional data that will assist us in creating a more precise model. We are now covering everything from 4 knots to 30 knots of wind in the training data.
 ;; - Keep in mind that this data is artificially generated.
 ;; - We are encountering some challenges with this data.
-;; - The spike issue is likely a numerical problem within the external library we are utilizing to generate the data, which consists of a large amount of stateful object-oriented programming code.
+;; - The spike issue is likely a numerical problem within the external library.
+;; - It is a rather large blob of stateful object oriented code.
+;; - But that is ok, good even for our needs here today.
 ;; - Next, we will apply a cubic polynomial to this data.
 ;; :::
 
@@ -965,7 +882,7 @@
                   :marker {:size 6
                            :line {:width 0.5
                                   :opacity 0.8}
-                           :color :purple}
+                           :color "#4f988e"}
                   :x (:x training-data-trace)
                   :y (:y training-data-trace)
                   :z (:z training-data-trace)})]
@@ -1053,7 +970,7 @@
                   :marker {:size 6
                            :line {:width 0.5
                                   :opacity 0.8}
-                           :color :purple}
+                           :color "#4f988e"}
                   :x (:x training-data-trace)
                   :y (:y training-data-trace)
                   :z (:z training-data-trace)})]
@@ -1103,14 +1020,10 @@
 ;; ::: {.notes}
 ;; - We can now observe some shortcomings of this model. While it is a relatively good fit, as is common with polynomials, issues arise at the boundaries where the model becomes erratic.  
 ;; - The model performs poorly around the point (0, 0).  
-;; - Specifically, the velocity values at angle 0 should all be 
-;; - This is logical as a boat directly facing into the wind would not be able to sail, and the model accounts for this.  
-;; - Another related issue is that towards 180 degrees, the velocity begins to increase again. This outcome is unrealistic in practice.  
-;; - Nevertheless, we will proceed with this model for now. Why?  
-;; - The rationale is simple. Maintaining model simplicity is generally advantageous from various perspectives.  
+;; - Nevertheless, we will proceed with this model for now.
+;; - Maintaining model simplicity is generally advantageous from various perspectives.  
 ;; - It facilitates clear reasoning.  
 ;; - In contrast to several other models we explored, such as splines and wavelets, this model is remarkably adept at avoiding overfitting peculiarities and data errors like the fin we examined.  
-;; - While not particularly relevant to our current scenario, polynomial models, especially those of lower degrees, tend to exhibit solid performance.
 ;; :::
 
 ^:kindly/hide-code
@@ -1177,7 +1090,7 @@
                   :marker {:size 6
                            :line {:width 0.5
                                   :opacity 0.8}
-                           :color :purple}
+                           :color "#4f988e"}
                   :x (:x training-data-trace)
                   :y (:y training-data-trace)
                   :z (:z training-data-trace)})]
@@ -1186,12 +1099,27 @@
                :scene {:xaxis {:title "Wind"}
                        :yaxis {:title "Angle"}
                        :zaxis {:title "Velocity"}}}})))
-
-;; ## {background-video="src/resources/atlantic.mp4" background-video-loop="true" background-video-muted="true"}
+;; ## What next?
 ;; ::: {.notes}
-;; Since then, besides the Baltic Sea where I usually sail, I have also sailed in the Mediterranean and the Atlantic.
+;; - We have been using synthetic data, but it is not meaningless. It assumes how a boat of the size and shape similar to ours should theoretically behave. In addition to this synthetic data, we also have actual empirical data.
+;; - How should we use this and combine this empirical and synthetic data?
+;; - What is our mental model for this process?
+;; - What implicit assumptions are made when we do so?
+;; - What if we also want to understan how certain/uncertan are we in the results we obtain?
+;; - Our current approach does not give easy answers to these questions.
 ;; :::
 ;;
+;; - Combine the empirical and the synthetic?
+;; - An intuitive mental model?
+;; - Assumptions?
+;; - Uncertainty?
+
+;; ## Deep waters and high seas {background-video="src/resources/atlantic.mp4" background-video-loop="true" background-video-muted="true"}
+;; ::: {.notes}
+;; We are in some deep waters. Lets roll out the big guns!
+;; :::
+;;
+
 ^:kindly/hide-code
 (kind/fragment [])
 
@@ -1203,28 +1131,21 @@
 
 ;; ## Bayesian Statistics
 ;; ::: {.notes}
-;; - Synthetic data
-;; - So far we've been using the synthetic data for model debugging, now it's time to leverage the fact that it also signifies the theoretical optimal performance of the boat.
-;; - Boat performance
-;; - Troubleshoot
-;; - Different Objective
-;; - Hypothetical optimal performance
-;; - Real-world measurements
-;; - Update findings
-;; - Bayesian approach
-;; We've utilized synthetic data on our boat's performance to troubleshoot and delve into how we'd like to tackle this issue. However, we now aim to pursue a different objective. We may consider the data used thus far as a hypothetical optimal performance of our boat. In such a scenario, we aim to assess how well we truly adhere to this theoretical best possible performance. Thus, we'll need to incorporate real-world measurements on how we operate our boat to update our findings. This is a scenario where a Bayesian approach proves useful.;;
+;; - People mention that Bayesian statistics does have some similarities with Clojure.
+;; - There is a focus on explainability and simplicity.
+;; - Bayesian inference is carried out through simulations, and we interrogate these simulated outcomes, which are just data, with various questions. It's straightforward to interpret these results since they are simply data.
+;; - Since our synthetic data carries significance, we aim to integrate it with our observed empirical data to leverage that significance.
+;; - Essentially, we can view the synthetic data as the theoretical best fit for our model.
+;; - We will soon add our empirical data to the model, but lets for a moment do the same modelling we did the conventional way but now with baysian.
 ;; :::
 
-;;
-
-;; Using synthetic data as a benchmark for our boat's optimal performance, and through a Bayesian approach, we plan to compare and update this with real-world measurements to assess and enhance our actual performance.
 
 ^:kindly/hide-code
 (kind/fragment [])
 
 ;; ## {background-color="black" background-image="src/resources/cubic-equation.png" background-size="contain"}
 ;; ::: {.notes}
-;; In Bayesian analysis, we view the parameters not as a single fitted value, but as random variables with uncertainty. This means that all the alphas and betas have distributions, allowing us to reason about the likelihood of various parameters and, ultimately, different predicted values.
+;; In the polynomials we saw previous we estimated parameters as single values. In Bayesian analysis, we view the parameters not as a single fitted value, but as random variables with uncertainty. This means that all the alphas and betas have distributions, allowing us to reason about the likelihood of various parameters and, ultimately, different predicted values.
 ;; :::
 
 ^:kindly/hide-code
@@ -1336,12 +1257,7 @@ model {
 ```")
 ;; ## Doing the modelling {.scrollable}
 ;; ::: {.notes}
-;; - Before reviewing the results, we must verify that our modeling is functioning correctly.
-;; - Bayesian methods construct models through simulation.
-;; - In this display, we can observe the parameter values for each iteration of the simulation.
-;; - The values should remain consistent around similar numbers, as shown here.
-;; - We conducted the simulation four times, each represented by a different color.
-;; - These results appear favorable, as the values are consistent across iterations, and the different attempts show similarities.;; :::
+;; I understand that these graphs may not make sense to you if you're not familiar with this topic, but they essentially indicate that our model is functioning well. I won't go into the details now due to time constraints, but I can explain later for those interested.. For the time being, you just have to trust me.
 ;; :::
 
 ^:kindly/hide-code
@@ -1352,8 +1268,8 @@ model {
 
 ;; ## Doing the modelling {.scrollable}
 ;; ::: {.notes}
-;; - We are modeling the same data as before.
-;; - Now we have introduced two surfaces, and the gap between them is where our anticipated values should lie with a 95% probability. This is the true interpretation. You might have come across confidence intervals in conventional statistics, and most people think they refer to this exact concept, however they are wrong. In Bayesian statistics, it is quite straightforward to pose such questions to our model.
+;; - First we are modeling the same data as before.
+;; - Now we have introduced two surfaces, and the gap between them is where our anticipated values should lie with a 80% probability. We get this just by  looking at the values our simulation generated.
 ;; :::
 ^:kindly/hide-code
 (delay
@@ -1363,7 +1279,7 @@ model {
 
 ;; ## {background-color="black" background-image="src/resources/device.png" background-size="contain"}
 ;; ::: {.notes}
-;; Earlier, I mentioned that I have installed some measurement devices on the boat. We can now proceed to examine that data.
+;; As I mentioned that I have installed some measurement devices on the boat. We can now proceed to examine that data.
 ;; :::
 
 ^:kindly/hide-code
@@ -1371,7 +1287,7 @@ model {
                     
 ;; ## Real measurements + syntethetic data
 ;; ::: {.notes}
-;; We want to update the theoretical model with our real measured data
+;; We want to update the theoretical model with our real measured data to learn the difference between the theoretical data and our specific actuald perforance data.
 ;; :::
 ^:kindly/hide-code
 (delay
@@ -1396,8 +1312,8 @@ model {
                               :marker {:size 5
                                        :opacity 0.8
                                        :color (case (first part)
-                                                :vpp :purple
-                                                :empirical :red)}
+                                                :vpp "#4f988e"
+                                                :empirical "#a9431e")}
                               :x x
                               :y y
                               :z z}))))
@@ -1422,17 +1338,6 @@ model {
 (delay
   (first (core/plot-one-run @core/results-with-empirical
                       {:colorscale "Greens"})))
-
-;; ## Updating the synthetic model with the measurements  {.scrollable}
-;; ::: {.notes}
-;; We want to update the theoretical model with our real measured data
-;; :::
-
-^:kindly/hide-code
-(delay
-  (kind/fragment (rest (core/plot-one-run @core/results-with-empirical
-                             {:colorscale "Greens"}))))
-
 
 ;; ## Comparing synthetic with empirical  {.scrollable}
 ;; ::: {.notes}
@@ -1493,7 +1398,7 @@ model {
                                           {:x [velocity velocity]
                                            :y [0 150]})))
                     (ploclo/layer-line {:=mark-size 4
-                                        :=mark-color "red"})
+                                        :=mark-color "#a9431e"})
                     ploclo/plot
                     (assoc-in [:layout :width]  900)
                     (assoc-in [:layout :height]  400)
@@ -1562,11 +1467,11 @@ model {
         (assoc-in [:layout :width]  1200)
         (assoc-in [:layout :height]  600))))
 
-;; ## {background-color="black" background-image="src/resources/ship-baltic2024.jpg" background-size="contain"}
+;; ## Here be dolphins! {background-video="src/resources/dolphins.mp4" background-video-loop="true" background-video-muted="true"}
 ;; ::: {.notes}
-;; But fortunately, we were able to enjoy some of the beautiful Baltic archipelago along the southern coastline of Finland.
+;; 
 ;; :::
-
+;;
 ^:kindly/hide-code
 (kind/fragment [])
 
@@ -1654,6 +1559,7 @@ model {
 ;; ## Todo {visibility="hidden"}
 ;; [x] Stan in the house slide
 ;; [x] X and y labels. :layout :scene :xaxis :titlea
+;; [ ] fix the equations.
 ;; [ ] fix colors of plot
 ;; [ ] remove gradient legend
 ;; [ ] Fix the structure of the slides
@@ -1729,3 +1635,11 @@ model {
 ;; would be nice to see where you sailed.
 ;;
 ;; 
+;; how to merge empirical & synthetic data?
+;; what is our mental model for that process?
+;; what are our implicit assumptions?
+;; how (un)certain are we?
+;;
+
+;; Repetition
+
