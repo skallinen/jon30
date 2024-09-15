@@ -74,8 +74,68 @@ route-image
 ;; ## Reasoning about the model
 ;; Here is a rough sketch of how these factors are interrelated based on first principles.The velocity of the boat is a result of the interaction between aerodynamic and hydrodynamic forces.
 
+(-> [{:bgcolor :black
+      ;;:rankdir :LR
+      }
+     (dot/node-attrs {:shape :box
+                      :fontname "Helvetica-Bold"
+                      :style :bold
+                      :fontcolor :white})
+     (dot/edge-attrs {:color :white
+                      :arrowsize 0.3})
+     [:expert {:label "Data solutions by\na select group of top experts"
+               :shape :box}]
+     [:offer {:label "What we offer"
+              :shape :box
+              :fontcolor "#7badb6"}]
+
+     [:offer :> :expert]]
+    digraph)
+
+(-> [{:bgcolor :black}
+     (dot/node-attrs {:shape :circle
+                      :fontname "Helvetica-Bold"
+                      :style :bold
+                      :fontcolor :white})
+     (dot/edge-attrs {:color :white
+                      :arrowsize 0.3})
+
+     [:do {:label "What we do"
+           :shape :box
+           :fontcolor "#7badb6"}]
+     [:id {:label "Identity solutions"
+           :shape :box}]
+     [:analytics  {:label "Digital analytics"
+                   :shape :box}]
+     [:products  {:label "Data products"
+                   :shape :box}]
+     [:do :> :id]
+     [:do :> :analytics]
+     [:do :> :products]
+     ]
+    digraph)
+
+(-> [{:bgcolor :black}
+     (dot/node-attrs {:shape :circle
+                      :fontname "Helvetica-Bold"
+                      :style :bold
+                      :fontcolor :white})
+     (dot/edge-attrs {:color :white
+                      :arrowsize 0.3})
+
+     [:know {:label "What we know"
+             :shape :box
+             :fontcolor "#7badb6"}]
+     [:coaching {:label "Coaching: Analytics\nplanning and management"
+           :shape :box}]
+     [:impl  {:label "Implementation: Development,\narchitecture analytics,\ndata and engineering"
+                   :shape :box}]
+
+     [:know :> :coaching]
+     [:know :> :impl]]
+    digraph)
 (-> [(dot/node-attrs {:shape :none
-                      :fontname "Helvetica"})
+                      :fontname "HelveticaBold"})
      [:aerodynamic-forces {:label "Aerodynamic Forces"
                            :shape :box}]
 
@@ -83,7 +143,7 @@ route-image
                             :shape :box}]
 
      [:vessel-velocity {:label "Boat's Velocity"
-                        :shape :circle}]
+                        :shape :box}]
 
 
      [:aerodynamic-forces :> :vessel-velocity]
@@ -720,7 +780,7 @@ model {
                        "slim/data/cherry_blossoms.csv")
                   {:separator ";"
                    :key-fn keyword})
-      (tc/select-columns [:year :doy])
+      (tc/select-columns [:year :knowy])
       (tc/select-rows (comp number? :doy))
       ((fn [dat]
          (-> dat
