@@ -669,6 +669,7 @@
      {:data [(-> {:type :surface
                   :colorscale "Greys"
                   :cauto false
+                  :showscale false
                   :zmin 0
                   :z z-trace-for-surface})
              (-> {:type :scatter3d
@@ -681,7 +682,7 @@
                   :y (tcc/- (:y training-data-trace)
                             min-wind)
                   :z (:z training-data-trace)})]
-      :layout {:width 1200
+      :layout {:width 1000
                :height 600
                :scene {:xaxis {:title "Wind"}
                        :yaxis {:title "Angle"}
@@ -774,6 +775,7 @@
     (kind/plotly
      {:data [(-> {:type :surface
                   :colorscale "Greys"
+                  :showscale false
                   :cauto false
                   :zmin 0
                   :z z-trace-for-surface})
@@ -787,7 +789,7 @@
                   :y (tcc/- (:y training-data-trace)
                             min-wind)
                   :z (:z training-data-trace)})]
-      :layout {:width 1200
+      :layout {:width 1000
                :height 600
                :scene {:xaxis {:title "Wind"}
                        :yaxis {:title "Angle"}
@@ -870,6 +872,7 @@
     (kind/plotly
      {:data [(-> {:type :surface
                   :colorscale "Greys"
+                  :showscale false
                   :cauto false
                   :zmin 0
                   :z z-trace-for-surface})
@@ -883,7 +886,7 @@
                   :y (tcc/- (:y training-data-trace)
                             min-wind)
                   :z (:z training-data-trace)})]
-      :layout {:width 1200
+      :layout {:width 1000
                :height 600
                :scene {:xaxis {:title "Wind"}
                        :yaxis {:title "Angle"}
@@ -964,6 +967,7 @@
     (kind/plotly
      {:data [#_(-> {:type :surface
                     :colorscale "Greys"
+                    :showscale false
                     :cauto false
                     :zmin 0
                     :z z-trace-for-surface})
@@ -977,7 +981,7 @@
                   :y (tcc/- (:y training-data-trace)
                             min-wind)
                   :z (:z training-data-trace)})]
-      :layout {:width 1200
+      :layout {:width 1000
                :height 600
                :scene {:xaxis {:title "Wind"}
                        :yaxis {:title "Angle"}
@@ -1053,6 +1057,7 @@
     (kind/plotly
      {:data [(-> {:type :surface
                   :colorscale "Greys"
+                  :showscale false
                   :cauto false
                   :zmin 0
                   :z z-trace-for-surface})
@@ -1066,7 +1071,7 @@
                   :y (tcc/- (:y training-data-trace)
                             min-wind)
                   :z (:z training-data-trace)})]
-      :layout {:width 1200
+      :layout {:width 1000
                :height 600
                :scene {:xaxis {:title "Wind"}
                        :yaxis {:title "Angle"}
@@ -1187,6 +1192,7 @@
     (kind/plotly
      {:data [(-> {:type :surface
                   :cauto false
+                  :showscale false
                   :zmin 0
                   :colorscale color-custom-scale
                   :z z-trace-for-surface})
@@ -1200,7 +1206,7 @@
                   :y (tcc/- (:y training-data-trace)
                             min-wind)
                   :z (:z training-data-trace)})]
-      :layout {:width 1200
+      :layout {:width 1000
                :height 600
                :scene {:xaxis {:title "Wind"}
                        :yaxis {:title "Angle"}
@@ -1372,7 +1378,7 @@ model {
 ;; ## Doing the modelling {.scrollable}
 ;; ::: {.notes}
 ;; - We are modeling the same data as before.
-;; - Now we have introduced two surfaces, and the gap between them is where our anticipated values should lie with a 95% probability. This is the true interpretation. You might have come across confidence intervals in conventional statistics, and most people think they refer to this exact concept. However, in Bayesian statistics, it is quite straightforward to pose such questions to our model.
+;; - Now we have introduced two surfaces, and the gap between them is where our anticipated values should lie with a 95% probability. This is the true interpretation. You might have come across confidence intervals in conventional statistics, and most people think they refer to this exact concept, however they are wrong. In Bayesian statistics, it is quite straightforward to pose such questions to our model.
 ;; :::
 ^:kindly/hide-code
 (delay
@@ -1417,7 +1423,7 @@ model {
                               :x (tcc/- x min-angle)
                               :y (tcc/- y min-wind)
                               :z z}))))
-      :layout {:width 1200
+      :layout {:width 1000
                :height 600
                :scene {:xaxis {:title "Wind"}
                        :yaxis {:title "Angle"}

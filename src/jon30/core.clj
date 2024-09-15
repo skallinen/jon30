@@ -1362,6 +1362,7 @@ model {
                                                     :velocity :z}))]
     (kind/plotly
      {:data [(-> {:type :surface
+                  :showscale false
                   :mode :lines
                   :colorscale "Greys"
                   :cauto false
@@ -1458,6 +1459,7 @@ model {
                                 :velocity :z}))]
     (kind/plotly
      {:data [(-> {:type :surface
+                  :showscale false
                   :mode :lines
                   :colorscale "Greys"
                   :cauto false
@@ -1592,6 +1594,7 @@ model {
                                 (tc/select-rows #(-> % :z (>= 0))))]
     (kind/plotly
      {:data [(-> {:type :surface
+                  :showscale false
                   :mode :lines
                   :colorscale "Greys"
                   :cauto false
@@ -1770,6 +1773,7 @@ generated quantities {
                                  vals)]
     [(kind/plotly
       {:data (concat [{:type :surface
+                       :showscale false
                        :mode :lines
                        :colorscale "Greys"
                        :cauto false
@@ -1921,6 +1925,7 @@ generated quantities {
      {:data (concat (->> z-traces-for-surface
                          (map (fn [z-trace]
                                 {:type :surface
+                                 :showscale false
                                  :mode :lines
                                  :colorscale colorscale
                                  :cauto false
@@ -1973,6 +1978,7 @@ generated quantities {
                   (->> z-traces-for-surface
                        (map (fn [z-trace]
                               {:type :surface
+                               :showscale false
                                :mode :lines
                                :colorscale (colorscales i)
                                :cauto false
