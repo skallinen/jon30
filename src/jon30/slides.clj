@@ -200,14 +200,6 @@
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="white" background-image="src/resources/slide-34.png" background-size="contain" visibility="hidden"}
-;; ::: {.notes}
-;; This is let's keep it simple. For this discussion, let's focus on the wind speed and wind direction.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
 ;; ## What affects the velocity? {background-color="white" background-image="src/resources/vars.png" background-size="contain"}
 ;; ::: {.notes}
 ;; We are using wind strength and wind angle to predict velocity, ie how fast the boat moves throught the water!
