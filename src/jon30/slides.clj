@@ -179,7 +179,7 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-30.png" background-size="contain"}
 ;; ::: {.notes}
-;; Here is an example of a commercial weather routing app that utilizes polar data to help you plan your voyage while considering the varying weather conditions along your route. The different colors represent different models.
+;; Here is an example of a commercial weather routing app that utilizes polar data to help you plan your voyage while considering the varying weather conditions along your route.
 ;; :::
 
 ^:kindly/hide-code
