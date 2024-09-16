@@ -305,8 +305,8 @@
 ;; ## {background-color="white" background-image="src/resources/slide-44.png" background-size="contain"}
 ;; ::: {.notes}
 ;; - But what is this slump here? Glad you asked.
-;; - In these parts, when the wind comes slightly from the front or the side, the sail acts as an airplane wing that creates lift. This is why some boats can sail faster than the wind in certain conditions.
-;; - When sailing downwind in these parts, the wind coming from behind makes the sail act like a parachute.
+;; - When you sail downwind, the sail works as a parachute.
+;; - And this is not as efficient as when you sail with a side or upwind wind, as the sail then operates like an airplane wing generating lift.
 ;; :::
 
 ^:kindly/hide-code
