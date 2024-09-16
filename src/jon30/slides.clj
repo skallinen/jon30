@@ -1514,11 +1514,12 @@ model {
 (kind/fragment [])
 
 ;; ## Noj
-;; - "Noj" brings together essential Clojure libraries for data science purposes and provides documentation on how to effectively utilize them.
-;; - Forget about version compatibility issues - "Noj" has your back.
-;; - Unsure about which tool is optimal for a specific task? "Noj" has thought about that already!
-;; - https://github.com/scicloj/noj
-;; - Released today! Noj v2 alpha FTW!
+;; ::: {.notes}
+;; - "Noj" is realeased today.
+;; - It brings together all these and the documentation into one place so you dont have to worry about versions etc.
+;; :::
+;; - "Noj" all scicloj data science in one place.
+;; - All Released today! Noj v2 alpha FTW!
 
 
 ^:kindly/hide-code
