@@ -225,14 +225,6 @@
 (kind/fragment [])
 
 
-;; # {background-color="black" background-image="src/resources/slide-36.png" background-size="contain" visibility="hidden"}
-;; ::: {.notes}
-;;Imagine for a moment that on earth we only had one constant wind strength and that it never changes.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
 ;; # Start simple
 ;; ::: {.notes}
 ;;Imagine for a moment that on earth we only had one constant wind strength and that it never changes.
