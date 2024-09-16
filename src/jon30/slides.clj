@@ -41,7 +41,7 @@
 
 ;; ## {background-color="black" background-image="src/resources/slide-2.png" background-size="contain"}
 ;; ::: {.notes}
-;; I am with with 8-bit-sheep, a consultancy that I co-founded with some other sheep about 7 years ago. We specialize in building tech stuff and especially building data stuff.
+;; I am with with 8-bit-sheep, a consultancy that I co-founded with some other sheep about 7 years ago. We specialize in building tech and data stuff.
 ;; :::
 
 ^:kindly/hide-code
