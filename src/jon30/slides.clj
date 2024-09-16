@@ -1538,7 +1538,7 @@ model {
 
 ;; ## Some heroes
 ;; ::: {.notes}
-;;
+;; A small thank you to some of the people who made this project possible
 ;; :::
 ;;
 ;; - Generateme
