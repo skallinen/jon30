@@ -1184,6 +1184,9 @@
 
 
 ;; ##
+;; ::: {.notes}
+;; I will not go this through in detail today, but this is our probabilistic program.
+;; :::
 (kind/md
  "```stan
 data {
