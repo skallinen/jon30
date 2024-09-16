@@ -373,7 +373,7 @@
 ;; ## {background-color="black" background-image="src/resources/multivariate.png" background-size="contain"}
 ;; ::: {.notes}
 ;; Multivariate
-;; Not only is it a bad model but the wind varies on Earth. Therefore, we need to introduce another variable, which includes the wind strength. That means we are now going to attempt multivariate regression.
+;; Now, lets add the wind variable to the model
 ;; :::
 
 ^:kindly/hide-code
