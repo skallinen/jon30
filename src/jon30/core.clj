@@ -1896,11 +1896,12 @@ generated quantities {
                                              (->> (map (fn [[k column]]
                                                          (f column)))
                                                   (take (tc/row-count main-training-data))
-                                                  (partition n-angles))))))
+                                                  (partition n-angles)
+                                                  tensor/->tensor)))))
         training-data-traces (-> full-training-data
                                  (tc/select-rows (comp not neg? :velocity))
-                                 (tc/rename-columns {:angle :x
-                                                     :wind :y
+                                 (tc/rename-columns {:angle :y
+                                                     :wind :x
                                                      :velocity :z})
                                  (cond-> (not use-empirical)
                                    (tc/select-rows #(-> % :part (not= :empirical))))
@@ -1931,7 +1932,8 @@ generated quantities {
                                  :cauto false
                                  :marker {:line {:opacity 0.5}}
                                  :zmin 0
-                                 :z z-trace})))
+                                 :z (-> z-trace
+                                        (tensor/transpose [1 0]))})))
                     (->> training-data-traces
                          (map (fn [{:keys [x y z part]}]
                                 {:type :scatter3d
@@ -1942,14 +1944,19 @@ generated quantities {
                                           :color (case (first part)
                                                    :vpp "#4f988e"
                                                    :empirical "#a9431e")}
-                                 :x (tcc/- x min-angle)
-                                 :y (tcc/- y min-wind)
+                                 :x (tcc/- x min-wind)
+                                 :y (tcc/- y min-angle)
                                  :z z}))))
-      :layout {:autosize false
-               :width 900
+      :layout {:width 1000
                :height 600
-               :margin {:l 0 :r 0 :b 0 :t 0
-                        :pad 4}}})
+               :margin {:l 0 :r 0 :t 0 :b 0}
+               :scene {:xaxis {:title "Wind"}
+                       :yaxis {:title "Angle"
+                               :autorange "reversed"}
+                       :zaxis {:title "Velocity"}
+                       :camera {:up {:x 0 :y 0 :z 1}
+                                :center {:x 0 :y 0 :z 0}
+                                :eye {:x -1 :y -1 :z -0.3}}}}})
     (kind/fragment
      (for [k [:a0
               :a1_angle :a2_angle :a3_angle ;; :a4_angle
@@ -1968,7 +1975,6 @@ generated quantities {
 
 
 
-
 (defn plot-runs [runs {:keys [colorscales]
                        :or {colorscales ["Greys" "Greens"]}}]
   (kind/plotly
@@ -1984,7 +1990,8 @@ generated quantities {
                                :cauto false
                                :marker {:line {:opacity 0.5}}
                                :zmin 0
-                               :z z-trace})))))
+                               :z (-> z-trace
+                                      (tensor/transpose [0 2 1]))})))))
                (apply concat))
     :layout {:width 600
              :height 700}}))
