@@ -1226,7 +1226,7 @@ model {
 
 ;; ## Compiling the model
 ;; ::: {.notes}
-;; This complies the model, the core/jon-polynomial-modal-code refers to the same code we saw an previous slide.
+;; This complies the probabilistic program we just saw into a binary.
 ;; :::
 (def jon-polynomial-model
   (delay
