@@ -105,9 +105,9 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-9.png" background-size="contain"}
 ;; ::: {.notes}
-;; - Furthermore I'm here because of this project, that has been done in collaboration with Daniel Slusky, who is a driving forse in the Scicloj community.
-;; - A few months ago, we had a conversation abou submitting a proposal to test the current state of the tools in the Scicloj ecosystem with a fun data problem. Not so much to show the implementations but just to have a real data problem we'll demo.
-;; - But where to get such a real-world data problem. How about sailing? Combining both passions of Clojure and Sailing.
+;; - Furthermore I'm here because of this project, that has been done in collaboration with Daniel Slusky.
+;; - A few months ago, we talked about submitting a proposal where we test the current state of the tools in the ecosystem with a fun data problem. Not so much to show the implementations but just to have a real data problem we'll demo.
+;; - But where to get such a real-world data problem. How about combining the passions of clojure and sailing?
 ;; :::
 
 ^:kindly/hide-code
