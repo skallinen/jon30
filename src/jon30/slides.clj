@@ -12,17 +12,17 @@
          :hide-ui-header true}}
 (ns slides
   (:require [fastmath.random :as random]
-                       [jon30.core :as core]
-                       [jon30.data :as data]
-                       [scicloj.cmdstan-clj.v1.api :as stan]
-                       [scicloj.hanamicloth.v1.plotlycloth :as ploclo]
-                       [scicloj.kindly.v4.kind :as kind]
-                       [scicloj.metamorph.ml :as ml]
-                       [scicloj.metamorph.ml.design-matrix :as dm]
-                       [scicloj.metamorph.ml.regression]
-                       [tablecloth.api :as tc]
-                       [tablecloth.column.api :as tcc]
-                       [tech.v3.tensor :as tensor]))
+            [jon30.core :as core]
+            [jon30.data :as data]
+            [scicloj.cmdstan-clj.v1.api :as stan]
+            [scicloj.hanamicloth.v1.plotlycloth :as ploclo]
+            [scicloj.kindly.v4.kind :as kind]
+            [scicloj.metamorph.ml :as ml]
+            [scicloj.metamorph.ml.design-matrix :as dm]
+            [scicloj.metamorph.ml.regression]
+            [tablecloth.api :as tc]
+            [tablecloth.column.api :as tcc]
+            [tech.v3.tensor :as tensor]))
 
 ;; # {background-color="black" background-image="src/resources/slide-0.png" background-size="contain"}
 ;; ::: {.notes}
@@ -525,7 +525,8 @@
    :height 600
    :margin {:l 0 :r 0 :t 0 :b 0}
    :scene {:xaxis {:title "Wind"}
-           :yaxis {:title "Angle"}
+           :yaxis {:title "Angle"
+                   :autorange "reversed"}
            :zaxis {:title "Velocity"}
            :camera {:up {:x 0 :y 0 :z 1}
                     :center {:x 0 :y 0 :z 0}
@@ -589,7 +590,6 @@
     (kind/plotly
      {:data [(-> {:type :surface
                   :colorscale "Greys"
-                  :opacity 0.8
                   :cauto false
                   :showscale false
                   :zmin 0
@@ -698,7 +698,6 @@
      {:data [(-> {:type :surface
                   :colorscale "Greys"
                   :showscale false
-                  :opacity 0.5
                   :cauto false
                   :zmin 0
                   :z z-trace-for-surface})
@@ -792,7 +791,6 @@
     (kind/plotly
      {:data [(-> {:type :surface
                   :colorscale "Greys"
-                  :opacity 0.8
                   :showscale false
                   :cauto false
                   :zmin 0
@@ -800,8 +798,7 @@
              (-> {:type :scatter3d
                   :mode :markers
                   :marker {:size 6
-                           :line {:width 0.5
-                                  :opacity 0.8}
+                           :line {:width 0.5}
                            :color "#4f988e"}
                   :x (:x training-data-trace)
                   :y (:y training-data-trace)
@@ -891,18 +888,16 @@
                   :z (:z training-data-trace)})]
       :layout (-> layout
                   (update :scene
-                          assoc
-                          :xaxis {:title "Wind"
-                                   :range (-> predict-ds
-                                              :wind
-                                              ((juxt tcc/reduce-min
-                                                     tcc/reduce-max)))}
-                           :yaxis {:title "Angle"
-                                   :range (-> predict-ds
-                                              :angle
-                                              ((juxt tcc/reduce-min
-                                                     tcc/reduce-max)))}
-                           :zaxis {:title "Velocity"}))})))
+                          #(-> %
+                               (assoc-in [:xaxis :range] (-> predict-ds
+                                                             :wind
+                                                             ((juxt tcc/reduce-min
+                                                                    tcc/reduce-max))))
+                               (assoc-in [:yaxis :range] (-> predict-ds
+                                                             :angle
+                                                             ((juxt tcc/reduce-min
+                                                                    tcc/reduce-max)))))))})))
+
 
 
 ;; ## Better model
@@ -965,7 +960,6 @@
     (kind/plotly
      {:data [(-> {:type :surface
                   :colorscale "Greys"
-                  :opacity 0.8
                   :showscale false
                   :cauto false
                   :zmin 0
@@ -1085,7 +1079,6 @@
                   :showscale false
                   :zmin 0
                   :colorscale color-custom-scale
-                  :opacity 0.8
                   :z z-trace-for-surface})
              (-> {:type :scatter3d
                   :mode :markers
@@ -1285,7 +1278,6 @@ model {
                               :mode :markers
                               :name part
                               :marker {:size 5
-                                       :opacity 0.8
                                        :color (case (first part)
                                                 :vpp "#4f988e"
                                                 :empirical "#a9431e")}
@@ -1294,15 +1286,12 @@ model {
                               :z z}))))
       :layout (-> layout
                   (update :scene
-                          assoc
-                          :xaxis {:title "Wind"
-                                  :range [0 30]}
-                          :yaxis {:title "Angle"
-                                  :range [0 181]}
-                          :zaxis {:title "Velocity"
-                                  :range [0 (-> core/vpp-and-empirical-data
-                                                :velocity
-                                                tcc/reduce-max)]}))})))
+                          #(-> %
+                               (assoc-in [:xaxis :range] [0 30])
+                               (assoc-in [:yaxis :range] [0 181])
+                               (assoc-in [:zaxis :range] [0 (-> core/vpp-and-empirical-data
+                                                                :velocity
+                                                                tcc/reduce-max)]))))})))
 
 ;; ## Doing the modelling {.scrollable}
 ;; ::: {.notes}
