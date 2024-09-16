@@ -390,7 +390,7 @@
 
 ;; ## {background-color="white" background-image="src/resources/multivariate-equation.png" background-size="contain"}
 ;; ::: {.notes}
-;; We will now incorporate the wind intensity and its parameters, alpha, into the model.
+;; Here we add the variable and its parameter to the model. Again we want to find the parameter that fits the data.
 ;; :::
 ;;
 ^:kindly/hide-code
