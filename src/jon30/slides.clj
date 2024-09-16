@@ -202,7 +202,7 @@
 
 ;; ## What affects the velocity? {background-color="white" background-image="src/resources/vars.png" background-size="contain"}
 ;; ::: {.notes}
-;; We are using wind strength and wind angle to predict velocity, ie how fast the boat moves throught the water!
+;; We are using wind strength and wind angle to predict velocity, ie how fast the boat moves throught the water! Many more variables are present but we will simplify the problem to these two for now.
 ;; :::
 
 ^:kindly/hide-code
