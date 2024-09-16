@@ -402,7 +402,7 @@
 (kind/fragment [])
 ;; ## Smooth sailing! {background-color="black" background-video="src/resources/gliding.mp4" background-video-loop="true" background-video-muted="true"}
 ;; ::: {.notes}
-;; 
+;;
 ;; :::
 ;;
 
@@ -445,12 +445,12 @@
 ;; ::: {.notes}
 ;; - The function where we model the data is not actually needed as we could pass some flags to hanamicloth that would then result in a regression line.
 ;; - We have the more explicit version here to have more control and to show how we do more complex versions later.
-;; - Let's run through what the modelling function does.  
+;; - Let's run through what the modelling function does.
 ;; - First off, we take the data with the wind-strength function.
 ;; - We then shape and process the data to fit the requirements of our equation.
 ;; - This process can be easily done with a design matrix, which I will explain in the upcoming slides.
-;; - Subsequently, we send the matrix to be trained in the model. 
-;; - We use the model to forecast new velocity values using a range of angles provided in the angles var. 
+;; - Subsequently, we send the matrix to be trained in the model.
+;; - We use the model to forecast new velocity values using a range of angles provided in the angles var.
 ;; - After getting the predictions, do some houskeeping before visualization.
 ;; :::
 
@@ -518,6 +518,19 @@
 ;; ::: {.notes}
 ;; Now we are exploring in 3D, but the fit is unsurprisingly, rather bad still.
 ;; :::
+
+^:kindly/hide-code
+(def layout
+  {:width 1000
+   :height 600
+   :margin {:l 0 :r 0 :t 0 :b 0}
+   :scene {:xaxis {:title "Wind"}
+           :yaxis {:title "Angle"}
+           :zaxis {:title "Velocity"}
+           :camera {:up {:x 0 :y 0 :z 1}
+                    :center {:x 0 :y 0 :z 0}
+                    :eye {:x -1 :y -1 :z -0.3}}}})
+
 ^:kindly/hide-code
 (delay
   (let [formula
@@ -576,6 +589,7 @@
     (kind/plotly
      {:data [(-> {:type :surface
                   :colorscale "Greys"
+                  :opacity 0.8
                   :cauto false
                   :showscale false
                   :zmin 0
@@ -589,11 +603,7 @@
                   :x (:x training-data-trace)
                   :y (:y training-data-trace)
                   :z (:z training-data-trace)})]
-      :layout {:width 1000
-               :height 600
-               :scene {:xaxis {:title "Wind"}
-                       :yaxis {:title "Angle"}
-                       :zaxis {:title "Velocity"}}}})))
+      :layout layout})))
 
 ;; ## {background-color="black" background-image="src/resources/quadratic-formula.png" background-size="contain"}
 ;; ::: {.notes}
@@ -688,6 +698,7 @@
      {:data [(-> {:type :surface
                   :colorscale "Greys"
                   :showscale false
+                  :opacity 0.5
                   :cauto false
                   :zmin 0
                   :z z-trace-for-surface})
@@ -700,11 +711,7 @@
                   :x (:x training-data-trace)
                   :y (:y training-data-trace)
                   :z (:z training-data-trace)})]
-      :layout {:width 1000
-               :height 600
-               :scene {:xaxis {:title "Wind"}
-                       :yaxis {:title "Angle"}
-                       :zaxis {:title "Velocity"}}}})))
+      :layout layout})))
 
 
 
@@ -785,6 +792,7 @@
     (kind/plotly
      {:data [(-> {:type :surface
                   :colorscale "Greys"
+                  :opacity 0.8
                   :showscale false
                   :cauto false
                   :zmin 0
@@ -798,11 +806,7 @@
                   :x (:x training-data-trace)
                   :y (:y training-data-trace)
                   :z (:z training-data-trace)})]
-      :layout {:width 1000
-               :height 600
-               :scene {:xaxis {:title "Wind"}
-                       :yaxis {:title "Angle"}
-                       :zaxis {:title "Velocity"}}}})))
+      :layout layout})))
 
 
 ;; ## Mo data, mo problems
@@ -885,19 +889,20 @@
                   :x (:x training-data-trace)
                   :y (:y training-data-trace)
                   :z (:z training-data-trace)})]
-      :layout {:width 1000
-               :height 600
-               :scene {:xaxis {:title "Wind"
-                               :range (-> predict-ds
-                                          :wind
-                                          ((juxt tcc/reduce-min
-                                                 tcc/reduce-max)))}
-                       :yaxis {:title "Angle"
-                               :range (-> predict-ds
-                                          :angle
-                                          ((juxt tcc/reduce-min
-                                                 tcc/reduce-max)))}
-                       :zaxis {:title "Velocity"}}}})))
+      :layout (-> layout
+                  (update :scene
+                          assoc
+                          :xaxis {:title "Wind"
+                                   :range (-> predict-ds
+                                              :wind
+                                              ((juxt tcc/reduce-min
+                                                     tcc/reduce-max)))}
+                           :yaxis {:title "Angle"
+                                   :range (-> predict-ds
+                                              :angle
+                                              ((juxt tcc/reduce-min
+                                                     tcc/reduce-max)))}
+                           :zaxis {:title "Velocity"}))})))
 
 
 ;; ## Better model
@@ -960,6 +965,7 @@
     (kind/plotly
      {:data [(-> {:type :surface
                   :colorscale "Greys"
+                  :opacity 0.8
                   :showscale false
                   :cauto false
                   :zmin 0
@@ -973,11 +979,7 @@
                   :x (:x training-data-trace)
                   :y (:y training-data-trace)
                   :z (:z training-data-trace)})]
-      :layout {:width 1000
-               :height 600
-               :scene {:xaxis {:title "Wind"}
-                       :yaxis {:title "Angle"}
-                       :zaxis {:title "Velocity"}}}})))
+      :layout layout})))
 
 ;; ## Custom gradient
 ;; ::: {.notes}
@@ -1017,12 +1019,12 @@
 
 ;; ## Analysis
 ;; ::: {.notes}
-;; - We can now observe some shortcomings of this model. While it is a relatively good fit, as is common with polynomials, issues arise at the boundaries where the model becomes erratic.  
-;; - The model performs poorly around the point (0, 0).  
+;; - We can now observe some shortcomings of this model. While it is a relatively good fit, as is common with polynomials, issues arise at the boundaries where the model becomes erratic.
+;; - The model performs poorly around the point (0, 0).
 ;; - Nevertheless, we will proceed with this model for now.
-;; - Maintaining model simplicity is generally advantageous from various perspectives.  
-;; - It facilitates clear reasoning.  
-;; - In contrast to several other models we explored, such as splines and wavelets, this model is remarkably adept at avoiding overfitting peculiarities and data errors like the fin we examined.  
+;; - Maintaining model simplicity is generally advantageous from various perspectives.
+;; - It facilitates clear reasoning.
+;; - In contrast to several other models we explored, such as splines and wavelets, this model is remarkably adept at avoiding overfitting peculiarities and data errors like the fin we examined.
 ;; :::
 
 ^:kindly/hide-code
@@ -1083,6 +1085,7 @@
                   :showscale false
                   :zmin 0
                   :colorscale color-custom-scale
+                  :opacity 0.8
                   :z z-trace-for-surface})
              (-> {:type :scatter3d
                   :mode :markers
@@ -1093,11 +1096,7 @@
                   :x (:x training-data-trace)
                   :y (:y training-data-trace)
                   :z (:z training-data-trace)})]
-      :layout {:width 1000
-               :height 600
-               :scene {:xaxis {:title "Wind"}
-                       :yaxis {:title "Angle"}
-                       :zaxis {:title "Velocity"}}}})))
+      :layout layout})))
 ;; ## What next?
 ;; ::: {.notes}
 ;; - We have used basic tools to gain an understanding of what type of model could be effective for our issue.
@@ -1260,7 +1259,7 @@ model {
                                 :=color-type :nominal})
            ploclo/plot))
 ```")
-                    
+
 ;; ## Real measurements + syntethetic data (our prior belief)
 ;; ::: {.notes}
 ;; We want to combine the theoretical model with our real measured data to learn the difference between the theoretical data and our specific actuald perforance data. Here the synthetic data is our best guess, or our piror belief, before we have seen our measured
@@ -1293,16 +1292,17 @@ model {
                               :x x
                               :y y
                               :z z}))))
-      :layout {:width 1000
-               :height 600
-               :scene {:xaxis {:title "Wind"
-                               :range [0 30]}
-                       :yaxis {:title "Angle"
-                               :range [0 181]}
-                       :zaxis {:title "Velocity"
-                               :range [0 (-> core/vpp-and-empirical-data
-                                             :velocity
-                                             tcc/reduce-max)]}}}})))
+      :layout (-> layout
+                  (update :scene
+                          assoc
+                          :xaxis {:title "Wind"
+                                  :range [0 30]}
+                          :yaxis {:title "Angle"
+                                  :range [0 181]}
+                          :zaxis {:title "Velocity"
+                                  :range [0 (-> core/vpp-and-empirical-data
+                                                :velocity
+                                                tcc/reduce-max)]}))})))
 
 ;; ## Doing the modelling {.scrollable}
 ;; ::: {.notes}
@@ -1327,8 +1327,9 @@ model {
 
 ^:kindly/hide-code
 (delay
-  (first (core/plot-one-run @core/results-with-empirical
-                      {:colorscale "Greens"})))
+  (-> (first (core/plot-one-run @core/results-with-empirical
+                                {:colorscale "Greens"}))
+      (assoc :layout layout)))
 
 ;; ## Comparing synthetic with empirical  {.scrollable}
 ;; ::: {.notes}
@@ -1466,7 +1467,7 @@ model {
 
 ;; ## Here be dolphins! {background-video="src/resources/dolphins.mp4" background-video-loop="true" background-video-muted="true"}
 ;; ::: {.notes}
-;; 
+;;
 ;; :::
 ;;
 ^:kindly/hide-code
@@ -1612,7 +1613,7 @@ model {
 ;; ** is the code available?:
 ;; expected velosity given angle and wind
 ;;
-;; 
+;;
 ;; our parameters are very few. they are the unknowns. other things are derived from them. in our cse everythin gis derived plus noise.
 ;; - second run through.
 ;; vincent.
@@ -1631,7 +1632,7 @@ model {
 
 ;; would be nice to see where you sailed.
 ;;
-;; 
+;;
 ;; how to merge empirical & synthetic data?
 ;; what is our mental model for that process?
 ;; what are our implicit assumptions?
@@ -1639,4 +1640,3 @@ model {
 ;;
 
 ;; Repetition
-
