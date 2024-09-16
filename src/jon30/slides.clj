@@ -1255,7 +1255,7 @@ model {
 
 ;; ## Real measurements + syntethetic data (our prior belief)
 ;; ::: {.notes}
-;; We want to combine the theoretical model with our real measured data to learn the difference between the theoretical data and our specific actuald perforance data. Here the synthetic data is our best guess, or our piror belief, before we have seen our measured
+;; We want to combine the theoretical model with our real measured data.
 ;; :::
 ^:kindly/hide-code
 (delay
