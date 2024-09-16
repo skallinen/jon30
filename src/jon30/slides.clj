@@ -727,9 +727,7 @@
 ;; ::: {.notes}
 ;; - We can now observe some shortcomings of this model. While it is a relatively good fit, as is common with polynomials, issues arise at the boundaries where the model becomes erratic.  
 ;; - The model performs poorly around the point (0, 0).  
-;; - Nevertheless, we will proceed with this model for now.
-;; - Maintaining model simplicity is generally advantageous from various perspectives.  
-;; - It facilitates clear reasoning.  
+;; - But lets use this model. It has some pros.
 ;; - In contrast to several other models we explored, such as splines and wavelets, this model is remarkably adept at avoiding overfitting peculiarities and data errors like the fin we examined.  
 ;; :::
 
