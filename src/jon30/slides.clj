@@ -34,7 +34,7 @@
 
 ;; ## {background-color="plack" background-image="src/resources/slide-1.png" background-size="contain"}
 ;; ::: {.notes}
-;; I’ve done all kinds of things, but around three or four years ago, I shifted towards almost full-time development. Thus, in many respects, I am indeed, still an old novice.
+;; I’ve done all kinds of things, but around three or four years ago, I shifted towards almost full-time development.
 ;; :::
 ^:kindly/hide-code
 (kind/fragment [])
