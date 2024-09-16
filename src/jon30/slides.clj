@@ -1424,11 +1424,8 @@ model {
 ;; ::: {.notes}
 ;; - Tada! Finally the polars!
 ;; - This functions similarly to the 2D plots we previously examined, but now with angles represented in a polar coordinate system.
-;; - It may be a bit trickier to interpret, but for sailors, it's quite intuitive as it simulates the boat's direction. Imagine the boat moving forward and the wind angle indicating how it impacts you on the boat.
-;; - Once again, we observe the 95% credible interval.
-;; - We could narrow them down, perhaps plotting one standard deviation instead. Let's save that for another time.
-;; - Overall, this looks good, except for this curve here. Considering the boat's behavior within its domain, it shouldn't exhibit this pattern.
-;; - The horizontal line at the bottom should remain flat, even though it seems to be sloping downwards now. This behavior is characteristic of the cubic model.
+;; - It may be a bit trickier to interpret, but for sailors, it's quite intuitive as it simulates the boat's direction. When the sailor stands on the deck these are the direction the wind hits her.
+;; - Once again, we observe the band where 80% of our data should fall.
 ;; - To improve the model, we might delve deeper into exploring splines or Gaussian processes. While we experimented with them, in our tests they tended to overfit and incorporate errors from the source data into the model.
 ;; :::
 
