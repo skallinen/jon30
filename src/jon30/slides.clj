@@ -289,13 +289,14 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-43.png" background-size="contain"}
 ;; ::: {.notes}
-;; This is how the data looks. Notice how easy it is to make a simple plot with hanamicloth.
-;; On the y axis we see the vessel speed.
-;; On the x-axis, we have the wind angles. This indicates the angle at which the wind strikes the boat in relation to our direction of the bow, ie. the direction of travel.
+;; - This is how the data looks.
+;; - Notice how easy it is to make a simple plot with hanamicloth.
+;; - On the y axis we see the vessel speed.
+;; - On the x-axis, we have the wind angles. This indicates the angle at which the wind hits the boat in relation to our direction of the bow, ie. the direction of travel.
 
-;; At 0 angle we get 0 speed, because you cannot sail straight into the wind
+;; - At 0 angle we get 0 speed, because you cannot sail straight into the wind
 
-;; You just need to bear off a bit and we're already sailing pretty fast.
+;; - But the velocity goes up pretty fast
 ;; :::
 
 ^:kindly/hide-code
