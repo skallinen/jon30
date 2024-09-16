@@ -802,10 +802,9 @@
       :layout layout})))
 ;; ## What next?
 ;; ::: {.notes}
-;; - But we are left with some questions?
-;; - How do we combine our sythtetic theoretical data with our empirical measurements
-;; - What are our assumptions?
-;; - How do i What if we also want to understan how certain/uncertan are we in the results we obtain?
+;; - We have some questions.
+;; - How do we combine our sythtetic theoretical data with our empirical measurements?
+;; - How do we know how uncertain we are with the results?
 ;; - What mental model should we have?
 ;; :::
 ;;
