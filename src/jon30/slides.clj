@@ -352,16 +352,11 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-53.png" background-size="contain"}
 ;; ::: {.notes}
-;; - TODO shorten this.
-;; - The function where we model the data is not actually needed as we could pass some flags to hanamicloth that would then result in a regression line.
-;; - We have the more explicit version here to have more control and to show how we do more complex versions later.
-;; - Let's run through what the modelling function does.  
-;; - First off, we take the data with the wind-strength function.
-;; - We then shape and process the data to fit the requirements of our equation.
-;; - This process can be easily done with a design matrix, which I will explain in the upcoming slides.
-;; - Subsequently, we send the matrix to be trained in the model. 
-;; - We use the model to forecast new velocity values using a range of angles provided in the angles var. 
-;; - After getting the predictions, do some houskeeping before visualization.
+;; - We are doing this for demo but you could just a parameter to hanamicloth to generate a regression line.
+;; - The design matrix function takes data and a nice formula that generates the data that the training function needs.
+;; - That is sent to the model and then the model to the prediction function.
+;; - After getting the predictions we add the line to the visualization
+;; - The upcoming models are generated in the same way.
 ;; :::
 
 ^:kindly/hide-code
