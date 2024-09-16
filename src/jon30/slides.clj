@@ -521,12 +521,12 @@
 
 ;; ## Mo data, mo problems
 ;; ::: {.notes}
-;; - We now have additional data that will assist us in creating a more precise model. We are now covering everything from 4 knots to 30 knots of wind in the training data.
-;; - Keep in mind that this data is artificially generated.
-;; - We are encountering some challenges with this data.
+;; - Here we have more data. 
+;; - Keep in mind that this data is artificially generated and its a sort of theoretical estimation of how a boat like ours can perform.
+;; - There are some problems in the data.
 ;; - The spike issue is likely a numerical problem within the external library.
-;; - It is a rather large blob of stateful object oriented code.
-;; - But that is ok, good even for our needs here today.
+;; - The library is a rather large blob of stateful object oriented code.
+;; - But that is ok, good even for our needs here today, so we can how the models do.
 ;; - Next, we will apply a cubic polynomial to this data.
 ;; :::
 
