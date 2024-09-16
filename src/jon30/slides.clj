@@ -398,7 +398,7 @@
 
 ;; ## {background-color="black" background-image="src/resources/slide-64.png" background-size="contain" visibility="hidden"}
 ;; ::: {.notes}
-;; We will also update the design matrix to reflect this change.
+;; The design matrix needs to reflect this change.
 ;; :::
 
 ^:kindly/hide-code
@@ -501,115 +501,6 @@
                   :y (:y training-data-trace)
                   :z (:z training-data-trace)})]
       :layout layout})))
-
-;; ## {background-color="black" background-image="src/resources/quadratic-formula.png" background-size="contain" visibility="hidden"}
-;; ::: {.notes}
-;; So lets complicate it a bit more by adding terms.
-;; :::
-^:kindly/hide-code
-(kind/fragment [])
-1
-
-;; ## A forumla for quadratic regression {visibility="hidden"}
-;; ::: {.notes}
-;; - This is how the design matrix functions. It is akin to the popular formula in R.
-;; - It is a nifty function that transforms your data into the data tha modelling function expect. Here it adds the squared columns.
-
-;; :::
-;; This corresponds to something like `(velocity ~ angle + I(angle^2) + wind + I(wind^2))` in R.
-
-(require '[scicloj.metamorph.ml :as ml]
-         '[scicloj.metamorph.ml.design-matrix :as dm])
-
-(-> data/vpp-polar-01
-    tc/dataset
-    (#(apply dm/create-design-matrix %
-             [[:velocity]
-              [[:angle '(identity angle)]
-               [:angle2 '(* angle angle)]
-               [:wind '(identity wind)]
-               [:wind2 '(* wind wind)]]])))
-
-
-;; ## Quadratic polynomial {visibility="hidden"}
-;; ::: {.notes}
-;; Quadratic polynomial. It may be a better fit, but it doesn't resemble the shape we are trying to fit.
-;; :::
-^:kindly/hide-code
-(delay
-  (let [formula
-        [[:velocity]
-         [[:angle '(identity angle)]
-          [:angle2 '(* angle angle)]
-          [:wind '(identity wind)]
-          [:wind2 '(* wind wind)]]]
-        predict-ds
-        (-> (for [a (range 181)
-                  w (range 30)]
-              {:angle a
-               :wind w
-               :velocity 0})
-            tc/dataset)
-
-        predict-matrix (-> predict-ds
-                           (#(apply dm/create-design-matrix % formula)))
-
-        training-data (-> data/vpp-polar-01
-                          tc/dataset)
-        min-wind (-> training-data
-                     :wind
-                     tcc/reduce-min)
-
-        min-angle (-> training-data
-                      :angle
-                      tcc/reduce-min)
-
-        training-design-matrix (-> training-data
-                                   (#(apply dm/create-design-matrix % formula)))
-
-        model
-        (-> training-design-matrix
-            (ml/train {:model-type :fastmath/ols}))
-
-        predictions
-        (-> (ml/predict (-> predict-matrix
-                            (tc/drop-columns [:velocity]))
-                        model)
-            (tc/add-column :angle (:angle predict-ds))
-            (tc/add-column :wind (:wind predict-ds)))
-
-        z-trace-for-surface
-        (-> predictions
-            (tc/drop-columns [0])
-            (tc/pivot->wider :wind :velocity)
-            (tc/drop-columns [:angle])
-            (tc/rows))
-
-        training-data-trace
-        (-> training-data
-            (tc/select-rows (comp not neg? :velocity))
-            (tc/rename-columns {:angle :y
-                                :wind :x
-                                :velocity :z}))]
-    (kind/plotly
-     {:data [(-> {:type :surface
-                  :colorscale "Greys"
-                  :showscale false
-                  :cauto false
-                  :zmin 0
-                  :z z-trace-for-surface})
-             (-> {:type :scatter3d
-                  :mode :markers
-                  :marker {:size 6
-                           :line {:width 0.5
-                                  :opacity 0.8}
-                           :color "#4f988e"}
-                  :x (:x training-data-trace)
-                  :y (:y training-data-trace)
-                  :z (:z training-data-trace)})]
-      :layout layout})))
-
-
 
 ;; ## {background-color="black" background-image="src/resources/cubic-formula.png" background-size="contain"}
 ;; ::: {.notes}
