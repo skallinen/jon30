@@ -316,7 +316,7 @@
 (kind/fragment [])
 ;; ## {background-color="black" background-video="src/resources/gliding.mp4" background-video-loop="true" background-video-muted="true"}
 ;; ::: {.notes}
-;; We have some data! Smooth sailing!
+;; We have some data! Smooth sailing so far.
 ;; :::
 ;;
 
@@ -325,7 +325,7 @@
 
 ;; # {background-color="white" background-image="src/resources/slide-49.png" background-size="contain"}
 ;; ::: {.notes}
-;; So lets learn the ropes here and get busy modelling. Regression is a statistical tool used to uncover the relationship between two or more variables.
+;; So lets start learning the ropes here and get busy modelling. Regression is a statistical tool used to uncover the relationship between two or more variables.
 ;; :::
 
 ^:kindly/hide-code
