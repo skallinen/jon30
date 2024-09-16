@@ -268,7 +268,7 @@
 ;; ## {background-color="white" background-image="src/resources/slide-41.png" background-size="contain"}
 ;; ::: {.notes}
 ;; - So now we need some data.
-;; - We have been collecting some experimental data, but lets leave that to the side.
+;; - We have been collecting some experimental data, but lets leave that to the side for now.
 ;; - Let's begin with some synthetic data.
 ;; - We prefer synthetic data when we start modeling because it is usually not very noisy and we are familiar with its behavior when we debug our models.
 ;; :::
