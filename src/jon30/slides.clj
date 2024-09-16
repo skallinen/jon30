@@ -614,7 +614,7 @@
 
 ;; ## Better model
 ;; ::: {.notes}
-;; This actually does a pretty good fit. It can deal with the unnatural spike very well
+;; This actually does a pretty good fit. It can deal with the unnatural spike very well. There are some problems.
 ;; :::
 ^:kindly/hide-code
 (delay
@@ -689,7 +689,7 @@
 
 ;; ## Custom gradient
 ;; ::: {.notes}
-;; First we crate the boundaries
+;; Lets visualize it clearer. First we crate the boundaries
 ;; :::
 ^:kind/hidden
 (def color-boundries
@@ -710,7 +710,7 @@
 ;; :::
 
 ^:kind/hidden
-(def color-custom-scale
+(def custom-color-scale
   (into [[0.0 "rgb(220, 20, 60)"]]
         (mapv (fn [c n]  [c (str "rgb(" n
                                  ", " n
@@ -790,7 +790,7 @@
                   :cauto false
                   :showscale false
                   :zmin 0
-                  :colorscale color-custom-scale
+                  :colorscale custom-color-scale
                   :z z-trace-for-surface})
              (-> {:type :scatter3d
                   :mode :markers
