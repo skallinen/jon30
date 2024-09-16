@@ -512,95 +512,12 @@
 
 ;; ## {background-color="black" background-image="src/resources/cubic-equation.png" background-size="contain"}
 ;; ::: {.notes}
-;; - If you recall the equation we examined earlier for the cubic polynomial, we will now utilize the same one but also incorporate a cubic polynomial for the wind values.
-;; - But lets add more data we model.
+;; - Here is how the equation looks like. Again we have more parameters. We will find single values for each alpha.
+;; - But before we fit the model, lets add some more data to the mix
 ;; :::
 
 ^:kindly/hide-code
 (kind/fragment [])
-
-;; ## Cubic polynomial {visibility="hidden"}
-;; ::: {.notes}
-;; - Cubic polynomial.
-;; - Works pretty well, but we can do better.
-;; - But lets add more data.
-;; :::
-
-^:kindly/hide-code
-(delay
-  (let [formula
-        [[:velocity]
-         [[:angle '(identity angle)]
-          [:angle2 '(* angle angle)]
-          [:angle3 '(* angle angle angle)]
-          [:wind '(identity wind)]
-          [:wind2 '(* wind wind)]
-          [:wind3 '(* wind wind wind)]]]
-        predict-ds
-        (-> (for [a (range 181)
-                  w (range 30)]
-              {:angle a
-               :wind w
-               :velocity 0})
-            tc/dataset)
-
-        predict-matrix (-> predict-ds
-                           (#(apply dm/create-design-matrix % formula)))
-
-        training-data (-> data/vpp-polar-01
-                          tc/dataset)
-        min-wind (-> training-data
-                     :wind
-                     tcc/reduce-min)
-
-        min-angle (-> training-data
-                      :angle
-                      tcc/reduce-min)
-
-        training-design-matrix (-> training-data
-                                   (#(apply dm/create-design-matrix % formula)))
-
-        model
-        (-> training-design-matrix
-            (ml/train {:model-type :fastmath/ols}))
-
-        predictions
-        (-> (ml/predict (-> predict-matrix
-                            (tc/drop-columns [:velocity]))
-                        model)
-            (tc/add-column :angle (:angle predict-ds))
-            (tc/add-column :wind (:wind predict-ds)))
-
-        z-trace-for-surface
-        (-> predictions
-            (tc/drop-columns [0])
-            (tc/pivot->wider :wind :velocity)
-            (tc/drop-columns [:angle])
-            (tc/rows))
-
-        training-data-trace
-        (-> training-data
-            (tc/select-rows (comp not neg? :velocity))
-            (tc/rename-columns {:angle :y
-                                :wind :x
-                                :velocity :z}))]
-    (kind/plotly
-     {:data [(-> {:type :surface
-                  :colorscale "Greys"
-                  :showscale false
-                  :cauto false
-                  :zmin 0
-                  :z z-trace-for-surface})
-             (-> {:type :scatter3d
-                  :mode :markers
-                  :marker {:size 6
-                           :line {:width 0.5
-                                  :opacity 0.8}
-                           :color "#4f988e"}
-                  :x (:x training-data-trace)
-                  :y (:y training-data-trace)
-                  :z (:z training-data-trace)})]
-      :layout layout})))
 
 ;; ## Mo data, mo problems
 ;; ::: {.notes}
