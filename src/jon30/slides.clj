@@ -218,7 +218,7 @@
 
 ;; ## {background-color="black" background-image="src/resources/slide-18.png" background-size="contain"}
 ;; ::: {.notes}
-;; We are sailing!
+;; We are sailing! And measuring some data!
 ;; :::
 
 ^:kindly/hide-code
