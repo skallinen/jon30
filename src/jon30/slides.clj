@@ -11,29 +11,18 @@
          :hide-info-line true
          :hide-ui-header true}}
 (ns slides
-  (:require [clojure.math :as math]
-            [clojure.string :as str]
-            [dorothy.core :as dot]
-            [fastmath.core :as fastmath]
-            [fastmath.interpolation :as i]
-            [fastmath.random :as random]
-            [fastmath.stats :as stats]
-            [fastmath.transform :as transf]
-            [jon30.core :as core]
-            [jon30.data :as data]
-            [jon30.graphviz :refer [digraph]]
-            [jon30.r :as r-helpers]
-            [scicloj.cmdstan-clj.v1.api :as stan]
-            [scicloj.hanamicloth.v1.api :as haclo]
-            [scicloj.hanamicloth.v1.plotlycloth :as ploclo]
-            [scicloj.kindly.v4.kind :as kind]
-            [scicloj.metamorph.ml :as ml]
-            [scicloj.metamorph.ml.design-matrix :as dm]
-            [scicloj.metamorph.ml.regression]
-            [tablecloth.api :as tc]
-            [tablecloth.column.api :as tcc]
-            [tech.v3.datatype.functional :as fun]
-            [tech.v3.tensor :as tensor]))
+  (:require [fastmath.random :as random]
+                       [jon30.core :as core]
+                       [jon30.data :as data]
+                       [scicloj.cmdstan-clj.v1.api :as stan]
+                       [scicloj.hanamicloth.v1.plotlycloth :as ploclo]
+                       [scicloj.kindly.v4.kind :as kind]
+                       [scicloj.metamorph.ml :as ml]
+                       [scicloj.metamorph.ml.design-matrix :as dm]
+                       [scicloj.metamorph.ml.regression]
+                       [tablecloth.api :as tc]
+                       [tablecloth.column.api :as tcc]
+                       [tech.v3.tensor :as tensor]))
 
 ;; # {background-color="black" background-image="src/resources/slide-0.png" background-size="contain"}
 ;; ::: {.notes}
@@ -68,7 +57,7 @@
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="black" background-image="src/resources/slide-4.png" background-size="contain"}
+;; ## {background-color="black" background-image="src/resources/slide-4.png" background-size="contain" visibility="hidden"}
 ;; ::: {.notes}
 ;; Intro
 ;; :::
@@ -83,7 +72,7 @@
 ;; - clarity,
 ;; - we love our REPL
 ;; - we delight in figuring out the data, and making everything into data.
-; - So I suppose we are all here because we love...
+; - So I suppose you are also here because you love...
 ;; :::
 
 
@@ -284,7 +273,7 @@
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="white" background-image="src/resources/slide-34.png" background-size="contain"}
+;; ## {background-color="white" background-image="src/resources/slide-34.png" background-size="contain" visibility="hidden"}
 ;; ::: {.notes}
 ;; This is let's keep it simple. For this discussion, let's focus on the wind speed and wind direction.
 ;; :::
@@ -292,7 +281,7 @@
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="white" background-image="src/resources/vars.png" background-size="contain"}
+;; ## What affects the velocity? {background-color="white" background-image="src/resources/vars.png" background-size="contain"}
 ;; ::: {.notes}
 ;; As we are using wind strength and wind angle to predict velocity, ie how fast the boat moves throught the water!
 ;; :::
@@ -308,16 +297,24 @@
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## Smooth sailing with the fam! {background-color="black" background-image="src/resources/slide-18.png" background-size="contain"}
+;; ## {background-color="black" background-image="src/resources/slide-18.png" background-size="contain"}
 ;; ::: {.notes}
-;; 
+;; We are sailing!
 ;; :::
 
 ^:kindly/hide-code
 (kind/fragment [])
 
 
-;; # {background-color="black" background-image="src/resources/slide-36.png" background-size="contain"}
+;; # {background-color="black" background-image="src/resources/slide-36.png" background-size="contain" visibility="hidden"}
+;; ::: {.notes}
+;;Imagine for a moment that on earth we only had one constant wind strength and that it never changes.
+;; :::
+
+^:kindly/hide-code
+(kind/fragment [])
+
+;; # Start simple
 ;; ::: {.notes}
 ;;Imagine for a moment that on earth we only had one constant wind strength and that it never changes.
 ;; :::
@@ -403,7 +400,7 @@
 
 ^:kindly/hide-code
 (kind/fragment [])
-;; ## Plain sailing! {background-video="src/resources/gliding.mp4" background-video-loop="true" background-video-muted="true"}
+;; ## Smooth sailing! {background-color="black" background-video="src/resources/gliding.mp4" background-video-loop="true" background-video-muted="true"}
 ;; ::: {.notes}
 ;; 
 ;; :::
@@ -468,8 +465,17 @@
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="black" background-image="src/resources/slide-62.png" background-size="contain"}
+;; ## {background-color="black" background-image="src/resources/slide-62.png" background-size="contain" visibility="hidden"}
 ;; ::: {.notes}
+;; Not only is it a bad model but the wind varies on Earth. Therefore, we need to introduce another variable, which includes the wind strength. That means we are now going to attempt multivariate regression.
+;; :::
+
+^:kindly/hide-code
+(kind/fragment [])
+
+;; ## {background-color="black" background-image="src/resources/multivariate.png" background-size="contain"}
+;; ::: {.notes}
+;; Multivariate
 ;; Not only is it a bad model but the wind varies on Earth. Therefore, we need to introduce another variable, which includes the wind strength. That means we are now going to attempt multivariate regression.
 ;; :::
 
@@ -482,19 +488,10 @@
 ;; :::
 
 
-
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="black" background-image="src/resources/multivariate.png" background-size="contain"}
-;; ::: {.notes}
-;; Multivariate
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="white" background-image="src/resources/slide-63.png" background-size="contain"}
+;; ## {background-color="white" background-image="src/resources/quadratic-equation.png" background-size="contain"}
 ;; ::: {.notes}
 ;; We will now incorporate the wind intensity and its parameters, alpha, into the model.
 ;; :::
@@ -708,6 +705,8 @@
                :scene {:xaxis {:title "Wind"}
                        :yaxis {:title "Angle"}
                        :zaxis {:title "Velocity"}}}})))
+
+
 
 ;; ## {background-color="black" background-image="src/resources/cubic-formula.png" background-size="contain"}
 ;; ::: {.notes}
@@ -1101,8 +1100,9 @@
                        :zaxis {:title "Velocity"}}}})))
 ;; ## What next?
 ;; ::: {.notes}
-;; - We have been using synthetic data, but it is not meaningless. It assumes how a boat of the size and shape similar to ours should theoretically behave. In addition to this synthetic data, we also have actual empirical data.
-;; - How should we use this and combine this empirical and synthetic data?
+;; - We have used basic tools to gain an understanding of what type of model could be effective for our issue.
+;; - But we are left with some questions.
+;; - How do we combine our sythtetic theoretical data with our experimental empirical measurements
 ;; - What is our mental model for this process?
 ;; - What implicit assumptions are made when we do so?
 ;; - What if we also want to understan how certain/uncertan are we in the results we obtain?
@@ -1114,9 +1114,9 @@
 ;; - Assumptions?
 ;; - Uncertainty?
 
-;; ## Deep waters and high seas {background-video="src/resources/atlantic.mp4" background-video-loop="true" background-video-muted="true"}
+;; ## {background-video="src/resources/atlantic.mp4" background-video-loop="true" background-video-muted="true"}
 ;; ::: {.notes}
-;; We are in some deep waters. Lets roll out the big guns!
+;; We are getting into more complex territory. Let's get into Bayesian statistics.
 ;; :::
 ;;
 
@@ -1129,16 +1129,21 @@
 ;; :::
 
 
-;; ## Bayesian Statistics
+;; ## Bayesian Statistics {background-image="src/resources/coin.jpg" background-size="contain"}
 ;; ::: {.notes}
-;; - People mention that Bayesian statistics does have some similarities with Clojure.
+;; - Imagine you're trying to determine if a coin is fair.
+;; - Traditional Approach: Base decision on long-term data.
+;; - Bayesian Approach: Start with an initial belief and update it with each coin toss.
 ;; - There is a focus on explainability and simplicity.
-;; - Bayesian inference is carried out through simulations, and we interrogate these simulated outcomes, which are just data, with various questions. It's straightforward to interpret these results since they are simply data.
-;; - Since our synthetic data carries significance, we aim to integrate it with our observed empirical data to leverage that significance.
+;; - The output of a model is a simulation ie just a new dataset we can ask questions from.
+;; - It is much easier to reason about the uncertainty than with traditional approaches.
+;; - We also want to somehow combine combine our sythetic data, which is an ideal, with our measured experimental empirical data.
 ;; - Essentially, we can view the synthetic data as the theoretical best fit for our model.
-;; - We will soon add our empirical data to the model, but lets for a moment do the same modelling we did the conventional way but now with baysian.
+;; - So lets get started.
 ;; :::
-
+;; - Is this coin fair?
+;; - Traditional approach: Throw it many times and then decide.
+;; - Bayesian approach: Start with a belief, best guess, and update it with each coin toss.
 
 ^:kindly/hide-code
 (kind/fragment [])
@@ -1255,39 +1260,10 @@ model {
                                 :=color-type :nominal})
            ploclo/plot))
 ```")
-;; ## Doing the modelling {.scrollable}
-;; ::: {.notes}
-;; I understand that these graphs may not make sense to you if you're not familiar with this topic, but they essentially indicate that our model is functioning well. I won't go into the details now due to time constraints, but I can explain later for those interested.. For the time being, you just have to trust me.
-;; :::
-
-^:kindly/hide-code
-(delay
-  (kind/fragment
-   (rest (core/plot-one-run @core/results-without-empirical
-                            {:colorscale "Greys"}))))
-
-;; ## Doing the modelling {.scrollable}
-;; ::: {.notes}
-;; - First we are modeling the same data as before.
-;; - Now we have introduced two surfaces, and the gap between them is where our anticipated values should lie with a 80% probability. We get this just by  looking at the values our simulation generated.
-;; :::
-^:kindly/hide-code
-(delay
-  (first (core/plot-one-run @core/results-without-empirical
-                      {:colorscale "Greys"}))
-  )
-
-;; ## {background-color="black" background-image="src/resources/device.png" background-size="contain"}
-;; ::: {.notes}
-;; As I mentioned that I have installed some measurement devices on the boat. We can now proceed to examine that data.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
                     
-;; ## Real measurements + syntethetic data
+;; ## Real measurements + syntethetic data (our prior belief)
 ;; ::: {.notes}
-;; We want to update the theoretical model with our real measured data to learn the difference between the theoretical data and our specific actuald perforance data.
+;; We want to combine the theoretical model with our real measured data to learn the difference between the theoretical data and our specific actuald perforance data. Here the synthetic data is our best guess, or our piror belief, before we have seen our measured
 ;; :::
 ^:kindly/hide-code
 (delay
@@ -1328,9 +1304,24 @@ model {
                                              :velocity
                                              tcc/reduce-max)]}}}})))
 
+;; ## Doing the modelling {.scrollable}
+;; ::: {.notes}
+;; - I know these graphs might not make sense to you, but trust me, they look good :-). It's not really complicated, but I'm taking this shortcut for the sake of time. We can discuss it further later.
+;; - We have included these to emphasize that this inspection is an important step in our process.
+;; :::
+
+^:kindly/hide-code
+(delay
+  (kind/fragment
+   (rest (core/plot-one-run @core/results-without-empirical
+                            {:colorscale "Greys"}))))
+
 ;; ## Updating the synthetic model with the measurements  {.scrollable}
 ;; ::: {.notes}
-;; We want to update the theoretical model with our real measured data
+;; - Voila. This is the result of our model!
+;; - Here we have now two surfaces.
+;; - According to our model, our velocity values should fall between these two surfaces 80% of the time.
+;; - This is one way of exploring our model, but we might want to be more concrete.
 ;; :::
 
 
@@ -1341,13 +1332,20 @@ model {
 
 ;; ## Comparing synthetic with empirical  {.scrollable}
 ;; ::: {.notes}
-;; - We have one recorded value here.
-;; - I sailed at 175.5 degrees.
+;; - This is an example how we could use this model, even in real time.
+;; - We recorded a set of values on our boat.
+;; - In this case we sailed at 175.5 degrees.
 ;; - That was downwind.
 ;; - The wind speed was 10.6 knots.
 ;; - At that moment, our sailing speed was 4.1 knots.
-;; - Comparing our speed to the posterior distribution of the synthetic data, it is evident that I was quite far from the optimal speeds. I should have been sailing at over 5 knots. We are at the lower end of the distribution, which is very uncommon for us to sail so slowly.
-;; - Looking at the posterior distribution that includes the measured experimental data, the situation seems slightly better. Compared to our usual performance, we were not too far from the optimal speed. It was not our best day, but we were fairly close to the optimum.
+;; - Comparing our speed to the distribution resulting from just the syntetic data, it is evident that we was quite far from the optimal speeds. We should have been sailing at over 5 knots. We are at the lower end of the distribution, so we should take a way that getting a low value like this should be pretty uncommon.
+;; - Looking at the velocity distribution resulting from the model with the measured empirical data, the situation seems slightly better. Compared to our usual performance, we were not too far from the optimal speed. It was not our best day, but we were fairly close to the optimum.
+;; - We can interpret the upper one to represent the ideal or potential speed distribution for a boat like us
+;; - And the lower  distribution the real distribution that takes into account our real boat, our skills and everything else that was not able to be taken into account in our ideal synthetic data.
+;; - So based on this we might want to start to debug the boat.
+;; - Are we carrying too much weight.
+;; - Do we need better sails.
+;; - Should we learn to trim the sails better and so forth.
 ;; :::
 
 
@@ -1367,7 +1365,6 @@ model {
 (def n-vpp-examples
   (-> core/vpp-data
       tc/row-count))
-
 
 ^:kindly/hide-code
 (defn show-empirical-example [i]
@@ -1475,7 +1472,7 @@ model {
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; # {background-color="black" background-image="src/resources/slide-67.png" background-size="contain"}
+;; # {background-color="black" background-image="src/resources/slide-67.png" background-size="contain" visibility="hidden"}
 ;; ::: {.notes}
 ;;
 ;; :::
