@@ -1140,20 +1140,22 @@
 
 ;; ## Bayesian Statistics {background-image="src/resources/coin.jpg" background-size="contain"}
 ;; ::: {.notes}
-;; - Imagine you're trying to determine if a coin is fair.
-;; - Traditional Approach: Base decision on long-term data.
-;; - Bayesian Approach: Start with an initial belief and update it with each coin toss.
-;; - There is a focus on explainability and simplicity.
-;; - The output of a model is a simulation ie just a new dataset we can pose questions to.
-;; - This is also why it is much easier to reason about the uncertainty than with traditional approaches.
-;; - In our case, essentially, we can view the synthetic data as the theoretical best performance for a boat like ours. Think of the sythetic dta as the assumption that the coin is fair in the coin example
-;; - We want to somehow combine combine our sythetic data, which is an ideal, with our measured experimental empirical data. 
-;; - So lets get started.
+;; - In the Bayesian approach we write a probabilistic program which not only tosses and counts the coin flips but also creates the coins themselves with with varying unfairness.
+
+;; -(TODO its own slide) Both our data and the things which are unknown to us are just variables in a probabilistic program.
+;; - All questions are answered but the rules of probability.
+;; - This approach offers simple tools to define relationships between all entities in our problem.
+;; - We explicitly phrase how all of them relate the polynomials, the expected velocities, the empirical data aaand the synthetic data.
+;; - They have clearly phrased relationships, like in logic programming, but embracing uncertainty.
+;; - Then you only need to run your inference algorithm.
+;; - Think about your datalog query but with some randomness inside.
+
 ;; :::
-;; - Is this coin fair?
-;; - Traditional approach: Throw it many times and then decide.
-;; - Bayesian approach: Start with a belief, best guess, and update it with each coin toss.
-;; - In our case this we are using Baysian to combine the synthetic and empirical data to analyze uncertainty.
+;; - Bayesian coin flips
+;; - Simplified tools
+;; - Phrasing relations
+;; - Uncertainty
+;; - Like a datalog query
 
 ^:kindly/hide-code
 (kind/fragment [])
