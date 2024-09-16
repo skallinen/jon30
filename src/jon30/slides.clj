@@ -123,7 +123,7 @@
 
 ;; ## {background-color="black" background-image="src/resources/slide-20.png" background-size="contain"}
 ;; ::: {.notes}
-;; This summer, I got my third boat. It's not large, it may not win modern races, but it's sturdy and dependable. You could on the North Sea with it, maybe to Belgium, or even head out into the Atlantic.
+;; This is the boat we are collecting data from.
 ;; :::
 
 ^:kindly/hide-code
@@ -131,7 +131,7 @@
 
 ;; ## {background-color="black" background-image="src/resources/slide-21.png" background-size="contain"}
 ;; ::: {.notes}
-;; I thought I would be sailing all summer, like I said, perhaps to Belgium, but it is an old boat. We always plan to sail and end up doing maintenance..
+;; We got the boat this summer and I thought I would be sailing all summer, like I said, perhaps to Belgium, but it is an old boat. We always plan to sail and end up doing maintenance..
 ;; :::
 
 ^:kindly/hide-code
@@ -139,32 +139,15 @@
 
 ;; ## {background-color="black" background-image="src/resources/slide-22.png" background-size="contain"}
 ;; ::: {.notes}
-;; Maintenance is fun too.
+;; Maintenance is fun too. We also installed some devices to collect the data we are using today.
 ;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="black" background-image="src/resources/slide-26.png" background-size="contain"}
-;; ::: {.notes}
-;; I've also installed some tools that track and log the boat's performance while sailing.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="black" background-image="src/resources/ydwg_drawing.png" background-size="contain"}
-;; ::: {.notes}
-;;
-;; :::
-
 
 ^:kindly/hide-code
 (kind/fragment [])
 
 ;; ## {background-color="black" background-image="src/resources/slide-25.png" background-size="contain"}
 ;; ::: {.notes}
-;; So we have a boat, we can collect some data. All aboard?
+;; We now we have a boat, we can collect some data. All aboard?
 ;; :::
 
 ^:kindly/hide-code
