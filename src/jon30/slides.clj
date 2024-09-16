@@ -1110,16 +1110,14 @@
                        :zaxis {:title "Velocity"}}}})))
 ;; ## What next?
 ;; ::: {.notes}
-;; - We have used basic tools to gain an understanding of what type of model could be effective for our issue.
-;; - But we are left with some questions.
-;; - How do we combine our sythtetic theoretical data with our experimental empirical measurements
-;; - What is our mental model for this process?
-;; - What implicit assumptions are made when we do so?
-;; - What if we also want to understan how certain/uncertan are we in the results we obtain?
-;; - Our current approach does not give easy answers to these questions.
+;; - But we are left with some questions?
+;; - How do we combine our sythtetic theoretical data with our empirical measurements
+;; - What are our assumptions?
+;; - How do i What if we also want to understan how certain/uncertan are we in the results we obtain?
+;; - What mental model should we have?
 ;; :::
 ;;
-;; - Combine the empirical and the synthetic
+;; - Combine data
 ;; - Assumptions
 ;; - Uncertainty
 ;; - An intuitive mental model
