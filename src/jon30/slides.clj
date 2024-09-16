@@ -595,15 +595,15 @@
                        :yaxis {:title "Angle"}
                        :zaxis {:title "Velocity"}}}})))
 
-;; ## {background-color="black" background-image="src/resources/quadratic-formula.png" background-size="contain"}
+;; ## {background-color="black" background-image="src/resources/quadratic-formula.png" background-size="contain" visibility="hidden"}
 ;; ::: {.notes}
 ;; So lets complicate it a bit more by adding terms.
 ;; :::
 ^:kindly/hide-code
 (kind/fragment [])
+1
 
-
-;; ## A forumla for quadratic regression
+;; ## A forumla for quadratic regression {visibility="hidden"}
 ;; ::: {.notes}
 ;; - This is how the design matrix functions. It is akin to the popular formula in R.
 ;; - It is a nifty function that transforms your data into the data tha modelling function expect. Here it adds the squared columns.
@@ -624,7 +624,7 @@
                [:wind2 '(* wind wind)]]])))
 
 
-;; ## Quadratic polynomial
+;; ## Quadratic polynomial {visibility="hidden"}
 ;; ::: {.notes}
 ;; Quadratic polynomial. It may be a better fit, but it doesn't resemble the shape we are trying to fit.
 ;; :::
@@ -710,7 +710,7 @@
 
 ;; ## {background-color="black" background-image="src/resources/cubic-formula.png" background-size="contain"}
 ;; ::: {.notes}
-;; So let's complicate it even more and do a so called cubic polynomial
+;; So let's complicate it even more and do a so called cubic polynomial TODO typo in slide
 ;; :::
 
 ;; ## {background-color="black" background-image="src/resources/cubic-equation.png" background-size="contain"}
@@ -1116,7 +1116,7 @@
 
 ;; ## {background-video="src/resources/atlantic.mp4" background-video-loop="true" background-video-muted="true"}
 ;; ::: {.notes}
-;; We are getting into more complex territory. Let's get into Bayesian statistics.
+;; 11 min We are getting into more complex territory. Let's get into Bayesian statistics.
 ;; :::
 ;;
 
@@ -1125,7 +1125,7 @@
 
 ;; # {background-color="black" background-image="src/resources/bayesian.png" background-size="contain"}
 ;; ::: {.notes}
-;; So now we come to Bayesian Statistics. In addition to the reasons mentioned earlier, there are particular reasons for why we are choosing it.
+;; So now lets do some Bayesian Statistics.
 ;; :::
 
 
@@ -1135,22 +1135,23 @@
 ;; - Traditional Approach: Base decision on long-term data.
 ;; - Bayesian Approach: Start with an initial belief and update it with each coin toss.
 ;; - There is a focus on explainability and simplicity.
-;; - The output of a model is a simulation ie just a new dataset we can ask questions from.
-;; - It is much easier to reason about the uncertainty than with traditional approaches.
-;; - We also want to somehow combine combine our sythetic data, which is an ideal, with our measured experimental empirical data.
-;; - Essentially, we can view the synthetic data as the theoretical best fit for our model.
+;; - The output of a model is a simulation ie just a new dataset we can pose questions to.
+;; - This is also why it is much easier to reason about the uncertainty than with traditional approaches.
+;; - In our case, essentially, we can view the synthetic data as the theoretical best performance for a boat like ours. Think of the sythetic dta as the assumption that the coin is fair in the coin example
+;; - We want to somehow combine combine our sythetic data, which is an ideal, with our measured experimental empirical data. 
 ;; - So lets get started.
 ;; :::
 ;; - Is this coin fair?
 ;; - Traditional approach: Throw it many times and then decide.
 ;; - Bayesian approach: Start with a belief, best guess, and update it with each coin toss.
+;; - In our case this we are using Baysian to combine the synthetic and empirical data to analyze uncertainty.
 
 ^:kindly/hide-code
 (kind/fragment [])
 
 ;; ## {background-color="black" background-image="src/resources/cubic-equation.png" background-size="contain"}
 ;; ::: {.notes}
-;; In the polynomials we saw previous we estimated parameters as single values. In Bayesian analysis, we view the parameters not as a single fitted value, but as random variables with uncertainty. This means that all the alphas and betas have distributions, allowing us to reason about the likelihood of various parameters and, ultimately, different predicted values.
+;; In the polynomials we saw previous we estimated parameters as single values. In Bayesian analysis, we view the parameters not as a single fitted value, but as random variables with uncertainty. This means that all the alphas have distributions, allowing us to reason about the likelihood of various parameters and, ultimately, different predicted values.
 ;; :::
 
 ^:kindly/hide-code
@@ -1158,7 +1159,7 @@
 
 ;; ## STAN in the house {.v-center-conteiner}
 ;; ::: {.notes}
-;; STAN is a probabilistic programming language that enables users to create intricate statistical models and conduct Bayesian inference on them. It boasts some of the most efficient algorithms for modeling. STAN can be utilized in Clojure with the Scicloj library known as cmdstan-clj.
+;; STAN is a probabilistic programming language that lets users to create statistical models and do Bayesian inference on them. Ithas some of the most efficient algorithms for modeling. STAN can be utilized in Clojure with the Scicloj library known as cmdstan-clj.
 ;; :::
 
 ;;::: {layout="[[-1], [1], [-1]]"}
@@ -1245,22 +1246,6 @@ model {
 ```")
 
 
-;; ## Creating plots for diagnostics {.scrollable}
-^:kindly/hide-code
-(kind/md
- "```clojure
-     (for [k [:a0
-              :a1_angle :a2_angle :a3_angle ;; :a4_angle
-              :a1_wind :a2_wind :a3_wind    ;; :a4_wind
-              :sigma]]
-       (-> samples
-           (ploclo/layer-point {:=x :i
-                                :=y k
-                                :=color :chain
-                                :=color-type :nominal})
-           ploclo/plot))
-```")
-                    
 ;; ## Real measurements + syntethetic data (our prior belief)
 ;; ::: {.notes}
 ;; We want to combine the theoretical model with our real measured data to learn the difference between the theoretical data and our specific actuald perforance data. Here the synthetic data is our best guess, or our piror belief, before we have seen our measured
@@ -1304,10 +1289,26 @@ model {
                                              :velocity
                                              tcc/reduce-max)]}}}})))
 
-;; ## Doing the modelling {.scrollable}
+;; ## Creating plots for diagnostics {.scrollable}
+^:kindly/hide-code
+(kind/md
+ "```clojure
+     (for [k [:a0
+              :a1_angle :a2_angle :a3_angle ;; :a4_angle
+              :a1_wind :a2_wind :a3_wind    ;; :a4_wind
+              :sigma]]
+       (-> samples
+           (ploclo/layer-point {:=x :i
+                                :=y k
+                                :=color :chain
+                                :=color-type :nominal})
+           ploclo/plot))
+```")
+                    
+;; ## Doing diagnostic {.scrollable}
 ;; ::: {.notes}
 ;; - I know these graphs might not make sense to you, but trust me, they look good :-). It's not really complicated, but I'm taking this shortcut for the sake of time. We can discuss it further later.
-;; - We have included these to emphasize that this inspection is an important step in our process.
+;; - We have included these to emphasize that this inspection is an important part of our workflow.
 ;; :::
 
 ^:kindly/hide-code
@@ -1466,7 +1467,7 @@ model {
 
 ;; ## Here be dolphins! {background-video="src/resources/dolphins.mp4" background-video-loop="true" background-video-muted="true"}
 ;; ::: {.notes}
-;; 
+;; 13 min
 ;; :::
 ;;
 ^:kindly/hide-code
@@ -1509,7 +1510,7 @@ model {
 (kind/fragment [])
 
 ;; ## Noj
-;; - "Noj" brings together essential Clojure libraries for data science purposes and provides documentation on how to effectively utilize them in tandem.
+;; - "Noj" brings together essential Clojure libraries for data science purposes and provides documentation on how to effectively utilize them.
 ;; - Forget about version compatibility issues - "Noj" has your back.
 ;; - Unsure about which tool is optimal for a specific task? "Noj" has thought about that already!
 ;; - https://github.com/scicloj/noj
@@ -1544,7 +1545,7 @@ model {
 
 ;; ##  Thank you! {background-video="src/resources/sailing-downwind.mp4" background-video-loop="true" background-video-muted="true"}
 ;; ::: {.notes}
-;;
+;;2 min
 ;; :::
 ;;
 
