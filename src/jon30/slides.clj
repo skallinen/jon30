@@ -121,62 +121,6 @@
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="white" background-image="src/resources/slide-11.png" background-size="contain"  visibility="hidden"}
-;; ::: {.notes}
-;; A few words about my sailing. If someone had told me five years ago that I would become a sailor, I would have laughed in their face. I used to think sailing was only for wealthy and prominent yachtsmen with lots of status and resources.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="white" background-image="src/resources/slide-12.png" background-size="contain"  visibility="hidden"}
-;; ::: {.notes}
-;; But then this happened. Without going into all the details, suddenly I couldn't stay with my family due to no vaccines, so I had to find a place nearby. I searched the internet and ended up buying a boat for the price of a fancy laptop.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="white" background-image="src/resources/slide-13.png" background-size="contain"  visibility="hidden"}
-;; ::: {.notes}
-;; I've also learned that anyone can take up sailing. Meet Moxy Marlinspike and his gang of anarchists who sailed the Caribbean more or less for free.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="white" background-image="src/resources/slide-14.png" background-size="contain"  visibility="hidden"}
-;; ::: {.notes}
-;; If you're interested, they've made a documentary about their adventures.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="white" background-image="src/resources/slide-15.png" background-size="contain"  visibility="hidden"}
-;; ::: {.notes}
-;; So I moved in. It was small, the size of a luxurious dog house.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="black" background-image="src/resources/slide-16.png" background-size="contain"  visibility="hidden"}
-;; ::: {.notes}
-;; I lived and worked there for 6 months.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="black" background-image="src/resources/slide-17.png" background-size="contain"  visibility="hidden"}
-;; ::: {.notes}
-;;
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
 ;; ## {background-color="black" background-image="src/resources/slide-20.png" background-size="contain"}
 ;; ::: {.notes}
 ;; This summer, I got my third boat. It's not large, it may not win modern races, but it's sturdy and dependable. You could on the North Sea with it, maybe to Belgium, or even head out into the Atlantic.
