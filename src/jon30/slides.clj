@@ -1162,7 +1162,7 @@
 
 ;; ## {background-color="black" background-image="src/resources/cubic-equation.png" background-size="contain"}
 ;; ::: {.notes}
-;; (TODO + random noise) In the polynomials we saw previous we estimated parameters as single values. In Bayesian analysis, we view the parameters not as a single fitted value, but as random variables with uncertainty. This means that all the alphas have distributions, allowing us to reason about the likelihood of various parameters and, ultimately, different predicted values.
+;; In the polynomials we saw previous we estimated parameters as single values. In Bayesian analysis, we view the parameters not as a single fitted value, but as variables in our probabilistic programs with uncertainty. This means that all the alphas have distributions, allowing us to reason about the likelihood of various parameters and, ultimately, different predicted values.
 ;; :::
 
 ^:kindly/hide-code
