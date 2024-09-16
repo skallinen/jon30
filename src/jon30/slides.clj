@@ -34,14 +34,14 @@
 
 ;; ## {background-color="plack" background-image="src/resources/slide-1.png" background-size="contain"}
 ;; ::: {.notes}
-;; I’ve done all kinds of things, but around three or four years ago, I shifted towards almost full-time development. Thus, in many respects, I am indeed, still an old novice.
+;; I’ve done all kinds of things, but around three or four years ago, I shifted towards almost full-time development.
 ;; :::
 ^:kindly/hide-code
 (kind/fragment [])
 
 ;; ## {background-color="black" background-image="src/resources/slide-2.png" background-size="contain"}
 ;; ::: {.notes}
-;; I am with with 8-bit-sheep, a consultancy that I co-founded with some other sheep about 7 years ago. We specialize in building tech stuff and especially building data stuff.
+;; I am with with 8-bit-sheep, a consultancy that I co-founded with some other sheep about 7 years ago. We specialize in building tech and data stuff.
 ;; :::
 
 ^:kindly/hide-code
@@ -105,9 +105,9 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-9.png" background-size="contain"}
 ;; ::: {.notes}
-;; - Furthermore I'm here because of this project, that has been done in collaboration with Daniel Slusky, who is a driving forse in the Scicloj community.
-;; - A few months ago, we had a conversation abou submitting a proposal to test the current state of the tools in the Scicloj ecosystem with a fun data problem. Not so much to show the implementations but just to have a real data problem we'll demo.
-;; - But where to get such a real-world data problem. How about sailing? Combining both passions of Clojure and Sailing.
+;; - Furthermore I'm here because of this project, that has been done in collaboration with Daniel Slusky.
+;; - A few months ago, we talked about submitting a proposal where we test the current state of the tools in the ecosystem with a fun data problem. Not so much to show the implementations but just to have a real data problem we'll demo.
+;; - But where to get such a real-world data problem. How about combining the passions of clojure and sailing?
 ;; :::
 
 ^:kindly/hide-code
@@ -121,65 +121,9 @@
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="white" background-image="src/resources/slide-11.png" background-size="contain"  visibility="hidden"}
-;; ::: {.notes}
-;; A few words about my sailing. If someone had told me five years ago that I would become a sailor, I would have laughed in their face. I used to think sailing was only for wealthy and prominent yachtsmen with lots of status and resources.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="white" background-image="src/resources/slide-12.png" background-size="contain"  visibility="hidden"}
-;; ::: {.notes}
-;; But then this happened. Without going into all the details, suddenly I couldn't stay with my family due to no vaccines, so I had to find a place nearby. I searched the internet and ended up buying a boat for the price of a fancy laptop.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="white" background-image="src/resources/slide-13.png" background-size="contain"  visibility="hidden"}
-;; ::: {.notes}
-;; I've also learned that anyone can take up sailing. Meet Moxy Marlinspike and his gang of anarchists who sailed the Caribbean more or less for free.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="white" background-image="src/resources/slide-14.png" background-size="contain"  visibility="hidden"}
-;; ::: {.notes}
-;; If you're interested, they've made a documentary about their adventures.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="white" background-image="src/resources/slide-15.png" background-size="contain"  visibility="hidden"}
-;; ::: {.notes}
-;; So I moved in. It was small, the size of a luxurious dog house.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="black" background-image="src/resources/slide-16.png" background-size="contain"  visibility="hidden"}
-;; ::: {.notes}
-;; I lived and worked there for 6 months.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="black" background-image="src/resources/slide-17.png" background-size="contain"  visibility="hidden"}
-;; ::: {.notes}
-;;
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
 ;; ## {background-color="black" background-image="src/resources/slide-20.png" background-size="contain"}
 ;; ::: {.notes}
-;; This summer, I got my third boat. It's not large, it may not win modern races, but it's sturdy and dependable. You could on the North Sea with it, maybe to Belgium, or even head out into the Atlantic.
+;; This is the boat we are collecting data from.
 ;; :::
 
 ^:kindly/hide-code
@@ -187,7 +131,7 @@
 
 ;; ## {background-color="black" background-image="src/resources/slide-21.png" background-size="contain"}
 ;; ::: {.notes}
-;; I thought I would be sailing all summer, like I said, perhaps to Belgium, but it is an old boat. We always plan to sail and end up doing maintenance..
+;; We got the boat this summer and I thought I would be sailing all summer, like I said, perhaps to Belgium, but it is an old boat. We always plan to sail and end up doing maintenance..
 ;; :::
 
 ^:kindly/hide-code
@@ -195,32 +139,15 @@
 
 ;; ## {background-color="black" background-image="src/resources/slide-22.png" background-size="contain"}
 ;; ::: {.notes}
-;; Maintenance is fun too.
+;; Maintenance is fun too. We also installed some devices to collect the data we are using today.
 ;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="black" background-image="src/resources/slide-26.png" background-size="contain"}
-;; ::: {.notes}
-;; I've also installed some tools that track and log the boat's performance while sailing.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="black" background-image="src/resources/ydwg_drawing.png" background-size="contain"}
-;; ::: {.notes}
-;;
-;; :::
-
 
 ^:kindly/hide-code
 (kind/fragment [])
 
 ;; ## {background-color="black" background-image="src/resources/slide-25.png" background-size="contain"}
 ;; ::: {.notes}
-;; So we have a boat, we can collect some data. All aboard?
+;; We now we have a boat, we can collect some data. All aboard?
 ;; :::
 
 ^:kindly/hide-code
@@ -1226,7 +1153,7 @@ model {
 
 ;; ## Compiling the model
 ;; ::: {.notes}
-;; This complies the model, the core/jon-polynomial-modal-code refers to the same code we saw an previous slide.
+;; This complies the probabilistic program we just saw into a binary.
 ;; :::
 (def jon-polynomial-model
   (delay
@@ -1255,7 +1182,7 @@ model {
 
 ;; ## Real measurements + syntethetic data (our prior belief)
 ;; ::: {.notes}
-;; We want to combine the theoretical model with our real measured data to learn the difference between the theoretical data and our specific actuald perforance data. Here the synthetic data is our best guess, or our piror belief, before we have seen our measured
+;; We want to combine the theoretical model with our real measured data.
 ;; :::
 ^:kindly/hide-code
 (delay
@@ -1424,11 +1351,8 @@ model {
 ;; ::: {.notes}
 ;; - Tada! Finally the polars!
 ;; - This functions similarly to the 2D plots we previously examined, but now with angles represented in a polar coordinate system.
-;; - It may be a bit trickier to interpret, but for sailors, it's quite intuitive as it simulates the boat's direction. Imagine the boat moving forward and the wind angle indicating how it impacts you on the boat.
-;; - Once again, we observe the 95% credible interval.
-;; - We could narrow them down, perhaps plotting one standard deviation instead. Let's save that for another time.
-;; - Overall, this looks good, except for this curve here. Considering the boat's behavior within its domain, it shouldn't exhibit this pattern.
-;; - The horizontal line at the bottom should remain flat, even though it seems to be sloping downwards now. This behavior is characteristic of the cubic model.
+;; - It may be a bit trickier to interpret, but for sailors, it's quite intuitive as it simulates the boat's direction. When the sailor stands on the deck these are the direction the wind hits her.
+;; - Once again, we observe the band where 80% of our data should fall.
 ;; - To improve the model, we might delve deeper into exploring splines or Gaussian processes. While we experimented with them, in our tests they tended to overfit and incorporate errors from the source data into the model.
 ;; :::
 
@@ -1489,17 +1413,17 @@ model {
 
 
 ;; ## Conclusion
+;; ::: {.notes}
 ;; - We've made good progress. We can and will keep working on the actual model.
 
 ;; - The tools Scicloj tools are there. We can work on pretty advanced problems with Clojure data science tools.
+;; :::
+;; - Clojure data science tools are here!
 
 ^:kindly/hide-code
 (kind/fragment [])
 
 ;; ## Selected Dependencies for this project
-;; ::: {.notes}
-;;
-;; :::
 ;;
 ;; - Tablecloth
 ;; - Tech.ml
@@ -1517,27 +1441,23 @@ model {
 (kind/fragment [])
 
 ;; ## Noj
-;; - "Noj" brings together essential Clojure libraries for data science purposes and provides documentation on how to effectively utilize them.
-;; - Forget about version compatibility issues - "Noj" has your back.
-;; - Unsure about which tool is optimal for a specific task? "Noj" has thought about that already!
-;; - https://github.com/scicloj/noj
-;; - Released today! Noj v2 alpha FTW!
+;; ::: {.notes}
+;; - "Noj" is realeased today.
+;; - It brings together all these and the documentation into one place so you dont have to worry about versions etc.
+;; :::
+;; - "Noj" all scicloj data science in one place.
+;; - All Released today! Noj v2 alpha FTW!
 
 
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## Opportunities to take advantage of
+;; ## Opportunities!
 ;; ::: {.notes}
-;; - There are numerous opportunities available.
-;; - Possibilities for those who are eager to learn.
-;; - Various areas to explore, including Clojure, Data Science, and Open Source projects.
-;; - Scicloj offers a great mentoring program for open source developers.
+;; If you want to learn Clojure, Data Science or Open source work Scicloj offers a mentoring program for you!
 ;; - The website is a valuable resource for further information.
 ;; :::
-;; - Possibilities for those who are eager to learn.
-;; - Explore Clojure, Data Science, and Open Source projects.
-;; - Mentoring program for aspiring open source developers.
+;; - Mentoring program!
 ;; - The website: https://scicloj.github.io/
 
 ^:kindly/hide-code
@@ -1545,7 +1465,7 @@ model {
 
 ;; ## Some heroes
 ;; ::: {.notes}
-;;
+;; A small thank you to some of the people who made this project possible
 ;; :::
 ;;
 ;; - Generateme
@@ -1554,7 +1474,7 @@ model {
 ;; - Carsten Behring
 ;; - Kira McLean
 ;; - Timothy Pratley
-;; - Daniel Slutsky
+;; - Daniel Slutsky (also the co-author of of this presentation)
 ;; - The Scicloj Community!
 
 
