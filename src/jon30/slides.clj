@@ -1525,17 +1525,12 @@ model {
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## Opportunities to take advantage of
+;; ## Opportunities!
 ;; ::: {.notes}
-;; - There are numerous opportunities available.
-;; - Possibilities for those who are eager to learn.
-;; - Various areas to explore, including Clojure, Data Science, and Open Source projects.
-;; - Scicloj offers a great mentoring program for open source developers.
+;; If you want to learn Clojure, Data Science or Open source work Scicloj offers a mentoring program for you!
 ;; - The website is a valuable resource for further information.
 ;; :::
-;; - Possibilities for those who are eager to learn.
-;; - Explore Clojure, Data Science, and Open Source projects.
-;; - Mentoring program for aspiring open source developers.
+;; - Mentoring program!
 ;; - The website: https://scicloj.github.io/
 
 ^:kindly/hide-code
