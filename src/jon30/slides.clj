@@ -331,14 +331,6 @@
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="white" background-image="src/resources/slide-50.png" background-size="contain" visibility="hidden"}
-;; ::: {.notes}
-;; In our scenario, we aim to determine the vessel's velocity given a specific wind angle.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
 ;; ## {background-color="white" background-image="src/resources/slide-51.png" background-size="contain"}
 ;; ::: {.notes}
 ;; - This is the model we want to fit.
