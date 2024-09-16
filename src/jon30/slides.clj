@@ -521,6 +521,20 @@
 ;; ::: {.notes}
 ;; Now we are exploring in 3D, but the fit is unsurprisingly, rather bad still.
 ;; :::
+
+^:kindly/hide-code
+(def layout
+  {:width 1000
+   :height 600
+   :margin {:l 0 :r 0 :t 0 :b 0}
+   :scene {:xaxis {:title "Wind"}
+           :yaxis {:title "Angle"
+                   :autorange "reversed"}
+           :zaxis {:title "Velocity"}
+           :camera {:up {:x 0 :y 0 :z 1}
+                    :center {:x 0 :y 0 :z 0}
+                    :eye {:x -1 :y -1 :z -0.3}}}})
+
 ^:kindly/hide-code
 (delay
   (let [formula
@@ -592,11 +606,7 @@
                   :x (:x training-data-trace)
                   :y (:y training-data-trace)
                   :z (:z training-data-trace)})]
-      :layout {:width 1000
-               :height 600
-               :scene {:xaxis {:title "Wind"}
-                       :yaxis {:title "Angle"}
-                       :zaxis {:title "Velocity"}}}})))
+      :layout layout})))
 
 ;; ## {background-color="black" background-image="src/resources/quadratic-formula.png" background-size="contain" visibility="hidden"}
 ;; ::: {.notes}
@@ -703,11 +713,7 @@
                   :x (:x training-data-trace)
                   :y (:y training-data-trace)
                   :z (:z training-data-trace)})]
-      :layout {:width 1000
-               :height 600
-               :scene {:xaxis {:title "Wind"}
-                       :yaxis {:title "Angle"}
-                       :zaxis {:title "Velocity"}}}})))
+      :layout layout})))
 
 
 
@@ -809,11 +815,7 @@
                   :x (:x training-data-trace)
                   :y (:y training-data-trace)
                   :z (:z training-data-trace)})]
-      :layout {:width 1000
-               :height 600
-               :scene {:xaxis {:title "Wind"}
-                       :yaxis {:title "Angle"}
-                       :zaxis {:title "Velocity"}}}})))
+      :layout layout})))
 
 ;; ## Mo data, mo problems
 ;; ::: {.notes}
@@ -895,19 +897,18 @@
                   :x (:x training-data-trace)
                   :y (:y training-data-trace)
                   :z (:z training-data-trace)})]
-      :layout {:width 1000
-               :height 600
-               :scene {:xaxis {:title "Wind"
-                               :range (-> predict-ds
-                                          :wind
-                                          ((juxt tcc/reduce-min
-                                                 tcc/reduce-max)))}
-                       :yaxis {:title "Angle"
-                               :range (-> predict-ds
-                                          :angle
-                                          ((juxt tcc/reduce-min
-                                                 tcc/reduce-max)))}
-                       :zaxis {:title "Velocity"}}}})))
+      :layout (-> layout
+                  (update :scene
+                          #(-> %
+                               (assoc-in [:xaxis :range] (-> predict-ds
+                                                             :wind
+                                                             ((juxt tcc/reduce-min
+                                                                    tcc/reduce-max))))
+                               (assoc-in [:yaxis :range] (-> predict-ds
+                                                             :angle
+                                                             ((juxt tcc/reduce-min
+                                                                    tcc/reduce-max)))))))})))
+
 
 ;; ## Better model
 ;; ::: {.notes}
@@ -982,11 +983,7 @@
                   :x (:x training-data-trace)
                   :y (:y training-data-trace)
                   :z (:z training-data-trace)})]
-      :layout {:width 1000
-               :height 600
-               :scene {:xaxis {:title "Wind"}
-                       :yaxis {:title "Angle"}
-                       :zaxis {:title "Velocity"}}}})))
+      :layout layout})))
 
 ;; ## Custom gradient
 ;; ::: {.notes}
@@ -1102,11 +1099,7 @@
                   :x (:x training-data-trace)
                   :y (:y training-data-trace)
                   :z (:z training-data-trace)})]
-      :layout {:width 1000
-               :height 600
-               :scene {:xaxis {:title "Wind"}
-                       :yaxis {:title "Angle"}
-                       :zaxis {:title "Velocity"}}}})))
+      :layout layout})))
 ;; ## What next?
 ;; ::: {.notes}
 ;; - We have used basic tools to gain an understanding of what type of model could be effective for our issue.
@@ -1287,16 +1280,14 @@ model {
                               :x x
                               :y y
                               :z z}))))
-      :layout {:width 1000
-               :height 600
-               :scene {:xaxis {:title "Wind"
-                               :range [0 30]}
-                       :yaxis {:title "Angle"
-                               :range [0 181]}
-                       :zaxis {:title "Velocity"
-                               :range [0 (-> core/vpp-and-empirical-data
-                                             :velocity
-                                             tcc/reduce-max)]}}}})))
+      :layout (-> layout
+                  (update :scene
+                          #(-> %
+                               (assoc-in [:xaxis :range] [0 30])
+                               (assoc-in [:yaxis :range] [0 181])
+                               (assoc-in [:zaxis :range] [0 (-> core/vpp-and-empirical-data
+                                                                :velocity
+                                                                tcc/reduce-max)]))))})))
 
 ;; ## Creating plots for diagnostics {.scrollable}
 ^:kindly/hide-code
@@ -1337,8 +1328,9 @@ model {
 
 ^:kindly/hide-code
 (delay
-  (first (core/plot-one-run @core/results-with-empirical
-                      {:colorscale "Greens"})))
+  (-> (first (core/plot-one-run @core/results-with-empirical
+                                {:colorscale "Greens"}))
+      (assoc :layout layout)))
 
 ;; ## Comparing synthetic with empirical  {.scrollable}
 ;; ::: {.notes}
