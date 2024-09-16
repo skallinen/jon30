@@ -1486,17 +1486,17 @@ model {
 
 
 ;; ## Conclusion
+;; ::: {.notes}
 ;; - We've made good progress. We can and will keep working on the actual model.
 
 ;; - The tools Scicloj tools are there. We can work on pretty advanced problems with Clojure data science tools.
+;; :::
+;; - Clojure data science tools are here!
 
 ^:kindly/hide-code
 (kind/fragment [])
 
 ;; ## Selected Dependencies for this project
-;; ::: {.notes}
-;;
-;; :::
 ;;
 ;; - Tablecloth
 ;; - Tech.ml
