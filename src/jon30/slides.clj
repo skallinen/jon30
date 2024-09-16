@@ -1547,7 +1547,7 @@ model {
 ;; - Carsten Behring
 ;; - Kira McLean
 ;; - Timothy Pratley
-;; - Daniel Slutsky
+;; - Daniel Slutsky (also the co-author of of this presentation)
 ;; - The Scicloj Community!
 
 
