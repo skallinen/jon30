@@ -34,14 +34,16 @@
 
 ;; ## {background-color="plack" background-image="src/resources/slide-1.png" background-size="contain"}
 ;; ::: {.notes}
-;; I’ve done all kinds of things, but around three or four years ago, I shifted towards almost full-time development.
+;; - I’ve done all kinds of things, but around three or four years ago, I shifted towards being more or less a full-time clojure programmer.
+;; 0:25
 ;; :::
 ^:kindly/hide-code
 (kind/fragment [])
 
 ;; ## {background-color="black" background-image="src/resources/slide-2.png" background-size="contain"}
 ;; ::: {.notes}
-;; I am with with 8-bit-sheep, a consultancy that I co-founded with some other sheep about 7 years ago. We specialize in building tech and data stuff.
+;; - I am with with 8-bit-sheep. We specialize in building tech and data stuff.
+;; 0:30
 ;; :::
 
 ^:kindly/hide-code
@@ -49,39 +51,10 @@
 
 ;; ## {background-color="black" background-image="src/resources/slide-3.png" background-size="contain"}
 ;; ::: {.notes}
-;; I should also give a shout out to KP System, which was recently acquired by Geomatikk.
+;; - I am also with KP system and should give a shout out to them.
 ;;
-;; I work with them developing a full-stack Clojure application that is used by Swedish municipalities. We have a small gret team of four Clojure developers who are an absolute joy to work with. It's an excellent opportunity for remote work with Clojure, so keep an eye out for any open positions if you're interested.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="black" background-image="src/resources/slide-4.png" background-size="contain" visibility="hidden"}
-;; ::: {.notes}
-;; Intro
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="white" background-image="src/resources/slide-5.png" background-size="contain"}
-;; ::: {.notes}
-;; - Why are we here today?
-;; - Because we appreciate simplicity
-;; - clarity,
-;; - we love our REPL
-;; - we delight in figuring out the data, and making everything into data.
-; - So I suppose you are also here because you love...
-;; :::
-
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="black" background-image="src/resources/slide-6.png" background-size="contain"}
-;; ::: {.notes}
-;; Because we love Baysian statistics!
+;; - We are developing a full-stack Clojure application that is used by Swedish municipalities. We have a great Clojure team and it is a good opportunity for remote work with Clojure, so keep an eye out for any open positions.
+;; - 0:50
 ;; :::
 
 ^:kindly/hide-code
@@ -89,7 +62,8 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-7.png" background-size="contain"}
 ;; ::: {.notes}
-;; I guess we are here not only because of Bayesian statistics, but also because of Clojure,
+;; I guess we are here because of this fantastic thing called Clojure,
+;; 0:55
 ;; :::
 
 ^:kindly/hide-code
@@ -97,7 +71,8 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-8.png" background-size="contain"}
 ;; ::: {.notes}
-;; But I am also here because of Scicloj, a community that develops data science tools and libraries for Clojure.
+;; - But I am also here because of Scicloj, an amazing community that develops data science tools and libraries for Clojure.
+;; - 1:00
 ;; :::
 
 ^:kindly/hide-code
@@ -105,9 +80,9 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-9.png" background-size="contain"}
 ;; ::: {.notes}
-;; - Furthermore I'm here because of this project, that has been done in collaboration with Daniel Slusky.
-;; - A few months ago, we talked about submitting a proposal where we test the current state of the tools in the ecosystem with a fun data problem. Not so much to show the implementations but just to have a real data problem we'll demo.
-;; - But where to get such a real-world data problem. How about combining the passions of clojure and sailing?
+;; - Furthermore I'm here because of this demo today, that has been done in collaboration with Daniel Slusky.
+;; - We want explore a real world data problem, to demonstrate what you can do with the Clojure data science tools
+;; - 1:20
 ;; :::
 
 ^:kindly/hide-code
@@ -115,7 +90,8 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-10.png" background-size="contain"}
 ;; ::: {.notes}
-;;  One could even sail down to Belgium to give the talk!
+;; - For the demo we have collected some data while sailing!
+;; - 1:24
 ;; :::
 
 ^:kindly/hide-code
@@ -123,31 +99,9 @@
 
 ;; ## {background-color="black" background-image="src/resources/slide-20.png" background-size="contain"}
 ;; ::: {.notes}
-;; This is the boat we are collecting data from.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="black" background-image="src/resources/slide-21.png" background-size="contain"}
-;; ::: {.notes}
-;; We got the boat this summer and I thought I would be sailing all summer, like I said, perhaps to Belgium, but it is an old boat. We always plan to sail and end up doing maintenance..
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="black" background-image="src/resources/slide-22.png" background-size="contain"}
-;; ::: {.notes}
-;; Maintenance is fun too. We also installed some devices to collect the data we are using today.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="black" background-image="src/resources/slide-25.png" background-size="contain"}
-;; ::: {.notes}
-;; We now we have a boat, we can collect some data. All aboard?
+;; - This is the boat we have been collecting data from.
+;; - I had a whole section here about the boat and my sailing story, but you will be relieved to hear that I had to cut it to make everything fit. But you can still ask me about it later..
+;; - 1:40
 ;; :::
 
 ^:kindly/hide-code
@@ -155,7 +109,8 @@
 
 ;; # {background-color="black" background-image="src/resources/slide-27.png" background-size="contain"}
 ;; ::: {.notes}
-;; Predicting vessel speed based on the wind conditions
+;; - Our goal today is to predict vessel speed based on the wind conditions
+;; - 0:10 | 2:10
 ;; :::
 
 ^:kindly/hide-code
@@ -163,7 +118,10 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-28.png" background-size="contain"}
 ;; ::: {.notes}
-;; Why do we want to do that? To create these, namely polar charts. Don't worry about how to read them now, it will become clear later.
+;; - Why do we want to do that?
+;; - To create these, namely polar charts.
+;; - Don't worry about how to read them now, it will become clear later.
+;; - 0:20 | 2:30
 ;; :::
 
 ^:kindly/hide-code
@@ -171,46 +129,21 @@
 
 ;; ## {background-color="white" background-image="src/resources/slide-29.png" background-size="contain"}
 ;; ::: {.notes}
-;; What should we do with polar diagrams? We need them if we race, weather routing, and what I refer to as quantified sailing.
+;; - What should we do with polar diagrams?
+;; - We need them if we race,
+;; - for weather routing,
+;; - and for what I refer to as quantified sailing.
+;; - 0:15 | 2:45
 ;; :::
 
 ^:kindly/hide-code
 (kind/fragment [])
 
-;; ## {background-color="white" background-image="src/resources/slide-30.png" background-size="contain"}
+;; ## Predicting velocity? {background-color="white" background-image="src/resources/vars.png" background-size="contain"}
 ;; ::: {.notes}
-;; Here is an example of a commercial weather routing app that utilizes polar data to help you plan your voyage while considering the varying weather conditions along your route.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="white" background-image="src/resources/slide-31.png" background-size="contain"}
-;; ::: {.notes}
-;; What makes the boat move? Essentially, two things: water and wind.
-;; :::
-
-^:kindly/hide-code(kind/fragment [])
-
-;; ## {background-color="white" background-image="src/resources/slide-32.png" background-size="contain"}
-;; ::: {.notes}
-;; Or the way the wind affects the sails and the water impacts the hull.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## What affects the velocity? {background-color="white" background-image="src/resources/vars.png" background-size="contain"}
-;; ::: {.notes}
-;; We are using wind strength and wind angle to predict velocity, ie how fast the boat moves throught the water! Many more variables are present but we will simplify the problem to these two for now.
-;; :::
-
-^:kindly/hide-code
-(kind/fragment [])
-
-;; ## {background-color="white" background-image="src/resources/slide-35.png" background-size="contain"}
-;; ::: {.notes}
-;; Or actually, let's make it even simpler and only focus on the wind angle.
+;; - We are using wind strength and wind angle to predict velocity
+;; - Many more variables are present but we will simplify the problem to these two predictors for now.
+;; - 0:19 | 3:05
 ;; :::
 
 ^:kindly/hide-code
@@ -219,6 +152,11 @@
 ;; ## {background-color="black" background-image="src/resources/slide-18.png" background-size="contain"}
 ;; ::: {.notes}
 ;; We are sailing! And measuring some data!
+;; 7:02
+;; 3:20
+;; 3:50
+;; 4:50
+;; 3:10
 ;; :::
 
 ^:kindly/hide-code
@@ -227,7 +165,7 @@
 
 ;; # Start simple
 ;; ::: {.notes}
-;;Imagine for a moment that on earth we only had one constant wind strength and that it never changes.
+;; - Lets for now ignore the wind data for a moment and and pretend that we only have one wind strenght
 ;; :::
 
 ^:kindly/hide-code
@@ -317,6 +255,8 @@
 ;; ## {background-color="black" background-video="src/resources/gliding.mp4" background-video-loop="true" background-video-muted="true"}
 ;; ::: {.notes}
 ;; We have some data! Smooth sailing so far.
+;; 11:00
+;; 8>50
 ;; :::
 ;;
 
@@ -817,6 +757,9 @@
 ;; ## {background-video="src/resources/atlantic.mp4" background-video-loop="true" background-video-muted="true"}
 ;; ::: {.notes}
 ;; 11 min We are getting into more complex territory. Let's get into Bayesian statistics.
+;; 21 min
+;; 19 mins
+;; 18 mins
 ;; :::
 ;;
 
@@ -825,27 +768,28 @@
 
 ;; # {background-color="black" background-image="src/resources/bayesian.png" background-size="contain"}
 ;; ::: {.notes}
-;; So now lets do some Bayesian Statistics.
+;; So now lets do some Bayesian Statistics, it is a beautiful approach.
 ;; :::
 
 
 ;; ## Bayesian Statistics {background-image="src/resources/coin.jpg" background-size="contain"}
 ;; ::: {.notes}
-;; - In the Bayesian approach we write a probabilistic program which not only tosses and counts the coin flips but also creates the coins themselves with with varying unfairness.
-
-;; -(TODO its own slide) Both our data and the things which are unknown to us are just variables in a probabilistic program.
-;; - All questions are answered but the rules of probability.
-;; - This approach offers simple tools to define relationships between all entities in our problem.
-;; - We explicitly phrase how all of them relate the polynomials, the expected velocities, the empirical data aaand the synthetic data.
-;; - They have clearly phrased relationships, like in logic programming, but embracing uncertainty.
-;; - Then you only need to run your inference algorithm.
-;; - Think about your datalog query but with some randomness inside.
-
+;; - What if we want to find out if this coin is fair?
+;; - In the Bayesian approach, we write a probabilistic program that not only simulates and tracks coin flips but also creates the coins themselves and gives them different levels of unfairness.
 ;; :::
-;; - Bayesian coin flips
-;; - Simplified tools
-;; - Phrasing relations
-;; - Uncertainty
+
+^:kindly/hide-code
+(kind/fragment [])
+
+;; ## Bayesian Statistics {background-color="white" background-image="src/resources/thomas.png" background-size="contain"}
+;; ::: {.notes}
+;; - In Bayesian analysis, both our data and the things that are uknown to us are treated just as variables in a probabilistic program.
+;; - The program defines the relationships between between all of the variables: in our polynomials, the estimated velocities, the empirical data, and the synthetic data.
+;; - It is just like in logic programming while here we also include uncertainty.
+;; - Then you just need to run your inference algorithm, that is, just run the simulation.
+;; - Think of it like your datalog query but then with some randomness inside.
+;; :::
+;; - Everything is a variable with uncertainty
 ;; - Like a datalog query
 
 ^:kindly/hide-code
@@ -853,7 +797,7 @@
 
 ;; ## {background-color="black" background-image="src/resources/cubic-equation.png" background-size="contain"}
 ;; ::: {.notes}
-;; In the polynomials we saw previous we estimated parameters as single values. In Bayesian analysis, we view the parameters not as a single fitted value, but as variables in our probabilistic programs with uncertainty. This means that all the alphas have distributions, allowing us to reason about the likelihood of various parameters and, ultimately, different predicted values.
+;; Here we will use this same cubic polynomial. When we saw it previously we estimated parameters as single values. In Bayesian analysis, we view the parameters not as a single fitted value, but as variables in our probabilistic programs with uncertainty. This means that all he alphas have distributions, allowing us to reason about the likelihood of various parameters and, ultimately, different predicted values.
 ;; :::
 
 ^:kindly/hide-code
@@ -861,7 +805,7 @@
 
 ;; ## STAN in the house {.v-center-conteiner}
 ;; ::: {.notes}
-;; STAN is a probabilistic programming language that lets users to create these probabilistic programd. STAN can be used in Clojure with the Scicloj library known as cmdstan-clj.
+;; STAN is a probabilistic programming language. STAN can be used in Clojure with the Scicloj library known as cmdstan-clj.
 ;; :::
 
 ;;::: {layout="[[-1], [1], [-1]]"}
@@ -1169,6 +1113,7 @@ model {
 ;; ## Here be dolphins! {background-color="black" background-video="src/resources/dolphins.mp4" background-video-loop="true" background-video-muted="true"}
 ;; ::: {.notes}
 ;; 13 min
+;; 34 min
 ;; :::
 ;;
 ^:kindly/hide-code
@@ -1185,9 +1130,8 @@ model {
 
 ;; ## Conclusion
 ;; ::: {.notes}
-;; - We've made good progress. We can and will keep working on the actual model.
 
-;; - The tools Scicloj tools are there. We can work on pretty advanced problems with Clojure data science tools.
+;; - The main conclusion is that are the tools are here! We can work on pretty advanced problems with Clojure data science tools. This was not the case a few years ago.
 ;; :::
 ;; - Clojure data science tools are here!
 
@@ -1216,7 +1160,7 @@ model {
 ;; - "Noj" is realeased today.
 ;; - It brings together all these and the documentation into one place so you dont have to worry about versions etc.
 ;; :::
-;; - "Noj" all scicloj data science in one place.
+;; - "Noj" all Clojure data science libraries and documentation in one place!
 ;; - All Released today! Noj v2 alpha FTW!
 
 
@@ -1228,7 +1172,7 @@ model {
 ;; If you want to learn Clojure, Data Science or Open source work Scicloj offers a mentoring program for you!
 ;; - The website is a valuable resource for further information.
 ;; :::
-;; - Mentoring program!
+;; - Open source mentoring!
 ;; - The website: https://scicloj.github.io/
 
 ^:kindly/hide-code
@@ -1252,7 +1196,8 @@ model {
 
 ;; ##  Thank you! {background-video="src/resources/sailing-downwind.mp4" background-video-loop="true" background-video-muted="true"}
 ;; ::: {.notes}
-;;2 min
+;; 34 minutes.
+;; 37 minutes.
 ;; :::
 ;; Project code: https://github.com/skallinen/jon30
 
@@ -1357,6 +1302,6 @@ model {
 
 ;; In the Bayesian approach we write a probabilistic program which not only tosses and counts the coin flips but also creates the coins themselves with with varying unfairness.
 
-;; (TODO its own slide) Both our data and the things which are unknown to us are just variables in a probabilistic program. All questions are answered but the rules of probability. This approach offers simple tools to define relationships between all entities in our problem. We explicitly phrase how all of them relate the polynomials, the expected velocities, the empirical data aaand the synthetic data have clearly phrased relationships, like in logic programming, but embracing uncertainty. Then you only need to run your inference algorithm. Think about your datalog query but with some randomness inside.
+
 
 
